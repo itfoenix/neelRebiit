@@ -1,5 +1,6 @@
 package com.iTechnoPhoenix.neelReboot;
 
+import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Meter;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
@@ -246,6 +247,9 @@ public class CustomerController implements Initializable {
                 customer.setEmail(txt_email.getText());
                 customer.setPhone(txt_mobile.getText());
                 customer.setAddress(txt_address.getText());
+                CustomerOperation co = new CustomerOperation();
+                int cust_id = co.addCustomer(customer);
+                customer.setCust_num(cust_id);
                 meterlist.forEach((e) -> {
                     e.setCustomeObject(customer);
                 });
