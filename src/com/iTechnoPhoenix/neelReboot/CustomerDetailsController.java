@@ -8,6 +8,7 @@ package com.iTechnoPhoenix.neelReboot;
 import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.model.Meter;
 import com.iTechnoPhoenix.neelSupport.Support;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -29,8 +30,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -41,9 +44,6 @@ import org.controlsfx.control.textfield.TextFields;
  */
 public class CustomerDetailsController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     @FXML
     private TextField txt_search;
 
@@ -123,10 +123,15 @@ public class CustomerDetailsController implements Initializable {
 
     @FXML
     private void btn_new_customer(ActionEvent event) {
-
         try {
+            HBox header = new HBox();
+            header.setAlignment(Pos.CENTER_RIGHT);
+            JFXButton b = new JFXButton("X");
+            header.getChildren().add(b);
             StackPane root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/neelReboot/Customer.fxml"));
-            Support.getDialog(window, root, JFXDialog.DialogTransition.CENTER).show();
+            JFXDialog d = Support.getDialog(window, header, root);
+            d.show();
+            b.setOnMouseClicked((e) -> d.close());
 
         } catch (IOException ex) {
             Logger.getLogger(CustomerDetailsController.class.getName()).log(Level.SEVERE, null, ex);
