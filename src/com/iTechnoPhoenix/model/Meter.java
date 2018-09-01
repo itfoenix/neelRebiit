@@ -6,6 +6,7 @@
 package com.iTechnoPhoenix.model;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import java.util.Objects;
 
 /**
  *
@@ -75,6 +76,33 @@ public class Meter extends RecursiveTreeObject<Meter> {
 
     public void setDeposit(double deposit) {
         this.deposit = deposit;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.customeObject);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Meter other = (Meter) obj;
+        if (!Objects.equals(this.customeObject, other.customeObject)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return customeObject.getName() + "    ( " + metor_num + " )";
     }
 
 }

@@ -58,6 +58,7 @@ public class CustomerDetailsController implements Initializable {
 
     private ObservableList<Meter> meterlist, allmeter;
     private ObservableSet<String> suggestionlist;
+    public String prashant = null;
 
     @FXML
     void btn_search(ActionEvent event) {
