@@ -33,6 +33,7 @@ public class CustomerDetailsController implements Initializable {
 
     @FXML
     private JFXTreeTableView<?> txt_customer;
+    public String prashant = null;
 
     @FXML
     void btn_search(ActionEvent event) {

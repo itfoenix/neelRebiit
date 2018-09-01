@@ -58,4 +58,26 @@ public class Customer extends RecursiveTreeObject<Customer> {
         this.email = email;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + this.cust_num;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Customer other = (Customer) obj;
+        if (this.cust_num != other.cust_num) {
+            return false;
+        }
+        return true;
+    }
+
 }
