@@ -1,0 +1,64 @@
+
+.label-marathi{
+    -fx-font-family:Shivaji01;
+    -fx-font-size: 18px;
+}
+
+.label-bigger {
+    -fx-font-size:20px;
+}
+
+.header{
+    -fx-background-color:#0375DE;
+    -fx-font-size:25px;
+}
+
+.heading{
+    -fx-text-fill: #FDFDFD;
+}
+
+.border {
+    -fx-border-style: solid;
+    -fx-border-color: #DDE6E3;
+}
+
+.tableview{
+    /*-fx-min-height: 150px;*/
+    -fx-pref-height: 150px;
+}
+
+.hbox {
+    -fx-max-height: 30px;
+}
+
+.btn-search {
+    -fx-background-color: #53CB85;
+    -fx-text-fill: #FDFDFD;
+}
+
+.btn-cancel {
+    -fx-background-color: #DDE6E3;
+}
+
+.helpIcon{
+    -fx-background-size: 24px;
+    -fx-background-image:url('Info_50px.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:5px center;
+    -fx-padding:0 0 0 30px;
+}
+
+.jfx-snackbar-content {
+    -fx-background-color: #DDE6E3;
+    -fx-pref-width: 300px; 
+}
+
+.jfx-snackbar-toast {
+    -fx-alignment: CENTER;
+}
+
+.tree-table-view .tree-table-cell{
+    -fx-border-width : 0 1 0 1;
+    -fx-alignment: CENTER;
+}
+
