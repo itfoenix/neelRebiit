@@ -14,6 +14,15 @@ public class TestingApp {
     private int a;
     private int b;
     private int c;
+    private int d;
+
+    public int getD() {
+        return d;
+    }
+
+    public void setD(int d) {
+        this.d = d;
+    }
 
     public int getC() {
         return c;
