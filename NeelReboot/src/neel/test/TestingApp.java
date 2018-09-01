@@ -12,7 +12,15 @@ package neel.test;
 public class TestingApp {
 
     private int a;
+    private int b;
 
+    public int getB(){
+        return b;
+    }
+    
+    public void setB(int b){
+        this.a=b;
+    }
     public int getA() {
         return a;
     }
