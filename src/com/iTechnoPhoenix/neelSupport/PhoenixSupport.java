@@ -166,6 +166,21 @@ public class PhoenixSupport {
 
     }
 
+    public static long getLong(String value) {
+
+        Locale l = new Locale("mr", "IN");
+
+        try {
+            if (!value.isEmpty()) {
+                NumberFormat nf = NumberFormat.getInstance(l);
+                return nf.parse(value).longValue();
+            }
+        } catch (ParseException ex) {
+
+        }
+        return 0;
+    }
+
     public static double getDouble(String value) {
 
         Locale l = new Locale("mr", "IN");

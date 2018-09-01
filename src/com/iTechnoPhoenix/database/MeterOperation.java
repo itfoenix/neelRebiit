@@ -24,15 +24,13 @@ public class MeterOperation {
         try {
             stm = Connector.getConnection().prepareStatement("insert into meter (meter_num,con_date,curr_reading,outstanding,deposit,rdate,cust_id) values(?,?,?,?,?,?,?)");
             stm.setString(1, m.getMetor_num());
-
             stm.setString(2, m.getCon_date().toString());
             stm.setLong(3, m.getCurr_reading());
             stm.setDouble(4, m.getOutstanding());
             stm.setDouble(5, m.getDeposit());
             stm.setDate(6, Date.valueOf(LocalDate.now()));
             stm.setInt(7, m.getCustomeObject().getCust_num());
-            i = stm.executeUpdate();
-            if (i > 0) {
+            if (stm.executeUpdate() > 0) {
                 Connector.commit();
             } else {
                 PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा");

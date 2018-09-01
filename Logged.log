@@ -1,2 +1,17 @@
-#Sat Sep 01 16:12:08 IST 2018
-01/09/18\ 16\:12\:08\ \=>>\ SQLException=No suitable driver found for 
+#Fri Aug 31 23:06:14 IST 2018
+recieptreport=F\:\\Prashant\\Netbean Projects\\Neel\\src\\com\\neel\\report\\ReceiptFormate.jrxml
+Year=2018
+mysqlpath=C\:\\Program Files (x86)\\MySQL\\MySQL Server 5.0\\bin\\mysql.exe
+url=jdbc\:mysql\://192.168.0.111/neel?noAccessToProcedureBodies \= true&characterEncoding\=utf-8&useUnicode\=true
+owner=inala \u00C2\u00B3ga`amapMcaayat palaIdovad saukapur\u00C2\u00B4
+width=1300
+Roles=Admin,Normal
+billreport=F\:\\Prashant\\Netbean Projects\\neel\\report1.jrxml
+Month=jaanaovaarI,fob`auvaarI,maaca-,eip`la,mao,jauna,jaulao,Aa^gasT,saPToMbar,Aa^@Taobar,naaovhoMbar,iDsaoMbar
+username=root
+backup=F\:\\JavaFx\\iTPForce\\backup.sql
+Dumplocation=C\:\\Program Files (x86)\\MySQL\\MySQL Server 5.0\\bin\\mysqldump.exe
+password=root
+PrinterName=EPSON TM-T82 Receipt
+height=650
+driver=com.mysql.jdbc.Driver

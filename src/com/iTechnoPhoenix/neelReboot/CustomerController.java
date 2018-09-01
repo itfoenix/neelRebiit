@@ -1,6 +1,7 @@
 package com.iTechnoPhoenix.neelReboot;
 
 import com.iTechnoPhoenix.database.CustomerOperation;
+import com.iTechnoPhoenix.database.MeterOperation;
 import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Meter;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
@@ -205,9 +206,9 @@ public class CustomerController implements Initializable {
             Meter m = new Meter();
             m.setMetor_num(txt_meter.getText());
             m.setCon_date(txt_date.getValue().toString());
-            m.setOutstanding(Double.parseDouble(txt_balance.getText()));
-            m.setCurr_reading(Long.parseLong(txt_current_reading.getText()));
-            m.setDeposit(Double.parseDouble(txt_deposit.getText()));
+            m.setOutstanding(PhoenixSupport.getDouble(txt_balance.getText()));
+            m.setCurr_reading(PhoenixSupport.getLong(txt_current_reading.getText()));
+            m.setDeposit(PhoenixSupport.getDouble(txt_deposit.getText()));
             meterlist.add(m);
             clearMeter();
         } else {
@@ -250,8 +251,10 @@ public class CustomerController implements Initializable {
                 CustomerOperation co = new CustomerOperation();
                 int cust_id = co.addCustomer(customer);
                 customer.setCust_num(cust_id);
+                MeterOperation mo = new MeterOperation();
                 meterlist.forEach((e) -> {
                     e.setCustomeObject(customer);
+                    mo.addMeter(e);
                 });
                 PhoenixSupport.Info("ग्राहकाची माहित जतन झाली आहे.", "ग्राहक माहित", window);
 
