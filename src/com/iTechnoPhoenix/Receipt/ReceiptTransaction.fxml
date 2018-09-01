@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Receipt.ReceiptTransactionController">
+   <children>
+      <VBox alignment="CENTER_RIGHT">
+         <children>
+            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1F9CFF;" text="नवीन पावती" textFill="WHITE" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="16.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="मीटरची माहिती" textFill="#3e4a4f" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="8.0" right="8.0" />
+               </VBox.margin>
+            </Label>
+            <HBox maxHeight="-Infinity" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="बिल क्रमांक :" HBox.hgrow="ALWAYS" />
+                  <JFXTextField fx:id="txt_bill_number" maxWidth="350.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </JFXTextField>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </HBox>
+            <HBox maxHeight="-Infinity" prefWidth="200.0" style="-fx-border-width: 1; -fx-border-color: #CECFD0;" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="100.0" text="ग्राहकाचे  नाव :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="txt_customer" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" text="बिलाचा कालावधी :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="txt_duration" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="150.0" text="बिलाची अंतिम दिनांक:" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="txt_lastdate" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+            </HBox>
+            <JFXTreeTableView fx:id="tbl_meter" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </JFXTreeTableView>
+            <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0" style="-fx-border-color: #E2E3DA; -fx-border-width: 0 0 2 0;">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="मागील भरलेली रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="lbl_preious_paid_amt" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="00" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets right="8.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="8.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="एकूण रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="lbl_total" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="00" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets right="16.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="8.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="विलंब रक्कम :" HBox.hgrow="ALWAYS" />
+                  <JFXTextField fx:id="txt_delay_payment" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets right="16.0" />
+                     </padding>
+                  </JFXTextField>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="8.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="भरलेली रक्कम :" HBox.hgrow="ALWAYS" />
+                  <JFXTextField fx:id="txt_paid_amount" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets right="16.0" />
+                     </padding>
+                  </JFXTextField>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="8.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="उर्वरित रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="txt_remaining_amt" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="00" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets right="16.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="8.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton onAction="#btn_cash_paid" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="रोख रक्कम भरणा" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton onAction="#btn_cheque_paid" ripplerFill="#1a2022" style="-fx-background-color: #4BB89B;" text="चेक रक्कम भरणा" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton onAction="#btn_cancel" ripplerFill="#1a2022" style="-fx-background-color: #3E4A4F;" text="रद्द करा" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

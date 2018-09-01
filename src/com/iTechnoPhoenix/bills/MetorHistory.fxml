@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.bills.MetorHistoryController">
+   <children>
+      <VBox StackPane.alignment="TOP_CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" fillHeight="false" style="-fx-background-color: #1F9CFF;">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" text="मीटरची माहिती" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="CENTER_RIGHT" fillHeight="false" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton contentDisplay="GRAPHIC_ONLY" onAction="#btn_close" textFill="WHITE">
+                           <graphic>
+                              <ImageView pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../resource/Close%20Window_24px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox spacing="8.0" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;">
+               <children>
+                  <Label text="मीटर क्रमांक :" />
+                  <Label fx:id="lbl_meter_number" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </HBox>
+            <JFXTreeTableView fx:id="tbl_meter_history" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </JFXTreeTableView>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

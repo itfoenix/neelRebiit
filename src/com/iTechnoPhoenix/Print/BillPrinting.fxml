@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Print.BillPrintingController">
+   <children>
+      <VBox alignment="CENTER_RIGHT">
+         <children>
+            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1F9CFF;" text="बिल प्रिंटींग" textFill="WHITE" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="16.0" />
+               </padding>
+            </Label>
+            <HBox maxHeight="-Infinity" prefWidth="200.0" spacing="8.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="बिल क्रमांक / मीटर क्रमांक / ग्राहकाचे नाव :" wrapText="true" HBox.hgrow="ALWAYS" />
+                  <JFXTextField fx:id="txt_meter_customer" maxWidth="350.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </JFXTextField>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="कालावधी :" wrapText="true" />
+                  <JFXComboBox fx:id="cb_duration" maxWidth="300.0" HBox.hgrow="ALWAYS" />
+                  <JFXButton onAction="#btn_search" style="-fx-background-color: #4BB89B;" text="शोध करा" textFill="WHITE" />
+                  <JFXButton onAction="#btn_print_all" style="-fx-background-color: #4BB89B;" text="प्रिंट करा" textFill="WHITE" />
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </HBox>
+            <JFXTreeTableView fx:id="tbl_bill" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </JFXTreeTableView>
+         </children>
+      </VBox>
+   </children>
+</StackPane>
