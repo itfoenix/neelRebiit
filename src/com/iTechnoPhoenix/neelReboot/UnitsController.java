@@ -113,14 +113,14 @@ public class UnitsController implements Initializable {
                     unitsdb.addUnits(u);
                     refreshTable();
                 } else {
-//                    PhoenixSupport.Error("भरलेली माहिती पहिलीच जतन केली आहे.");
+                    PhoenixSupport.Error("भरलेली माहिती पहिलीच जतन केली आहे.");
                 }
                 clear();
             } else {
-//                PhoenixSupport.Error("कमाल युनिट हि किमान युनिट पेक्षा छोटी आहे.");
+                PhoenixSupport.Error("कमाल युनिट हि किमान युनिट पेक्षा छोटी आहे.");
             }
         } else {
-//            PhoenixSupport.Error("सर्व माहिती भरा");
+            PhoenixSupport.Error("सर्व माहिती भरा");
         }
     }
 

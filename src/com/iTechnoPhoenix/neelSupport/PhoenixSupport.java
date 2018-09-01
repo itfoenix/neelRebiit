@@ -7,6 +7,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -94,6 +96,20 @@ public class PhoenixSupport {
             }
         }
         return result;
+    }
+
+    public static void Error(String errorMessage) {
+        Alert dialog = new Alert(Alert.AlertType.ERROR, errorMessage, ButtonType.OK);
+        dialog.showAndWait();
+    }
+
+    public static void Info(String ContentMessage, String HeaderText) {
+        Alert dialog = new Alert(Alert.AlertType.INFORMATION);
+        dialog.setHeaderText(HeaderText);
+        dialog.setContentText(ContentMessage);
+        dialog.setResult(ButtonType.OK);
+        dialog.setResult(ButtonType.CANCEL);
+        dialog.showAndWait();
     }
 
     public static void Error(String contain, StackPane sp) {

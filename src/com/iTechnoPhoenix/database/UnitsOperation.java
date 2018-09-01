@@ -2,6 +2,7 @@ package com.iTechnoPhoenix.database;
 
 import com.iTechnoPhoenix.model.Unit;
 import com.iTechnoPhoenix.neelSupport.PhoenixConfiguration;
+import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,9 +21,9 @@ public class UnitsOperation {
             stm.setDouble(3, u.getUnitprice());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-//                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती");
+                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती");
             } else {
-//                PhoenixSupport.Error("युनिट माहित जनता नाही झाली");
+                PhoenixSupport.Error("युनिट माहित जनता नाही झाली");
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -39,9 +40,9 @@ public class UnitsOperation {
             stm.setInt(4, u.getId());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-//                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती");
+                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती");
             } else {
-//                PhoenixSupport.Error("युनिट माहित जनता नाही झाली");
+                PhoenixSupport.Error("युनिट माहित जनता नाही झाली");
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -55,9 +56,9 @@ public class UnitsOperation {
             stm.setInt(1, id);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-//                PhoenixSupport.Info("युनिट हटवले गेले आहे .", "युनिट माहिती");
+                PhoenixSupport.Info("युनिट हटवले गेले आहे .", "युनिट माहिती");
             } else {
-//                PhoenixSupport.Error("युनिट हटवले गेले नाही .");
+                PhoenixSupport.Error("युनिट हटवले गेले नाही .");
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
