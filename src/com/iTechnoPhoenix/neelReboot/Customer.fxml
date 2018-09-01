@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F4F7F9;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerController">
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F4F7F9;" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerController">
    <children>
       <VBox StackPane.alignment="TOP_CENTER">
          <children>
@@ -26,7 +26,7 @@
                   <Insets left="16.0" />
                </padding>
             </Label>
-            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="ग्राहकाची माहिती" textFill="#3e4a4f" VBox.vgrow="ALWAYS">
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="ग्राहकाची माहिती" textFill="#3e4a4f" wrapText="true" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="14.0" />
                </font>
@@ -49,13 +49,19 @@
                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                            </VBox.margin>
                            <children>
-                              <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="60.0" text="नाव :" HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="70.0" text="नाव :" wrapText="true" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets right="8.0" />
+                                 </padding></Label>
                               <JFXTextField fx:id="txt_name" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         <HBox spacing="8.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="60.0" text="मोबाई नं :" HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="70.0" text="मोबाई नं :" wrapText="true" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets right="8.0" />
+                                 </padding></Label>
                               <JFXTextField fx:id="txt_mobile" HBox.hgrow="ALWAYS" />
                            </children>
                            <VBox.margin>
@@ -64,7 +70,10 @@
                         </HBox>
                         <HBox spacing="8.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="60.0" text="एमैल :" HBox.hgrow="ALWAYS" />
+                              <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="70.0" text="एमैल :" wrapText="true" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets right="8.0" />
+                                 </padding></Label>
                               <JFXTextField fx:id="txt_email" HBox.hgrow="ALWAYS" />
                            </children>
                            <VBox.margin>
@@ -77,7 +86,7 @@
                      <children>
                         <HBox spacing="8.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Label text="पत्ता :" HBox.hgrow="ALWAYS" />
+                              <Label text="पत्ता :" wrapText="true" HBox.hgrow="ALWAYS" />
                               <JFXTextArea fx:id="txt_address" prefColumnCount="10" HBox.hgrow="ALWAYS" />
                            </children>
                            <VBox.margin>
@@ -91,7 +100,7 @@
                   </VBox>
                </children>
             </HBox>
-            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="मीटरची माहिती" textFill="#3e4a4f">
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="मीटरची माहिती" textFill="#3e4a4f" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font>

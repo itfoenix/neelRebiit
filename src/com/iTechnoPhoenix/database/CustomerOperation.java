@@ -29,8 +29,6 @@ public class CustomerOperation {
             stm.setDate(5, Date.valueOf(LocalDate.now()));
 
             if (stm.executeUpdate() > 0) {
-                //Connector.commit();
-
                 try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         return generatedKeys.getInt(1);
@@ -90,20 +88,28 @@ public class CustomerOperation {
         return 0;
     }
 
-    public ObservableList<Customer> getCustomerByName(String name) {
-        ObservableList<Customer> customerlist = FXCollections.observableArrayList();
+    public ObservableList<Meter> getCustomerByName() {
+        ObservableList<Meter> customerlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select * from customer where name like ?");
-            stm.setString(1, name + "%");
+            stm = Connector.getConnection().prepareStatement("Select * from customer c join meter m on c.cust_num = m.cust_id");
+
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                Customer c = new Customer();
-                c.setCust_num(rs.getInt(1));
-                c.setName(rs.getString(2));
-                c.setAddress(rs.getString(3));
-                c.setPhone(rs.getString(4));
-                c.setEmail(rs.getString(5));
-                customerlist.add(c);
+                Customer customer = new Customer();
+                customer.setCust_num(rs.getInt(1));
+                customer.setName(rs.getString(2));
+                customer.setAddress(rs.getString(3));
+                customer.setPhone(rs.getString(4));
+                customer.setEmail(rs.getString(5));
+                Meter meter = new Meter();
+                meter.setId(rs.getInt(7));
+                meter.setMetor_num(rs.getString(8));
+                meter.setCon_date(rs.getString(9));
+                meter.setCurr_reading(rs.getLong(10));
+                meter.setOutstanding(rs.getDouble(11));
+                meter.setDeposit(rs.getDouble(12));
+                meter.setCustomeObject(customer);
+                customerlist.add(meter);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();

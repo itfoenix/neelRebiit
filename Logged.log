@@ -1,13 +1,12 @@
-#Fri Aug 31 23:06:14 IST 2018
-recieptreport=F\:\\Prashant\\Netbean Projects\\Neel\\src\\com\\neel\\report\\ReceiptFormate.jrxml
+#Sat Sep 01 18:41:12 IST 2018
 Year=2018
 mysqlpath=C\:\\Program Files (x86)\\MySQL\\MySQL Server 5.0\\bin\\mysql.exe
-url=jdbc\:mysql\://192.168.0.111/neel?noAccessToProcedureBodies \= true&characterEncoding\=utf-8&useUnicode\=true
+url=jdbc\:mysql\://localhost/neel?noAccessToProcedureBodies \= true&characterEncoding\=utf-8&useUnicode\=true
 owner=inala \u00C2\u00B3ga`amapMcaayat palaIdovad saukapur\u00C2\u00B4
 width=1300
 Roles=Admin,Normal
-billreport=F\:\\Prashant\\Netbean Projects\\neel\\report1.jrxml
-Month=jaanaovaarI,fob`auvaarI,maaca-,eip`la,mao,jauna,jaulao,Aa^gasT,saPToMbar,Aa^@Taobar,naaovhoMbar,iDsaoMbar
+01/09/18\ 18\:41\:12\ \=>>\ Customer\ deletion\ =No value specified for parameter 2
+Month=jaanaovaarI - fob`auvaarI,maaca- - eip`la,mao - jauna,jaulao - Aa^gasT,saPToMbar - Aa^@Taobar,naaovhoMbar - iDsaoMbar
 username=root
 backup=F\:\\JavaFx\\iTPForce\\backup.sql
 Dumplocation=C\:\\Program Files (x86)\\MySQL\\MySQL Server 5.0\\bin\\mysqldump.exe
