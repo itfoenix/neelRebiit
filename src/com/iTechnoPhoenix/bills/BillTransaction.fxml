@@ -69,7 +69,7 @@
                   <Insets left="8.0" right="8.0" />
                </VBox.margin>
                <children>
-                  <Label fx:id="txt" maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="ग्राकाचे नाव :" textFill="#3e4a4f">
+                  <Label fx:id="txt" maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="ग्राहकाचे नाव :" textFill="#3e4a4f">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -95,8 +95,14 @@
             <HBox alignment="CENTER_RIGHT" spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
                   <JFXTextArea fx:id="txt_remark" labelFloat="true" maxWidth="1.7976931348623157E308" promptText="शेरा" />
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="एकूण बिलाची रक्कम :" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="txt_total_amt" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="००" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="एकूण बिलाची रक्कम :" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label fx:id="txt_total_amt" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="००" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="25.0" />
+                     </font></Label>
                </children>
                <VBox.margin>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />

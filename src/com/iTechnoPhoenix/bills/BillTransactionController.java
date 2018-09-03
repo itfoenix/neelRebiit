@@ -5,8 +5,11 @@ import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.database.MeterOperation;
 import com.iTechnoPhoenix.database.UnitsOperation;
 import com.iTechnoPhoenix.model.Bill;
+import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Meter;
+import com.iTechnoPhoenix.model.MeterBill;
 import com.iTechnoPhoenix.model.Unit;
+import com.iTechnoPhoenix.neelSupport.BillSupport;
 import com.iTechnoPhoenix.neelSupport.PhoenixConfiguration;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
@@ -21,43 +24,31 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import com.jfoenix.controls.events.JFXDialogEvent;
-import com.sun.deploy.panel.JreDialog;
-import com.sun.javafx.print.Units;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DateCell;
-import javafx.scene.control.FocusModel;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableCell;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
+import org.controlsfx.control.textfield.TextFields;
 
 public class BillTransactionController implements Initializable {
 
@@ -106,28 +97,46 @@ public class BillTransactionController implements Initializable {
     private ObservableList<Meter> meterList;
     private ObservableList<Bill> billList;
     private boolean open = false;
-    private ObservableMap<String, Long> meterMap;
     private JFXListView listView;
     private Meter meter;
     private JFXDialog dialog;
     private StringConverter<Long> strConvert;
+    private ObservableSet<String> customermeterlist;
 
     @FXML
-    void btn_cancel(ActionEvent event) {
-
+    private void btn_cancel(ActionEvent event) {
+        cancel();
     }
 
     @FXML
-    void btn_save(ActionEvent event) {
-
+    private void btn_save(ActionEvent event) {
+        ArrayList<Boolean> valid = new ArrayList<>();
+        for (Bill b : billList) {
+            if (b.getTotal() == 0) {
+                valid.add(false);
+            }
+        }
+        if (valid.isEmpty()) {
+            save();
+            valid.clear();
+        } else {
+            PhoenixSupport.Error("कृपया चालु रिडिंग टाका.");
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         meterList = FXCollections.observableArrayList();
         billList = FXCollections.observableArrayList();
-        meterMap = FXCollections.observableHashMap();
+        customermeterlist = FXCollections.observableSet();
+        CustomerOperation custdb = new CustomerOperation();
+        for (Customer cust : custdb.getCustomerName()) {
+            customermeterlist.add(cust.getName());
+        }
+        MeterOperation meterdb = new MeterOperation();
+        customermeterlist.addAll(meterdb.getMeterNumber());
         cb_period.setItems(PhoenixConfiguration.getMonth());
+        TextFields.bindAutoCompletion(txt_meter_customer, customermeterlist);
         initTable();
         txt_duration.setDayCellFactory(param -> {
             return new DateCell() {
@@ -137,79 +146,78 @@ public class BillTransactionController implements Initializable {
                 }
             };
         });
-        txt_meter_customer.focusedProperty().addListener(new ChangeListener<Boolean>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    if (!txt_meter_customer.getText().isEmpty()) {
-                        if (PhoenixSupport.isValidate(cb_period) && !txt_duration.getValue().equals(null)) {
-                            CustomerOperation co = new CustomerOperation();
-                            meterList = co.getCustomerDetails(txt_meter_customer.getText());
-                            System.out.println(meterList);
-                            VBox vb = new VBox();
-                            vb.setSpacing(16);
-                            listView = new JFXListView();
-                            ObservableList<Meter> tempList = FXCollections.observableArrayList();
-                            for (Meter meter1 : meterList) {
-                                meterMap.put(meter1.getMetor_num(), meter1.getCurr_reading());
-                                if (tempList.contains(meter1)) {
-                                    tempList.get(tempList.indexOf(meter1)).setMetor_num(tempList.get(tempList.indexOf(meter1)).getMetor_num() + " , " + meter1.getMetor_num());
-                                } else {
-                                    tempList.add(meter1);
-                                }
+        txt_meter_customer.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+            if (!newValue) {
+                if (!txt_meter_customer.getText().isEmpty()) {
+                    if (PhoenixSupport.isValidate(cb_period) && txt_duration.getValue() != null) {
+                        CustomerOperation co = new CustomerOperation();
+                        meterList = co.getCustomerDetails(txt_meter_customer.getText());
+                        System.out.println(meterList);
+                        VBox vb = new VBox();
+                        vb.setSpacing(16);
+                        listView = new JFXListView();
+                        ObservableList<Meter> tempList = FXCollections.observableArrayList();
+                        for (Meter meter1 : meterList) {
+                            if (tempList.contains(meter1)) {
+                                tempList.get(tempList.indexOf(meter1)).setMetor_num(tempList.get(tempList.indexOf(meter1)).getMetor_num() + " , " + meter1.getMetor_num());
+                            } else {
+                                tempList.add(meter1);
                             }
-                            listView.setItems(tempList);
-                            vb.getChildren().add(listView);
-                            JFXButton btnCancel = new JFXButton("राध करा");
-                            btnCancel.getStyleClass().add("btn-cancel");
-                            if (!open) {
-                                dialog = Support.getDialog(window, new Label("ग्राहक नवडा"), vb, btnCancel);
-                                btnCancel.setOnAction(e -> {
+                        }
+                        listView.setItems(tempList);
+                        vb.getChildren().add(listView);
+                        JFXButton btnCancel = new JFXButton("राध करा");
+                        btnCancel.getStyleClass().add("btn-cancel");
+                        if (!open) {
+                            dialog = Support.getDialog(window, new Label("ग्राहक नवडा"), vb, btnCancel);
+                            btnCancel.setOnAction(e -> {
+                                dialog.close();
+                                open = false;
+                                txt_meter_customer.clear();
+                            });
+                            btnCancel.setOnKeyPressed(e -> {
+                                if (e.getCode() == KeyCode.ENTER) {
                                     dialog.close();
                                     open = false;
-                                });
-                                btnCancel.setOnKeyPressed(e -> {
-                                    if (e.getCode() == KeyCode.ENTER) {
-                                        dialog.close();
-                                        open = false;
+                                    txt_meter_customer.clear();
+                                }
+                            });
+                            listView.setOnMouseClicked(event -> {
+                                if (event.getClickCount() == 2) {
+                                    billList.clear();
+                                    meter = (Meter) listView.getFocusModel().getFocusedItem();
+                                    for (String s : meter.getMetor_num().split(" , ")) {
+                                        billdb = new BillOperation();
+                                        Bill bill = billdb.getMeterInfo(s);
+                                        lbl_customer_name.setText(bill.getCust().getName());
+                                        billList.add(bill);
                                     }
-                                });
-                                listView.setOnMouseClicked((MouseEvent event) -> {
-                                    if (event.getClickCount() == 2) {
-                                        billList.clear();
-                                        meter = (Meter) listView.getFocusModel().getFocusedItem();
-                                        for (String s : meter.getMetor_num().split(" , ")) {
-                                            billdb = new BillOperation();
-                                            Bill bill = billdb.getMeterInfo(s);
-                                            billList.add(bill);
-                                        }
-                                        dialog.close();
-                                        open = false;
-                                        refreshTable();
+                                    dialog.close();
+                                    open = false;
+                                    refreshTable();
+                                }
+                            });
+                            listView.setOnKeyPressed(event -> {
+                                if (event.getCode() == KeyCode.ENTER) {
+                                    billList.clear();
+                                    meter = (Meter) listView.getFocusModel().getFocusedItem();
+                                    for (String s : meter.getMetor_num().split(" , ")) {
+                                        billdb = new BillOperation();
+                                        Bill bill = billdb.getMeterInfo(s);
+                                        billList.add(bill);
+                                        lbl_customer_name.setText(bill.getCust().getName());
                                     }
-                                });
-                                listView.setOnKeyPressed((KeyEvent event) -> {
-                                    if (event.getCode() == KeyCode.ENTER) {
-                                        billList.clear();
-                                        meter = (Meter) listView.getFocusModel().getFocusedItem();
-                                        for (String s : meter.getMetor_num().split(" , ")) {
-                                            billdb = new BillOperation();
-                                            Bill bill = billdb.getMeterInfo(s);
-                                            billList.add(bill);
-                                        }
-                                        dialog.close();
-                                        open = false;
-                                        refreshTable();
-                                    }
-                                });
-                                dialog.show();
-                                open = true;
-                                dialog.setOnDialogOpened(e -> listView.requestFocus());
-                            }
-                        } else {
-                            PhoenixSupport.Error("कृपया सर्व माहिती भरा.");
+                                    dialog.close();
+                                    open = false;
+                                    refreshTable();
+                                }
+                            });
+                            dialog.show();
+                            open = true;
+                            dialog.setOnDialogOpened(e -> listView.requestFocus());
                         }
+                    } else {
+                        PhoenixSupport.Error("कृपया सर्व माहिती भरा.");
                     }
                 }
             }
@@ -217,13 +225,28 @@ public class BillTransactionController implements Initializable {
     }
 
     @FXML
-    void btn_cancel_key(KeyEvent event) {
-
+    private void btn_cancel_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            cancel();
+        }
     }
 
     @FXML
-    void btn_save_key(KeyEvent event) {
-
+    private void btn_save_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            ArrayList<Boolean> valid = new ArrayList<>();
+            for (Bill b : billList) {
+                if (b.getTotal() == 0) {
+                    valid.add(false);
+                }
+            }
+            if (valid.isEmpty()) {
+                save();
+                valid.clear();
+            } else {
+                PhoenixSupport.Error("कृपया चालु रिडिंग टाका.");
+            }
+        }
     }
 
     private void initTable() {
@@ -250,21 +273,65 @@ public class BillTransactionController implements Initializable {
             txtCur.setConverter(strConvert);
             return txtCur;
         });
-        tcCurrentReading.setOnEditCommit((TreeTableColumn.CellEditEvent<Bill, Long> event) -> {
+        tcCurrentReading.setOnEditCommit(event -> {
             if (event.getNewValue() > tbl_meter.getTreeItem(event.getTreeTablePosition().getRow()).getValue().getMeter().getCurr_reading()) {
                 TreeItem<Bill> tblItem = tbl_meter.getTreeItem(event.getTreeTablePosition().getRow());
                 tblItem.getValue().setCurunit(event.getNewValue());
                 calculate(tblItem.getValue());
+                calculateGrand();
             } else {
                 TreeItem<Bill> tblItem = tbl_meter.getTreeItem(event.getTreeTablePosition().getRow());
                 tblItem.getValue().setCurunit(0);
+                tblItem.getValue().setInterested(0);
+                tblItem.getValue().setScharges(0);
+                tblItem.getValue().setTotal(0);
+                tblItem.getValue().setCuramount(0);
+                tblItem.getValue().setUseunit(0);
+                calculateGrand();
                 PhoenixSupport.Error("चालू रीडीग ही कमी आहे मागील रीडीग पेक्षा. रीडीग तपासून पहा.");
             }
             tbl_meter.refresh();
-//            tbl_meter.getVisibleLeafColumn(8).
         });
         tcUseUnit = new JFXTreeTableColumn<>("वापर युनिट");
         tcUseUnit.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getUseunit()).asObject());
+        tcUseUnit.setCellFactory(param -> {
+            TextFieldTreeTableCell<Bill, Long> txtUse = new TextFieldTreeTableCell();
+            strConvert = new StringConverter<Long>() {
+
+                @Override
+                public String toString(Long object) {
+                    return String.valueOf(object);
+                }
+
+                @Override
+                public Long fromString(String string) {
+                    return PhoenixSupport.getLong(string);
+                }
+            };
+            txtUse.setConverter(strConvert);
+            return txtUse;
+        });
+        tcUseUnit.setOnEditCommit(event -> {
+            if (event.getNewValue() > 0) {
+                TreeItem<Bill> treeItem = tbl_meter.getTreeItem(event.getTreeTablePosition().getRow());
+                treeItem.getValue().setUseunit(event.getNewValue());
+                treeItem.getValue().setCurunit(treeItem.getValue().getMeter().getCurr_reading() + event.getNewValue());
+                calculate(treeItem.getValue());
+                calculateGrand();
+                treeItem.getValue().setCurunit(treeItem.getValue().getMeter().getCurr_reading());
+            } else {
+                TreeItem<Bill> tblItem = tbl_meter.getTreeItem(event.getTreeTablePosition().getRow());
+                tblItem.getValue().setCurunit(0);
+                tblItem.getValue().setInterested(0);
+                tblItem.getValue().setScharges(0);
+                tblItem.getValue().setTotal(0);
+                tblItem.getValue().setCuramount(0);
+                tblItem.getValue().setUseunit(0);
+                calculateGrand();
+                PhoenixSupport.Error("वापर युनिट ही खूप कमी आहे.");
+            }
+            tbl_meter.refresh();
+        });
         tcOutstanding = new JFXTreeTableColumn<>("थकबाकी");
         tcOutstanding.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getMeter().getOutstanding()).asObject());
         tcInterest = new JFXTreeTableColumn<>("१८% व्याज");
@@ -293,7 +360,6 @@ public class BillTransactionController implements Initializable {
             double differance = 0;
             total = 0;
             for (Unit u : unitlist) {
-
                 if (use_unit <= u.getMax()) {
                     total = total + ((use_unit - differance) * u.getUnitprice());
                 } else {
@@ -302,17 +368,15 @@ public class BillTransactionController implements Initializable {
                 }
             }
             scharge = (total * 0.10);
-//            total = total + scharge;
             outstanding = bill.getMeter().getOutstanding();
             if (outstanding > 0) {
                 outrate = (outstanding * 0.18) / 6;
-
             } else {
                 outrate = 0;
             }
         }
 
-        if (use_unit < 5) {
+        if (use_unit <= 5) {
             total = Math.round(60);
             scharge = Math.round(5);
         } else {
@@ -321,11 +385,112 @@ public class BillTransactionController implements Initializable {
         }
         outrate = Math.round(outrate);
         outstanding = Math.round(outstanding);
+        bill.setPerunit(bill.getMeter().getCurr_reading());
+        bill.setUseunit(Math.round(use_unit));
         bill.setScharges(scharge);
         bill.setInterested(outrate);
         bill.setCuramount(total);
         finaltotal = (outrate + outstanding + scharge + total);
         finaltotal = Math.round(finaltotal);
         bill.setTotal(finaltotal);
+    }
+
+    public void save() {
+        if (PhoenixSupport.isValidate(cb_period) && txt_duration.getValue() != null && PhoenixSupport.isValidate(txt_meter_customer)) {
+            if (!billList.isEmpty()) {
+                for (Bill bill : billList) {
+                    int i = billdb.checkBill(bill.getMeter().getMetor_num(), cb_period.getSelectionModel().getSelectedItem(), String.valueOf(LocalDate.now().getYear()));
+                    bill.setRemark(txt_remark.getText());
+                    if (i == 0) {
+                        bill.setBdate(LocalDate.now().toString());
+                        bill.setPdate(txt_duration.getValue().toString());
+                        bill.setPeriod(cb_period.getSelectionModel().getSelectedItem());
+                        bill.setYear(String.valueOf(LocalDate.now().getYear()));
+                        if (billref != 0) {
+                            bill.setBillref(billref);
+                        } else {
+                            bill.setBillref(0);
+                        }
+                        bill.setBalance(bill.getMeter().getOutstanding());
+                        bill.setUid(PhoenixSupport.uid);
+                        billno = billdb.saveBill(bill);
+                        bill.setBillno(billno);
+                        billref = billdb.getref(billno);
+                        bill.setBillref(billref);
+                        billno = 0;
+                    } else {
+                        PhoenixSupport.Error("मीटर क्रमांक " + bill.getMeter().getMetor_num() + ", ह्या महिन्याचे बिल आधीच बनवल आहे.");
+                    }
+                }
+                if (billno == 0) {
+                    BillSupport billSupport = new BillSupport();
+                    JFXButton btnDPrint = new JFXButton("प्रिंट करा");
+                    btnDPrint.getStyleClass().add("btn-search");
+                    btnDPrint.setOnAction(e -> {
+                        ArrayList<MeterBill> meterBillList = billSupport.assignBillValue(billList);
+                        PhoenixSupport.printMeterBill(meterBillList);
+                        cancel();
+                        dialog.close();
+                    });
+                    btnDPrint.setOnKeyPressed(e -> {
+                        if (e.getCode() == KeyCode.ENTER) {
+                            ArrayList<MeterBill> meterBillList = billSupport.assignBillValue(billList);
+                            PhoenixSupport.printMeterBill(meterBillList);
+                            cancel();
+                            dialog.close();
+                        }
+                    });
+                    JFXButton btnDCancel = new JFXButton("रद्द करा");
+                    btnDCancel.getStyleClass().add("btn-cancel");
+                    btnDCancel.setOnAction(e -> {
+                        cancel();
+                        dialog.close();
+                    });
+                    btnDCancel.setOnKeyPressed(e -> {
+                        if (e.getCode() == KeyCode.ENTER) {
+                            cancel();
+                            dialog.close();
+                        }
+                    });
+                    dialog = Support.getDialog(window, new Label("बिल व्यवहार"), new Label("ह्या महिन्याचे बिल जतन झाले आहे."), btnDPrint, btnDCancel);
+                    dialog.show();
+                    dialog.setOnDialogOpened(e -> {
+                        btnDCancel.requestFocus();
+                    });
+                }
+            } else {
+                PhoenixSupport.Error("कृपया ग्राहक किवा मीटरची माहिती टाका.");
+            }
+        } else {
+            PhoenixSupport.Error("कृपया सर्व माहिती भरा.");
+        }
+    }
+
+    public void cancel() {
+        cb_period.getSelectionModel().clearSelection();
+        txt_duration.setValue(null);
+        txt_meter_customer.clear();
+        txt_remark.clear();
+        txt_total_amt.setText("००");
+        lbl_customer_name.setText("");
+        billList.clear();
+        refreshTable();
+        billno = 0;
+        billref = 0;
+        finaltotal = 0;
+        grandtotal = 0;
+        outrate = 0;
+        outstanding = 0;
+        scharge = 0;
+        total = 0;
+        use_unit = 0;
+    }
+
+    public void calculateGrand() {
+        for (Bill b : billList) {
+            grandtotal = grandtotal + b.getTotal();
+        }
+        txt_total_amt.setText(String.valueOf(grandtotal));
+        grandtotal = 0;
     }
 }

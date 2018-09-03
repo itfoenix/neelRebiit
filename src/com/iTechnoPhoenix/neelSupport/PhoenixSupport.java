@@ -1,11 +1,15 @@
 package com.iTechnoPhoenix.neelSupport;
 
+import com.iTechnoPhoenix.model.MeterBill;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -15,11 +19,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class PhoenixSupport {
 
     public static int uid = 0;
     public static int role = 0;
+    public static ArrayList<MeterBill> singleBill;
 
     public static void EmailValidation(TextField t) {
         t.focusedProperty().addListener((ObservableValue, oldValue, newValue) -> {
@@ -209,6 +221,29 @@ public class PhoenixSupport {
 
         }
         return 0;
+    }
+
+    public static boolean close = false;
+
+    public static void printMeterBill(ArrayList<MeterBill> blist) {
+        singleBill = new ArrayList<>();
+        for (MeterBill bs : blist) {
+            singleBill.add(bs);
+        }
+        printing();
+    }
+
+    public static void printing() {
+        String billformate = "report1.jrxml";
+        JasperReport report;
+        try {
+            report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

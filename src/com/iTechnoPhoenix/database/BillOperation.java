@@ -344,7 +344,6 @@ public class BillOperation {
                 System.out.println(stm.getInt(17));
                 i = stm.getInt(17);
                 Connector.commit();
-                PhoenixSupport.Info("बिल जतन झालं आहे ", "बिल व्यवहार");
             }
 
         } catch (SQLException ex) {
