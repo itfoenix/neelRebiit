@@ -530,30 +530,31 @@ public class BillOperation {
         return mlist;
     }
 
-//    public int checkBill(String meterNo, String period, String year) {
-//        int i = 0;
-//        MeterOperation mo = new MeterOperation();
-//        Meter meter = mo.getMeter(meterNo);
-//        if (meter != null) {
-//            try {
-//                stm = Connector.getConnection().prepareStatement("select * from billing where period=? and year=? and meterno=?");
-//                stm.setString(1, period);
-//                stm.setString(2, year);
-//                stm.setInt(3, meter.getId());
-//                ResultSet rs = stm.executeQuery();
-//                if (rs != null) {
-//                    if (rs.next()) {
-//                        rs.getInt(1);
-//                        i = 1;
-//                    }
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(BillOperation.class.getName()).log(Level.SEVERE, null, ex);
-//
-//            }
-//        }
-//        return i;
-//    }
+    public int checkBill(String meterNo, String period, String year) {
+        int i = 0;
+        MeterOperation mo = new MeterOperation();
+        Meter meter = mo.getMeter(meterNo);
+        if (meter != null) {
+            try {
+                stm = Connector.getConnection().prepareStatement("select * from billing where period=? and year=? and meterno=?");
+                stm.setString(1, period);
+                stm.setString(2, year);
+                stm.setInt(3, meter.getId());
+                ResultSet rs = stm.executeQuery();
+                if (rs != null) {
+                    if (rs.next()) {
+                        rs.getInt(1);
+                        i = 1;
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(BillOperation.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        }
+        return i;
+    }
+
     public void insertNameWise(Bill bill) {
         try {
             stm = Connector.getConnection().prepareStatement("Insert into custwisebill (cust_id, meter_no, bill_no) values (?,?,?)");

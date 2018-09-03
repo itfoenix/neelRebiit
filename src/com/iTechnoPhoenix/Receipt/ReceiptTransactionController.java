@@ -1,24 +1,42 @@
 package com.iTechnoPhoenix.Receipt;
 
+import com.iTechnoPhoenix.database.BillOperation;
+import com.iTechnoPhoenix.database.ReceiptOperation;
+import com.iTechnoPhoenix.model.Bill;
+import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.util.StringConverter;
 
 public class ReceiptTransactionController implements Initializable {
 
@@ -35,7 +53,7 @@ public class ReceiptTransactionController implements Initializable {
     private Label txt_lastdate;
 
     @FXML
-    private JFXTreeTableView<?> tbl_meter;
+    private JFXTreeTableView<Bill> tbl_meter;
 
     @FXML
     private Label lbl_preious_paid_amt;
@@ -55,6 +73,20 @@ public class ReceiptTransactionController implements Initializable {
     @FXML
     private StackPane window;
 
+    private JFXTreeTableColumn<Bill, String> tcMeterNumber;
+    private JFXTreeTableColumn<Bill, Long> tcPreviousReading;
+    private JFXTreeTableColumn<Bill, Long> tcCurrentReading;
+    private JFXTreeTableColumn<Bill, Long> tcUseUnit;
+    private JFXTreeTableColumn<Bill, Double> tcOutstanding;
+    private JFXTreeTableColumn<Bill, Double> tcInterest;
+    private JFXTreeTableColumn<Bill, Double> tcServiceCharge;
+    private JFXTreeTableColumn<Bill, Double> tcBillAmount;
+    private JFXTreeTableColumn<Bill, Double> tcTotal;
+
+    private BillOperation billdb;
+    private ReceiptOperation recieptdb;
+    private ObservableList<Bill> billList;
+
     @FXML
     void btn_cancel(ActionEvent event) {
 
@@ -72,7 +104,33 @@ public class ReceiptTransactionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        billdb = new BillOperation();
+        recieptdb = new ReceiptOperation();
+        initTable();
+        txt_bill_number.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+            if (!newValue) {
+                if (!txt_bill_number.getText().isEmpty()) {
+                    String s = txt_bill_number.getText();
+                    billList = billdb.getBillRef(PhoenixSupport.getInteger(s));
+                    int exist = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
+                    if (exist == 1) {
+                        if (!billList.isEmpty()) {
+                            txt_duration.setText(billList.get(0).getPeriod());
+                            String str1[] = billList.get(0).getPdate().split(" ");
+                            txt_lastdate.setText(str1[0]);
+                            txt_customer.setText(billList.get(0).getCust().getName());
+                            refreshTable();
+                        }
+                    }
+                }
+            }
+        });
+    }
 
+    private void refreshTable() {
+        TreeItem<Bill> treeItem = new RecursiveTreeItem<>(billList, RecursiveTreeObject::getChildren);
+        tbl_meter.setRoot(treeItem);
+        tbl_meter.setShowRoot(false);
     }
 
     public void chequeDialog() {
@@ -184,6 +242,28 @@ public class ReceiptTransactionController implements Initializable {
             dialog.close();
         });
 
+    }
+
+    public void initTable() {
+        tcMeterNumber = new JFXTreeTableColumn<>("मीटर क्रमांक");
+        tcMeterNumber.setCellValueFactory(param -> new SimpleObjectProperty(param.getValue().getValue().getMeter().getMetor_num()));
+        tcPreviousReading = new JFXTreeTableColumn<>("मागील रिडिंग");
+        tcPreviousReading.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getMeter().getCurr_reading()).asObject());
+        tcCurrentReading = new JFXTreeTableColumn<>("चालु रिडिंग");
+        tcCurrentReading.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getCurunit()).asObject());
+        tcUseUnit = new JFXTreeTableColumn<>("वापर युनिट");
+        tcUseUnit.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getUseunit()).asObject());
+        tcOutstanding = new JFXTreeTableColumn<>("थकबाकी");
+        tcOutstanding.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getMeter().getOutstanding()).asObject());
+        tcInterest = new JFXTreeTableColumn<>("१८% व्याज");
+        tcInterest.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getInterested()).asObject());
+        tcServiceCharge = new JFXTreeTableColumn<>("सर चार्ज");
+        tcServiceCharge.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getScharges()).asObject());
+        tcBillAmount = new JFXTreeTableColumn<>("बिलाची रक्क्म");
+        tcBillAmount.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getCuramount()).asObject());
+        tcTotal = new JFXTreeTableColumn<>("एकूण रक्क्म");
+        tcTotal.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getTotal()).asObject());
+        tbl_meter.getColumns().addAll(tcMeterNumber, tcPreviousReading, tcCurrentReading, tcUseUnit, tcOutstanding, tcInterest, tcServiceCharge, tcBillAmount, tcTotal);
     }
 
 }
