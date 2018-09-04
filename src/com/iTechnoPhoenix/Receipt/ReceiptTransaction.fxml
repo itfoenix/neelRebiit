@@ -46,14 +46,14 @@
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
                </padding>
             </HBox>
-            <HBox maxHeight="-Infinity" prefWidth="200.0" style="-fx-border-width: 1; -fx-border-color: #CECFD0;" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="-Infinity" prefWidth="200.0" spacing="8.0" style="-fx-border-width: 1; -fx-border-color: #CECFD0;" VBox.vgrow="ALWAYS">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="100.0" text="ग्राहकाचे  नाव :" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="txt_customer" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" text="बिलाचा कालावधी :" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="txt_duration" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="150.0" text="बिलाची अंतिम दिनांक:" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="txt_lastdate" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="100.0" text="ग्राहकाचे  नाव :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="txt_customer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="120.0" text="बिलाचा कालावधी :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="txt_duration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="बिलाची अंतिम दिनांक:" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="txt_lastdate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                </children>
                <padding>
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
@@ -85,22 +85,6 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="एकूण रक्कम :" HBox.hgrow="ALWAYS" />
-                  <Label fx:id="lbl_total" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="00" HBox.hgrow="ALWAYS">
-                     <padding>
-                        <Insets right="16.0" />
-                     </padding>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets right="8.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
-               <children>
                   <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="विलंब रक्कम :" HBox.hgrow="ALWAYS" />
                   <JFXTextField fx:id="txt_delay_payment" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                      <HBox.margin>
@@ -110,6 +94,22 @@
                         <Insets right="16.0" />
                      </padding>
                   </JFXTextField>
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="8.0" top="12.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets right="8.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="एकूण रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label fx:id="lbl_total" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="00" HBox.hgrow="ALWAYS">
+                     <padding>
+                        <Insets right="16.0" />
+                     </padding>
+                  </Label>
                </children>
                <padding>
                   <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
@@ -155,7 +155,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton onAction="#btn_cash_paid" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="रोख रक्कम भरणा" textFill="WHITE">
+                  <JFXButton onAction="#btn_cash_paid" onKeyPressed="#btn_cash_paid_key" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="रोख रक्कम भरणा" textFill="WHITE">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
@@ -163,7 +163,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#btn_cheque_paid" ripplerFill="#1a2022" style="-fx-background-color: #4BB89B;" text="चेक रक्कम भरणा" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <JFXButton onAction="#btn_cheque_paid" onKeyPressed="#btn_cheque_paid_key" ripplerFill="#1a2022" style="-fx-background-color: #4BB89B;" text="चेक रक्कम भरणा" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
@@ -174,7 +174,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#btn_cancel" ripplerFill="#1a2022" style="-fx-background-color: #3E4A4F;" text="रद्द करा" textFill="WHITE">
+                  <JFXButton onAction="#btn_cancel" onKeyPressed="#btn_cancel_key" ripplerFill="#1a2022" style="-fx-background-color: #3E4A4F;" text="रद्द करा" textFill="WHITE">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>

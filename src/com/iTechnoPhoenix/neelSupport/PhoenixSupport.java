@@ -1,5 +1,6 @@
 package com.iTechnoPhoenix.neelSupport;
 
+import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.MeterBill;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -239,6 +240,22 @@ public class PhoenixSupport {
         try {
             report = JasperCompileManager.compileReport(billformate);
             JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void printReceipt(ArrayList<Bill> blist) {
+        String billformate = "ReceiptFormate.jrxml";
+        try {
+            ArrayList<Bill> singleReceipt = new ArrayList<>();
+            for (Bill bs : blist) {
+                singleReceipt.add(bs);
+            }
+            JasperReport report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleReceipt);
             JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
             JasperViewer.viewReport(jp, false);
         } catch (JRException ex) {

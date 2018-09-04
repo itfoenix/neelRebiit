@@ -145,19 +145,29 @@ public class ReceiptOperation {
 //        }
 //        return fr;
 //    }
-    public int checkBill(int billId) {
-        int i = 0;
+    public Receipt checkBill(int billId) {
+        Receipt receipt = null;
         try {
-            stm = Connector.getConnection().prepareStatement("SELECT receipt_no from receipt where bill_no=?");
+            stm = Connector.getConnection().prepareStatement("SELECT * from receipt where bill_no=?");
             stm.setInt(1, billId);
             ResultSet rs = stm.executeQuery();
-            if (!rs.next()) {
-                i = 1;
+            while (rs.next()) {
+                receipt = new Receipt();
+                receipt.setReceipt_no(rs.getInt(1));
+                receipt.setPdate(rs.getString(2));
+                receipt.setBillno(rs.getInt(3));
+                receipt.setAmount(rs.getDouble(4));
+                receipt.setPaymode(rs.getInt(6));
+                if (rs.getString(7) != null) {
+                    receipt.setCheq_no(rs.getString(7));
+                }
+                receipt.setBankid(rs.getInt(8));
+                receipt.setUid(rs.getInt(9));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReceiptOperation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return i;
+        return receipt;
     }
 
     public ObservableList<Bill> getAllReceipt(String period, String year) {

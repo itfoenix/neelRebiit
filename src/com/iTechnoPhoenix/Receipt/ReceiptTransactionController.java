@@ -1,8 +1,13 @@
 package com.iTechnoPhoenix.Receipt;
 
+import com.iTechnoPhoenix.database.BankOpearation;
 import com.iTechnoPhoenix.database.BillOperation;
 import com.iTechnoPhoenix.database.ReceiptOperation;
+import com.iTechnoPhoenix.model.Banks;
 import com.iTechnoPhoenix.model.Bill;
+import com.iTechnoPhoenix.model.MeterBill;
+import com.iTechnoPhoenix.model.Receipt;
+import com.iTechnoPhoenix.neelSupport.BillSupport;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
@@ -13,13 +18,17 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import englishtomarathinumberconvertor.MarathiNumber;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +40,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -83,23 +94,50 @@ public class ReceiptTransactionController implements Initializable {
     private JFXTreeTableColumn<Bill, Double> tcBillAmount;
     private JFXTreeTableColumn<Bill, Double> tcTotal;
 
+    private JFXDialog dialog;
+    private JFXTextField txt_cheque;
+    private JFXComboBox<Banks> cb_banklist;
     private BillOperation billdb;
     private ReceiptOperation recieptdb;
     private ObservableList<Bill> billList;
+    private ObservableList<Banks> bankList;
+    private Bill bill;
+    private Banks bank = new Banks();
 
     @FXML
-    void btn_cancel(ActionEvent event) {
-
+    private void btn_cancel(ActionEvent event) {
+        cancel();
     }
 
     @FXML
-    void btn_cash_paid(ActionEvent event) {
-
+    private void btn_cash_paid(ActionEvent event) {
+        save(1);
     }
 
     @FXML
-    void btn_cheque_paid(ActionEvent event) {
+    private void btn_cheque_paid(ActionEvent event) {
         chequeDialog();
+    }
+
+    @FXML
+    private void btn_cancel_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            cancel();
+        }
+    }
+
+    @FXML
+    private void btn_cash_paid_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            save(1);
+        }
+    }
+
+    @FXML
+    private void btn_cheque_paid_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            chequeDialog();
+        }
     }
 
     @Override
@@ -112,16 +150,46 @@ public class ReceiptTransactionController implements Initializable {
                 if (!txt_bill_number.getText().isEmpty()) {
                     String s = txt_bill_number.getText();
                     billList = billdb.getBillRef(PhoenixSupport.getInteger(s));
-                    int exist = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
-                    if (exist == 1) {
-                        if (!billList.isEmpty()) {
-                            txt_duration.setText(billList.get(0).getPeriod());
-                            String str1[] = billList.get(0).getPdate().split(" ");
-                            txt_lastdate.setText(str1[0]);
-                            txt_customer.setText(billList.get(0).getCust().getName());
-                            refreshTable();
+                    Receipt receipt = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
+
+                    if (!billList.isEmpty()) {
+                        txt_duration.setText(billList.get(0).getPeriod());
+                        txt_duration.getStyleClass().add("label-marathi");
+                        String str1[] = billList.get(0).getPdate().split(" ");
+                        txt_lastdate.setText(str1[0]);
+                        txt_customer.setText(billList.get(0).getCust().getName());
+                        refreshTable();
+                        if (receipt != null) {
+                            lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                        } else {
+                            lbl_preious_paid_amt.setText("००");
                         }
+                        txt_delay_payment.setText("००");
+                        grandCalculation();
+                    } else {
+                        PhoenixSupport.Error("बिल क्रमांक चुकीचा आहे. कृपया तपासून पहा.");
+                        txt_bill_number.clear();
+                        txt_bill_number.requestFocus();
                     }
+                }
+
+            }
+        });
+        txt_delay_payment.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    grandCalculation();
+                }
+            }
+        });
+        txt_paid_amount.focusedProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    txt_remaining_amt.setText(String.valueOf(PhoenixSupport.getDouble(lbl_total.getText()) - PhoenixSupport.getDouble(txt_paid_amount.getText())));
                 }
             }
         });
@@ -134,6 +202,11 @@ public class ReceiptTransactionController implements Initializable {
     }
 
     public void chequeDialog() {
+
+        BankOpearation bankdb = new BankOpearation();
+
+        bankList = FXCollections.observableArrayList();
+        bankList = bankdb.getBanksByCode("");
 
         StackPane dialogWindow = new StackPane();
         dialogWindow.setPrefSize(640, 320);
@@ -198,12 +271,13 @@ public class ReceiptTransactionController implements Initializable {
 
         billbank.setAlignment(Pos.CENTER_RIGHT);
 
-        JFXComboBox<String> cb_banklist = new JFXComboBox<>();
+        cb_banklist = new JFXComboBox<>();
         cb_banklist.setMaxWidth(1.7976931348623157E308);
         cb_banklist.setPromptText("बँक नाव");
+        cb_banklist.setItems(bankList);
         VBox.setMargin(cb_banklist, new Insets(8));
 
-        JFXTextField txt_cheque = new JFXTextField();
+        txt_cheque = new JFXTextField();
         txt_cheque.setPromptText("चेक क्रमांक");
         VBox.setMargin(txt_cheque, new Insets(8));
 
@@ -231,39 +305,206 @@ public class ReceiptTransactionController implements Initializable {
             newbox.setVisible(false);
             billbank.setVisible(true);
         });
-        newBank.setOnMouseClicked((e) -> {
 
-            newbox.setVisible(true);
-            billbank.setVisible(false);
-
+        btn_bankclose.setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                newbox.setVisible(false);
+                billbank.setVisible(true);
+            }
         });
 
-        btn_billsave.setOnMouseClicked((e) -> {
+        btn_banksave.setOnMouseClicked((e) -> {
+            if (PhoenixSupport.isValidate(txt_code, txt_bank, txt_branch)) {
+                bank.setBankname(txt_bank.getText());
+                bank.setBranch(txt_branch.getText());
+                bank.setCode(txt_code.getText());
+                bankdb.saveBank(bank);
+                bankList.add(bank);
+                newbox.setVisible(false);
+                billbank.setVisible(true);
+            } else {
+                PhoenixSupport.Error("सर्व माहिती भरा");
+            }
+        });
+
+        btn_banksave.setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                if (PhoenixSupport.isValidate(txt_code, txt_bank, txt_branch)) {
+                    bank.setBankname(txt_bank.getText());
+                    bank.setBranch(txt_branch.getText());
+                    bank.setCode(txt_code.getText());
+                    bankdb.saveBank(bank);
+                    bankList.add(bank);
+                    newbox.setVisible(false);
+                    billbank.setVisible(true);
+                } else {
+                    PhoenixSupport.Error("सर्व माहिती भरा");
+                }
+            }
+        });
+
+        newBank.setOnMouseClicked((e) -> {
+            newbox.setVisible(true);
+            billbank.setVisible(false);
+        });
+
+        newBank.setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                newbox.setVisible(true);
+                billbank.setVisible(false);
+            }
+        });
+
+        btn_billsave.setOnMouseClicked(e -> {
+            save(2);
             dialog.close();
         });
 
+        btn_billsave.setOnKeyPressed((e) -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                save(2);
+                dialog.close();
+            }
+        });
     }
 
     public void initTable() {
         tcMeterNumber = new JFXTreeTableColumn<>("मीटर क्रमांक");
+        tcMeterNumber.setPrefWidth(95);
         tcMeterNumber.setCellValueFactory(param -> new SimpleObjectProperty(param.getValue().getValue().getMeter().getMetor_num()));
         tcPreviousReading = new JFXTreeTableColumn<>("मागील रिडिंग");
+        tcPreviousReading.setPrefWidth(95);
         tcPreviousReading.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getMeter().getCurr_reading()).asObject());
         tcCurrentReading = new JFXTreeTableColumn<>("चालु रिडिंग");
+        tcCurrentReading.setPrefWidth(95);
         tcCurrentReading.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getCurunit()).asObject());
         tcUseUnit = new JFXTreeTableColumn<>("वापर युनिट");
+        tcUseUnit.setPrefWidth(95);
         tcUseUnit.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getUseunit()).asObject());
         tcOutstanding = new JFXTreeTableColumn<>("थकबाकी");
+        tcOutstanding.setPrefWidth(95);
         tcOutstanding.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getMeter().getOutstanding()).asObject());
         tcInterest = new JFXTreeTableColumn<>("१८% व्याज");
+        tcInterest.setPrefWidth(95);
         tcInterest.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getInterested()).asObject());
         tcServiceCharge = new JFXTreeTableColumn<>("सर चार्ज");
+        tcServiceCharge.setPrefWidth(95);
         tcServiceCharge.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getScharges()).asObject());
         tcBillAmount = new JFXTreeTableColumn<>("बिलाची रक्क्म");
+        tcBillAmount.setPrefWidth(95);
         tcBillAmount.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getCuramount()).asObject());
         tcTotal = new JFXTreeTableColumn<>("एकूण रक्क्म");
+        tcTotal.setPrefWidth(95);
         tcTotal.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getTotal()).asObject());
         tbl_meter.getColumns().addAll(tcMeterNumber, tcPreviousReading, tcCurrentReading, tcUseUnit, tcOutstanding, tcInterest, tcServiceCharge, tcBillAmount, tcTotal);
     }
 
+    private void grandCalculation() {
+        double grandtotal = 0;
+        for (Bill b : billList) {
+            grandtotal = grandtotal + b.getTotal();
+        }
+        lbl_total.setText(String.valueOf(grandtotal - PhoenixSupport.getDouble(lbl_preious_paid_amt.getText()) + PhoenixSupport.getDouble(txt_delay_payment.getText())));
+        txt_remaining_amt.setText(String.valueOf(PhoenixSupport.getDouble(lbl_total.getText()) - PhoenixSupport.getDouble(txt_paid_amount.getText())));
+    }
+
+    private void cancel() {
+        txt_bill_number.clear();
+        txt_customer.setText("");
+        txt_delay_payment.clear();
+        txt_duration.setText("");
+        txt_lastdate.setText("");
+        lbl_total.setText("००");
+        lbl_preious_paid_amt.setText("००");
+        txt_paid_amount.clear();
+        txt_remaining_amt.setText("००");
+        billList.clear();
+        refreshTable();
+    }
+
+    public void save(int i) {
+        if (PhoenixSupport.isValidate(txt_bill_number)) {
+            Receipt receipt = new Receipt();
+            receipt.setBillno(PhoenixSupport.getInteger(txt_bill_number.getText()));
+            receipt.setDelay_amount(PhoenixSupport.getDouble(txt_delay_payment.getText()));
+            receipt.setPdate(LocalDate.now().toString());
+            if (i == 1) {
+                receipt.setPaymode(i);
+            } else if (i == 2) {
+                receipt.setBankid(cb_banklist.getSelectionModel().getSelectedItem().getBid());
+                receipt.setCheq_no(txt_cheque.getText());
+                receipt.setPaymode(i);
+            }
+            receipt.setUid(PhoenixSupport.uid);
+            receipt.setAmount(PhoenixSupport.getDouble(txt_paid_amount.getText()));
+
+            MarathiNumber mn = new MarathiNumber();
+            recieptdb = new ReceiptOperation();
+            int result = 0;
+            result = recieptdb.saveReceipt(receipt);
+
+            if (result != 0) {
+                bill = new Bill();
+                bill.setTotal(PhoenixSupport.getDouble(txt_paid_amount.getText()));
+                bill.setCustomername(txt_customer.getText());
+                bill.setCustomernumber(billList.get(0).getCust().getCust_num());
+                bill.setBillref(PhoenixSupport.getInteger(txt_bill_number.getText()));
+                bill.setAddress(billList.get(0).getCust().getAddress());
+                if (i == 2) {
+                    bill.setBankname(cb_banklist.getSelectionModel().getSelectedItem().getBankname());
+                    bill.setCheque(txt_cheque.getText());
+                }
+                bill.setNumberInWord(mn.getMarathiNumber(PhoenixSupport.getDouble(txt_paid_amount.getText())));
+                bill.setRid(result);
+                bill.setPdate(LocalDate.now().toString());
+                ArrayList<Bill> list = new ArrayList<>();
+                list.add(bill);
+                getSuccessDialog(list);
+            } else {
+                PhoenixSupport.Info("पावती जतन नाही जाहली", "पावती");
+            }
+        } else {
+            PhoenixSupport.Error("बिल क्रमांक टाका.");
+            txt_bill_number.requestFocus();
+        }
+    }
+
+    private void getSuccessDialog(ArrayList list) {
+        BillSupport billSupport = new BillSupport();
+        JFXButton btnDPrint = new JFXButton("प्रिंट करा");
+        btnDPrint.getStyleClass().add("btn-search");
+        btnDPrint.setOnAction(e -> {
+            ArrayList<MeterBill> meterBillList = billSupport.assignBillValue(billList);
+            PhoenixSupport ps = new PhoenixSupport();
+            ps.printReceipt(list);
+            cancel();
+            dialog.close();
+        });
+        btnDPrint.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                ArrayList<MeterBill> meterBillList = billSupport.assignBillValue(billList);
+                PhoenixSupport ps = new PhoenixSupport();
+                ps.printReceipt(list);
+                cancel();
+                dialog.close();
+            }
+        });
+        JFXButton btnDCancel = new JFXButton("रद्द करा");
+        btnDCancel.getStyleClass().add("btn-cancel");
+        btnDCancel.setOnAction(e -> {
+            cancel();
+            dialog.close();
+        });
+        btnDCancel.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                cancel();
+                dialog.close();
+            }
+        });
+        dialog = Support.getDialog(window, new Label("पावती व्यवहार"), new Label("पावती जतन झाली आहे."), btnDPrint, btnDCancel);
+        dialog.show();
+        dialog.setOnDialogOpened(e -> {
+            btnDCancel.requestFocus();
+        });
+    }
 }

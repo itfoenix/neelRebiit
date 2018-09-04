@@ -400,7 +400,7 @@ public class BillOperation {
         ObservableList<Bill> billList = FXCollections.observableArrayList();
         try {
             stm = Connector.getConnection().prepareStatement("SELECT  m.meter_num,c.cust_num,c.name,c.address,"
-                    + "b.bill_no, b.bdate, concat(b.period,'-',b.year) as 'period' ,b.pdate,b.balance,b.interent,b.camount,b.schargers,b.total,b.preunit,b.curunit,b.useunit,b.remark, b.billref"
+                    + "b.bill_no, b.bdate, concat(b.period,'  ­  ',b.year) as 'period' ,b.pdate,b.balance,b.interent,b.camount,b.schargers,b.total,b.preunit,b.curunit,b.useunit,b.remark, b.billref"
                     + " FROM neel.billing b join meter m  on m.id=b.meterno  join customer c on c.cust_num=m.cust_id where b.billref=?");
             stm.setInt(1, billref);
             ResultSet rs = stm.executeQuery();
@@ -414,7 +414,7 @@ public class BillOperation {
                 c.setAddress(rs.getString(4));
                 b.setBillno(rs.getInt(5));
                 b.setBdate(rs.getString(6));
-                b.setString(rs.getString(7));
+                b.setPeriod(rs.getString(7));
                 b.setPdate(rs.getString(8));
                 b.setBalance(rs.getDouble(9));
                 b.setInterested(rs.getDouble(10));
