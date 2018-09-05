@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
+import javafx.print.Printer;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -20,12 +21,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.HashPrintServiceAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.MediaSizeName;
+import javax.print.attribute.standard.PrinterName;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
+import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class PhoenixSupport {
@@ -261,6 +273,43 @@ public class PhoenixSupport {
         } catch (JRException ex) {
             Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void printAllBill(ArrayList<MeterBill> blist) {
+        String billformate = "report1.jrxml";
+        try {
+            for (MeterBill bs : blist) {
+                ArrayList<MeterBill> singleBill = new ArrayList<>();
+                singleBill.add(bs);
+                JasperReport report = JasperCompileManager.compileReport(billformate);
+                JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);
+                JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+                jp.setOrientation(OrientationEnum.LANDSCAPE);
+                PrintReportToPrinter(jp);
+            }
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void PrintReportToPrinter(JasperPrint jp) throws JRException {
+        // TODO Auto-generated method stub
+        PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+        printRequestAttributeSet.add(MediaSizeName.ISO_A5); //setting page size
+        printRequestAttributeSet.add(new Copies(1));
+
+        PrinterName printerName = new PrinterName(Printer.getDefaultPrinter().getName(), null); //gets printer
+//        PrinterName printerName = new PrinterName("\\admin-pc\\EPSON M100 Series", null); //gets printer
+        PrintServiceAttributeSet printServiceAttributeSet = new HashPrintServiceAttributeSet();
+        printServiceAttributeSet.add(printerName);
+        JRPrintServiceExporter exporter = new JRPrintServiceExporter();
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
+        exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, printRequestAttributeSet);
+        exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printServiceAttributeSet);
+        exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+        exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
+        exporter.exportReport();
     }
 
 }

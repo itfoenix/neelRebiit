@@ -16,17 +16,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 
 public class BillOperation {
 
     private PreparedStatement stm;
 
-    public ObservableList<Bill> getAllBills(String period, String year) {
+    public ObservableList<Bill> getAllBills(String period) {
         ObservableList<Bill> billlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=? and b.year=?");
+            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=?");
             stm.setString(1, period);
-            stm.setString(2, year);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Bill b = new Bill();
@@ -70,13 +70,14 @@ public class BillOperation {
         return billlist;
     }
 
-    public ObservableList<Bill> getAllBillsadd(String period, String year, String name) {
+    public ObservableList<Bill> getAllBillsadd(String period, String name) {
         ObservableList<Bill> billlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=? and b.year=? and c.name=?");
+            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=? and (c.name=? or m.meter_num = ? or b.billref = ?)");
             stm.setString(1, period);
-            stm.setString(2, year);
+            stm.setString(2, name);
             stm.setString(3, name);
+            stm.setString(4, name);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Bill b = new Bill();
@@ -172,8 +173,10 @@ public class BillOperation {
     public ObservableList<Bill> getAllBillByName(String name) {
         ObservableList<Bill> billlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where c.name like ?");
-            stm.setString(1, name + "%");
+            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where c.name = ? or m.meter_num = ? or b.billref = ?");
+            stm.setString(1, name);
+            stm.setString(2, name);
+            stm.setString(3, name);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Bill b = new Bill();
@@ -661,5 +664,19 @@ public class BillOperation {
             Connector.rollbackresult();
             PhoenixConfiguration.loggedRecored("Bill Updation ", ex.getMessage());
         }
+    }
+
+    public ObservableSet<String> getAllBillNum() {
+        ObservableSet<String> billnoSet = FXCollections.observableSet();
+        try {
+            stm = Connector.getConnection().prepareStatement("Select billref from billing");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                billnoSet.add(String.valueOf(rs.getInt(1)));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BillOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return billnoSet;
     }
 }
