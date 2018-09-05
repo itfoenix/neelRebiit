@@ -103,7 +103,9 @@ public class BillPrintingController implements Initializable {
 
     @FXML
     private void btn_print_all_key(KeyEvent event) {
-
+        if (!billList.isEmpty()) {
+            printAllBills();
+        }
     }
 
     @FXML
@@ -159,8 +161,8 @@ public class BillPrintingController implements Initializable {
     }
 
     private void search(int i) {
+        billList = FXCollections.observableArrayList();
         if (i == 2) {
-            billList = FXCollections.observableArrayList();
             if (PhoenixSupport.isValidate(cb_duration)) {
                 if (txt_meter_customer.getText().isEmpty()) {
                     billList = billbd.getAllBills(cb_duration.getSelectionModel().getSelectedItem());
