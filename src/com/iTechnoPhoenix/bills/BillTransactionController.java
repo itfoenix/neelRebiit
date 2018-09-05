@@ -24,19 +24,25 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.Hyperlink;
@@ -251,7 +257,15 @@ public class BillTransactionController implements Initializable {
 
     private void initTable() {
         tcMeterNumber = new JFXTreeTableColumn<>("मीटर क्रमांक");
-        tcMeterNumber.setCellValueFactory(param -> new SimpleObjectProperty(new Hyperlink(param.getValue().getValue().getMeter().getMetor_num())));
+        tcMeterNumber.setCellValueFactory(param -> {
+            int meternum = param.getValue().getValue().getMeter().getId();
+            String mnum = param.getValue().getValue().getMeter().getMetor_num();
+            Hyperlink meterlink = new Hyperlink(param.getValue().getValue().getMeter().getMetor_num());
+            meterlink.setOnAction((e) -> {
+                viewHistory(meternum, mnum);
+            });
+            return new SimpleObjectProperty(meterlink);
+        });
         tcPreviousReading = new JFXTreeTableColumn<>("मागील रिडिंग");
         tcPreviousReading.setCellValueFactory(param -> new SimpleLongProperty(param.getValue().getValue().getMeter().getCurr_reading()).asObject());
         tcCurrentReading = new JFXTreeTableColumn<>("चालु रिडिंग");
@@ -343,6 +357,55 @@ public class BillTransactionController implements Initializable {
         tcTotal = new JFXTreeTableColumn<>("एकूण रक्क्म");
         tcTotal.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getTotal()).asObject());
         tbl_meter.getColumns().addAll(tcMeterNumber, tcPreviousReading, tcCurrentReading, tcUseUnit, tcOutstanding, tcInterest, tcServiceCharge, tcBillAmount, tcTotal);
+    }
+    private JFXTreeTableView<Bill> tbl_meter_history;
+
+    public void viewHistory(int meternum, String mnum) {
+
+        try {
+            StackPane viewBox = FXMLLoader.load(getClass().getResource("MetorHistory.fxml"));
+            VBox mainbox = (VBox) viewBox.getChildren().get(0);
+            mainbox.getChildren().forEach((e) -> {
+                if (e.getAccessibleText() != null) {
+                    if (e.getAccessibleText().equals("lbl_meter_number")) {
+                        ((Label) e).setText("मीटर क्रमांक : " + mnum);
+                    }
+                    if (e.getAccessibleText().equals("tbl_meter_history")) {
+                        tbl_meter_history = ((JFXTreeTableView) e);
+                        createHistory(meternum);
+                    }
+                }
+
+            });
+            Support.getDialog(window, viewBox, JFXDialog.DialogTransition.TOP).show();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BillTransactionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void createHistory(int meternum) {
+        BillOperation bo = new BillOperation();
+        JFXTreeTableColumn<Bill, Integer> tclbillno = new JFXTreeTableColumn<>("बिल क्रमांक");
+        JFXTreeTableColumn<Bill, Long> tclcurrentreading = new JFXTreeTableColumn<>("चालू रीडिंग");
+        JFXTreeTableColumn<Bill, String> tclperiod = new JFXTreeTableColumn<>("कालावधी");
+        JFXTreeTableColumn<Bill, Long> tclprereading = new JFXTreeTableColumn<>("मागील रीडिंग");
+        JFXTreeTableColumn<Bill, String> tclstatus = new JFXTreeTableColumn<>("स्थिती");
+        JFXTreeTableColumn<Bill, Double> tcltotal = new JFXTreeTableColumn<>("एकूण रक्कम");
+
+        tclbillno.setCellValueFactory(p -> new SimpleIntegerProperty(p.getValue().getValue().getBillno()).asObject());
+        tclcurrentreading.setCellValueFactory(p -> new SimpleLongProperty(p.getValue().getValue().getCurunit()).asObject());
+        tclperiod.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getPeriod()));
+        tclperiod.getStyleClass().add("label-marathi");
+        tclprereading.setCellValueFactory(p -> new SimpleLongProperty(p.getValue().getValue().getCurunit()).asObject());
+        tclstatus.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getStatus()));
+        tcltotal.setCellValueFactory(p -> new SimpleDoubleProperty(p.getValue().getValue().getCurunit()).asObject());
+        ObservableList<Bill> bills = bo.getBillHistory(meternum);
+        final TreeItem<Bill> root = new RecursiveTreeItem<>(bills, RecursiveTreeObject::getChildren);
+        tbl_meter_history.getColumns().addAll(tclbillno, tclperiod, tclprereading, tclcurrentreading, tcltotal, tclstatus);
+        tbl_meter_history.setRoot(root);
+        tbl_meter_history.setShowRoot(false);
     }
 
     private void refreshTable() {
