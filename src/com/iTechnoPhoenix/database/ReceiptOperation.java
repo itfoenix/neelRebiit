@@ -1,7 +1,9 @@
 package com.iTechnoPhoenix.database;
 
 import com.iTechnoPhoenix.model.Bill;
+import com.iTechnoPhoenix.model.Cheque;
 import com.iTechnoPhoenix.model.Customer;
+import com.iTechnoPhoenix.database.FailureOperation;
 import com.iTechnoPhoenix.model.Receipt;
 import com.iTechnoPhoenix.neelSupport.PhoenixConfiguration;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
@@ -123,16 +125,16 @@ public class ReceiptOperation {
 
     }
 
-//    public FaildReceipt getReceiptByReceiptNum(int rid) {
+//    public Cheque getReceiptByReceiptNum(int rid) {
 //
-//        FaildReceipt fr = null;
+//        Cheque fr = null;
 //        try {
 //            stm = Connector.getConnection().prepareStatement("SELECT * FROM receipt where receipt_no=? and  paymode=2");
 //            stm.setInt(1, rid);
 //            ResultSet rs = stm.executeQuery();
 //
 //            while (rs.next()) {
-//                fr = new FaildReceipt();
+//                fr = new Cheque();
 //                fr.setReceiptno(rs.getInt(1));
 //                fr.setBillno(rs.getInt(3));
 //                fr.setBdate(rs.getString(2));
@@ -145,6 +147,27 @@ public class ReceiptOperation {
 //        }
 //        return fr;
 //    }
+    public Cheque getReceiptByChequeNum(String chequeNumber) {
+        Cheque fr = null;
+        try {
+            stm = Connector.getConnection().prepareStatement("SELECT * FROM receipt where cheq_no=? and  paymode=2");
+            stm.setString(1, chequeNumber);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                fr = new Cheque();
+                fr.setReceiptno(rs.getInt(1));
+                fr.setBillno(rs.getInt(3));
+                fr.setBdate(rs.getString(2));
+                fr.setChequenumber(rs.getString(7));
+                fr.setAmount(rs.getDouble(4));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(FailureOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return fr;
+    }
+
     public Receipt checkBill(int billId) {
         Receipt receipt = null;
         try {
@@ -298,5 +321,25 @@ public class ReceiptOperation {
             Logger.getLogger(ReceiptOperation.class.getName()).log(Level.SEVERE, null, ex);
         }
         return receiptNo;
+    }
+
+    public ObservableList<Cheque> getAllCheckPayment() {
+        ObservableList<Cheque> chequeList = FXCollections.observableArrayList();
+        try {
+            stm = Connector.getConnection().prepareStatement("Select * from receipt where paymode = 2");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Cheque chq = new Cheque();
+                chq.setReceiptno(rs.getInt(1));
+                chq.setDate(rs.getString(2));
+                chq.setBillno(rs.getInt(3));
+                chq.setAmount(rs.getDouble(4));
+                chq.setChequenumber(rs.getString(7));
+                chequeList.add(chq);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReceiptOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return chequeList;
     }
 }
