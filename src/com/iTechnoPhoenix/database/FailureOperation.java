@@ -54,7 +54,7 @@ public class FailureOperation {
 
         ObservableList<Cheque> flist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("SELECT * FROM neel.cheque");
+            stm = Connector.getConnection().prepareStatement("SELECT * FROM neel.cheque where visible = 0");
 
             ResultSet rs = stm.executeQuery();
 
@@ -103,10 +103,10 @@ public class FailureOperation {
 
     }
 
-    public void deleteFailure(int id) {
+    public void deleteFailure(String chq) {
         try {
-            stm = Connector.getConnection().prepareStatement("delete from cheque where id=?");
-            stm.setInt(1, id);
+            stm = Connector.getConnection().prepareStatement("update cheque set visible = 1 where cheqno=?");
+            stm.setString(1, chq);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
                 PhoenixSupport.Info("चेक माहित हटवली गेली आहे ", "चेक माहिती");

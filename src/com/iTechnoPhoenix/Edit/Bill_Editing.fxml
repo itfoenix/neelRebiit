@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Edit.Bill_EditingController">
+   <children>
+      <VBox>
+         <children>
+            <HBox maxHeight="50.0" maxWidth="1.7976931348623157E308" styleClass="header" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label maxHeight="50.0" maxWidth="1.7976931348623157E308" text="ibala badlanyaasaazI" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="8.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="heading" />
+                        <String fx:value="label-marathi" />
+                     </styleClass>
+                  </Label>
+                  <Label maxHeight="50.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets right="8.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="helpIcon" />
+                        <String fx:value="heading" />
+                     </styleClass>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox maxHeight="30.0" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label maxHeight="50.0" maxWidth="1.7976931348623157E308" text="बिल मध्ये चालु रिडिंग बदलता येईल." HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="8.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxHeight="70.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="border" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXTextField fx:id="txt_BillNumber" labelFloat="true" maxWidth="250.0" promptText="बिल नं : " styleClass="textfield" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="16.0" />
+                           </HBox.margin>
+                        </JFXTextField>
+                        <JFXButton onAction="#search_Action" onKeyPressed="#search_Key" styleClass="btn-search" text="शोध" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="24.0" right="24.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets top="8.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox fx:id="vbBill" visible="false" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="बिल नं : " HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lbl_BillNo" text="Label" HBox.hgrow="ALWAYS" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label text="दिनांक : " HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lbl_BillDate" text="Label" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="ग्राहकाचे नाव : " HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lbl_CustomerName" maxWidth="1.7976931348623157E308" text="Label" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="ग्राहकाचा पत्ता : " HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lbl_CustomerAddress" maxWidth="1.7976931348623157E308" text="Label" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="बिलाची कालावधी : " HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lbl_BillDuration" text="Label" HBox.hgrow="ALWAYS" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label text="भरण्याची अंतिम तारिक : " HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lbl_BillLastDate" text="Label" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <JFXTreeTableView fx:id="tblMeters" maxHeight="1.7976931348623157E308" styleClass="tableview" />
+                  <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="शेरा : " HBox.hgrow="ALWAYS" />
+                        <Label fx:id="lbl_Remark" text="Label" HBox.hgrow="ALWAYS" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label text="ekuNa r@kma : " HBox.hgrow="ALWAYS">
+                           <styleClass>
+                              <String fx:value="label-marathi" />
+                              <String fx:value="label-bigger" />
+                           </styleClass></Label>
+                        <Label fx:id="lbl_FinalTotal" text="Label" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <JFXButton onAction="#save_Action" onKeyPressed="#save_Key" styleClass="btn-search" text="जतन करा" HBox.hgrow="ALWAYS" />
+                        <JFXButton onAction="#cancel_Action" onKeyPressed="#cancel_Key" styleClass="btn-cancel" text="रद्ध करा" />
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets left="24.0" right="24.0" top="10.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

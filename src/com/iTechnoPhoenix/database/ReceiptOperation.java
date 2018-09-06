@@ -125,39 +125,18 @@ public class ReceiptOperation {
 
     }
 
-//    public Cheque getReceiptByReceiptNum(int rid) {
-//
-//        Cheque fr = null;
-//        try {
-//            stm = Connector.getConnection().prepareStatement("SELECT * FROM receipt where receipt_no=? and  paymode=2");
-//            stm.setInt(1, rid);
-//            ResultSet rs = stm.executeQuery();
-//
-//            while (rs.next()) {
-//                fr = new Cheque();
-//                fr.setReceiptno(rs.getInt(1));
-//                fr.setBillno(rs.getInt(3));
-//                fr.setBdate(rs.getString(2));
-//                fr.setChequenumber(rs.getString(7));
-//                fr.setAmount(rs.getDouble(4));
-//            }
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(FailureOperation.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return fr;
-//    }
     public Cheque getReceiptByChequeNum(String chequeNumber) {
         Cheque fr = null;
         try {
-            stm = Connector.getConnection().prepareStatement("SELECT * FROM receipt where cheq_no=? and  paymode=2");
+            stm = Connector.getConnection().prepareStatement("Select r.*, b.bdate from receipt r join billing b on r.bill_no = b.bill_no join cheque c on r.cheq_no = c.cheqno where r.cheq_no = ? and r.paymode = 2 and c.visible = 0");
             stm.setString(1, chequeNumber);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 fr = new Cheque();
                 fr.setReceiptno(rs.getInt(1));
+                fr.setDate(rs.getString(2));
                 fr.setBillno(rs.getInt(3));
-                fr.setBdate(rs.getString(2));
+                fr.setBdate(rs.getString(10));
                 fr.setChequenumber(rs.getString(7));
                 fr.setAmount(rs.getDouble(4));
             }
@@ -326,13 +305,13 @@ public class ReceiptOperation {
     public ObservableList<Cheque> getAllCheckPayment() {
         ObservableList<Cheque> chequeList = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("Select * from receipt where paymode = 2");
+            stm = Connector.getConnection().prepareStatement("Select r.*, b.bdate from receipt r join billing b on r.bill_no = b.bill_no left join cheque c on r.cheq_no = c.cheqno where r.paymode = 2");
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Cheque chq = new Cheque();
                 chq.setReceiptno(rs.getInt(1));
-                chq.setDate(rs.getString(2));
                 chq.setBillno(rs.getInt(3));
+                chq.setBdate(rs.getString(11));
                 chq.setAmount(rs.getDouble(4));
                 chq.setChequenumber(rs.getString(7));
                 chequeList.add(chq);
@@ -342,4 +321,5 @@ public class ReceiptOperation {
         }
         return chequeList;
     }
+
 }

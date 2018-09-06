@@ -112,4 +112,9 @@ public class Cheque extends RecursiveTreeObject<Cheque> {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return chequenumber;
+    }
+
 }

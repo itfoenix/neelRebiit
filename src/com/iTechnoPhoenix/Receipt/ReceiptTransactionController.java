@@ -99,6 +99,7 @@ public class ReceiptTransactionController implements Initializable {
     private ObservableList<Banks> bankList;
     private Bill bill;
     private Banks bank = new Banks();
+    private double grandtotal;
 
     @FXML
     private void btn_cancel(ActionEvent event) {
@@ -145,6 +146,7 @@ public class ReceiptTransactionController implements Initializable {
             if (!newValue) {
                 if (!txt_bill_number.getText().isEmpty()) {
                     String s = txt_bill_number.getText();
+
                     billList = billdb.getBillRef(PhoenixSupport.getInteger(s));
                     Receipt receipt = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
 
@@ -155,8 +157,20 @@ public class ReceiptTransactionController implements Initializable {
                         txt_lastdate.setText(str1[0]);
                         txt_customer.setText(billList.get(0).getCust().getName());
                         refreshTable();
+
+                        for (Bill b : billList) {
+                            grandtotal = grandtotal + b.getTotal();
+                        }
+
                         if (receipt != null) {
-                            lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                            if (receipt.getAmount() == grandtotal && billList.get(0).getSt() == 3) {
+                                PhoenixSupport.Info("ह्या बिलाची रक्कम आधीच मिळाली आहे", "पावती व्यवहार", window);
+                                cancel();
+                            } else if (receipt.getAmount() < grandtotal && billList.get(0).getSt() == 3) {
+                                lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                            } else {
+                                lbl_preious_paid_amt.setText("००");
+                            }
                         } else {
                             lbl_preious_paid_amt.setText("००");
                         }
@@ -396,10 +410,6 @@ public class ReceiptTransactionController implements Initializable {
     }
 
     private void grandCalculation() {
-        double grandtotal = 0;
-        for (Bill b : billList) {
-            grandtotal = grandtotal + b.getTotal();
-        }
         lbl_total.setText(String.valueOf(grandtotal - PhoenixSupport.getDouble(lbl_preious_paid_amt.getText()) + PhoenixSupport.getDouble(txt_delay_payment.getText())));
         txt_remaining_amt.setText(String.valueOf(PhoenixSupport.getDouble(lbl_total.getText()) - PhoenixSupport.getDouble(txt_paid_amount.getText())));
     }
@@ -415,6 +425,7 @@ public class ReceiptTransactionController implements Initializable {
         txt_paid_amount.clear();
         txt_remaining_amt.setText("००");
         billList.clear();
+        grandtotal = 0;
         refreshTable();
     }
 
@@ -423,6 +434,7 @@ public class ReceiptTransactionController implements Initializable {
             Receipt receipt = new Receipt();
             receipt.setBillno(PhoenixSupport.getInteger(txt_bill_number.getText()));
             receipt.setDelay_amount(PhoenixSupport.getDouble(txt_delay_payment.getText()));
+            receipt.setUid(PhoenixSupport.uid);
             receipt.setPdate(LocalDate.now().toString());
             if (i == 1) {
                 receipt.setPaymode(i);

@@ -403,7 +403,7 @@ public class BillOperation {
         ObservableList<Bill> billList = FXCollections.observableArrayList();
         try {
             stm = Connector.getConnection().prepareStatement("SELECT  m.meter_num,c.cust_num,c.name,c.address,"
-                    + "b.bill_no, b.bdate, concat(b.period,'  ­  ',b.year) as 'period' ,b.pdate,b.balance,b.interent,b.camount,b.schargers,b.total,b.preunit,b.curunit,b.useunit,b.remark, b.billref"
+                    + "b.bill_no, b.bdate, concat(b.period,'  ­  ',b.year) as 'period' ,b.pdate,b.balance,b.interent,b.camount,b.schargers,b.total,b.preunit,b.curunit,b.useunit,b.remark, b.billref, b.status"
                     + " FROM neel.billing b join meter m  on m.id=b.meterno  join customer c on c.cust_num=m.cust_id where b.billref=?");
             stm.setInt(1, billref);
             ResultSet rs = stm.executeQuery();
@@ -429,6 +429,7 @@ public class BillOperation {
                 b.setUseunit(rs.getInt(16));
                 b.setRemark(rs.getString(17));
                 b.setBillref(rs.getInt(18));
+                b.setSt(rs.getInt(19));
                 b.setMeter(m);
                 b.setCust(c);
                 b.setCustomername(rs.getString(3));
@@ -679,4 +680,18 @@ public class BillOperation {
         }
         return billnoSet;
     }
+
+//    public void getStatusDetails(int billno) {
+//        try {
+//            stm =Connector.getConnection().prepareStatement("select sum(b.total), b.status, r.amount from billing b join receipt r on b.billref = r.bill_no where b.billref = ?;");
+//            stm.setInt(1, billno);
+//            ResultSet rs = stm.executeQuery();
+//            while(rs.next()) {
+//                Bill bill = new Bill();
+//                bill.setTotal(rs.getDouble(1));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(BillOperation.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }

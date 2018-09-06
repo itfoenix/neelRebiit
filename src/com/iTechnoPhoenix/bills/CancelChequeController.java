@@ -43,6 +43,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import org.controlsfx.control.textfield.TextFields;
 
 public class CancelChequeController implements Initializable {
 
@@ -75,29 +76,30 @@ public class CancelChequeController implements Initializable {
         failuredb = new FailureOperation();
         receiptdb = new ReceiptOperation();
 
-        chequeList = receiptdb.getAllCheckPayment();
-        cheqList = failuredb.getAllFailedReceipts();
+        getAll();
 
-        for (Cheque c : chequeList) {
-            if (cheqList.contains(c)) {
-                c.setExtrachages(c.getExtrachages() + cheqList.get(cheqList.indexOf(c)).getExtrachages());
-                c.setAmount(cheqList.get(cheqList.indexOf(c)).getAmount());
-                c.setStatus("रद्ध");
-            } else {
-                c.setStatus("चालु");
-            }
-        }
+        TextFields.bindAutoCompletion(txt_chequenumber, chequeList);
+
+        checking();
 
         initTable();
         refreshTable();
     }
 
-    @FXML
-    private void saveCheque(KeyEvent event) {
+    public void getAll() {
+        chequeList = receiptdb.getAllCheckPayment();
     }
 
-    @FXML
-    private void saveCheque(ActionEvent event) {
+    public void checking() {
+        cheqList = failuredb.getAllFailedReceipts();
+        for (Cheque c : chequeList) {
+            if (cheqList.contains(c)) {
+                c.setId(cheqList.get(cheqList.indexOf(c)).getId());
+                c.setExtrachages(c.getExtrachages() + cheqList.get(cheqList.indexOf(c)).getExtrachages());
+                c.setAmount(cheqList.get(cheqList.indexOf(c)).getAmount());
+                c.setStatus("रद्ध");
+            }
+        }
     }
 
     private void initTable() {
@@ -106,7 +108,7 @@ public class CancelChequeController implements Initializable {
         tcchequno = new JFXTreeTableColumn<>("चेक क्रमांक");
         tcchequno.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getChequenumber()));
         tcdate = new JFXTreeTableColumn<>("तारिक");
-        tcdate.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getDate()));
+        tcdate.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getBdate()));
         tcextracharges = new JFXTreeTableColumn<>("अधिक चार्ज");
         tcextracharges.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getExtrachages()).asObject());
         tcreceiptno = new JFXTreeTableColumn<>("पावती क्रमांक");
@@ -125,6 +127,28 @@ public class CancelChequeController implements Initializable {
         TreeItem<Cheque> treeItem = new RecursiveTreeItem<>(chequeList, RecursiveTreeObject::getChildren);
         tbl_cheque_number.setRoot(treeItem);
         tbl_cheque_number.setShowRoot(false);
+    }
+
+    @FXML
+    private void search_Cheque(KeyEvent event) {
+
+    }
+
+    @FXML
+    private void search_Cheque(ActionEvent event) {
+        if (!txt_chequenumber.getText().isEmpty()) {
+            cheque = receiptdb.getReceiptByChequeNum(txt_chequenumber.getText());
+            for (Cheque c : chequeList) {
+                if (c.getChequenumber() != cheque.getChequenumber()) {
+                    chequeList.remove(c);
+                }
+            }
+            checking();
+        } else {
+            getAll();
+            checking();
+        }
+        refreshTable();
     }
 
     public class ActionCell extends JFXTreeTableCell<Cheque, Integer> {
@@ -163,10 +187,8 @@ public class CancelChequeController implements Initializable {
 
                         @Override
                         public void handle(ActionEvent event) {
-                            table.getSelectionModel().select(getTreeTableRow().getIndex());
-                            Cheque chq = table.getSelectionModel().getSelectedItem().getValue();
+                            chq.setAmount((chq.getAmount() - chq.getExtrachages()) + PhoenixSupport.getDouble(txtExtra.getText()));
                             chq.setExtrachages(PhoenixSupport.getDouble(txtExtra.getText()));
-                            chq.setAmount(chq.getAmount() + chq.getExtrachages());
                             chq.setStatus("रद्ध");
                             failuredb.saveFailureBanktransaction(chq);
                             refreshTable();
@@ -197,7 +219,10 @@ public class CancelChequeController implements Initializable {
 
                         @Override
                         public void handle(ActionEvent event) {
-                            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                            failuredb.deleteFailure(chq.getChequenumber());
+                            chequeList.remove(chq);
+                            refreshTable();
+                            dialog.close();
                         }
                     });
                     btnClose.setOnAction(new EventHandler<ActionEvent>() {
@@ -207,6 +232,7 @@ public class CancelChequeController implements Initializable {
                             dialog.close();
                         }
                     });
+                    dialog.show();
                 }
             });
         }
