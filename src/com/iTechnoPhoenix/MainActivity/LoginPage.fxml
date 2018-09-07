@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane fx:id="window" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.MainActivity.LoginPageController">
+   <children>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" style="-fx-background-color: #CECFD0;" StackPane.alignment="CENTER">
+         <children>
+            <Label fx:id="lbl_softwareName" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Label" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="txt_username" promptText="Username">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="16.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </JFXTextField>
+            <JFXPasswordField fx:id="txt_password" promptText="Password" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="16.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </JFXPasswordField>
+            <HBox spacing="8.0">
+               <children>
+                  <JFXButton maxWidth="1.7976931348623157E308" onAction="#btn_login" onKeyPressed="#btn_key_login" ripplerFill="#2e9076" style="-fx-background-color: #4BB89B;" text="Login" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                  <JFXButton maxWidth="1.7976931348623157E308" onAction="#btn_cancel" onKeyPressed="#btn_key_cancel" ripplerFill="#1e272b" style="-fx-background-color: #3E4A4F;" text="Cancel" textFill="WHITE" HBox.hgrow="ALWAYS" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>
