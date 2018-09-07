@@ -311,7 +311,7 @@ public class ReceiptOperation {
                 Cheque chq = new Cheque();
                 chq.setReceiptno(rs.getInt(1));
                 chq.setBillno(rs.getInt(3));
-                chq.setBdate(rs.getString(11));
+                chq.setBdate(rs.getString(10));
                 chq.setAmount(rs.getDouble(4));
                 chq.setChequenumber(rs.getString(7));
                 chequeList.add(chq);

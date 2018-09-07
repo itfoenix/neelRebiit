@@ -2,6 +2,7 @@ package com.iTechnoPhoenix.Receipt;
 
 import com.iTechnoPhoenix.database.BankOpearation;
 import com.iTechnoPhoenix.database.BillOperation;
+import com.iTechnoPhoenix.database.FailureOperation;
 import com.iTechnoPhoenix.database.ReceiptOperation;
 import com.iTechnoPhoenix.model.Banks;
 import com.iTechnoPhoenix.model.Bill;
@@ -95,11 +96,13 @@ public class ReceiptTransactionController implements Initializable {
     private JFXComboBox<Banks> cb_banklist;
     private BillOperation billdb;
     private ReceiptOperation recieptdb;
+    private FailureOperation faildb;
     private ObservableList<Bill> billList;
     private ObservableList<Banks> bankList;
     private Bill bill;
     private Banks bank = new Banks();
     private double grandtotal;
+    private double remaining;
 
     @FXML
     private void btn_cancel(ActionEvent event) {
@@ -141,6 +144,7 @@ public class ReceiptTransactionController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         billdb = new BillOperation();
         recieptdb = new ReceiptOperation();
+        faildb = new FailureOperation();
         initTable();
         txt_bill_number.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
@@ -160,14 +164,23 @@ public class ReceiptTransactionController implements Initializable {
 
                         for (Bill b : billList) {
                             grandtotal = grandtotal + b.getTotal();
+                            remaining = remaining + b.getPaidamt();
                         }
 
                         if (receipt != null) {
-                            if (receipt.getAmount() == grandtotal && billList.get(0).getSt() == 3) {
+                            if (billList.get(0).getSt() == 3) {
                                 PhoenixSupport.Info("ह्या बिलाची रक्कम आधीच मिळाली आहे", "पावती व्यवहार", window);
                                 cancel();
-                            } else if (receipt.getAmount() < grandtotal && billList.get(0).getSt() == 3) {
-                                lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                            } else if (billList.get(0).getSt() == 5) {
+                                if (receipt.getCheq_no() != null) {
+                                    if (!faildb.checkFailed(receipt.getCheq_no())) {
+                                        lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                                    } else {
+                                        lbl_preious_paid_amt.setText(String.valueOf(grandtotal - remaining));
+                                    }
+                                } else {
+                                    lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                                }
                             } else {
                                 lbl_preious_paid_amt.setText("००");
                             }
