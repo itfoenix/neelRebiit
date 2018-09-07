@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+
+<StackPane fx:id="window" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.MainActivity.MainActivityController">
+   <children>
+      <BorderPane fx:id="mainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="नोंदनी">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#btn_customer" text="ग्राहक" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_unit" text="युनिट" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_user" text="user" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="व्यवहार">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#btn_bill" text="बिल " />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_bill_change" text="बिल दुरुस्ती" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_receipt" text="पावती" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_cheque_cancel" text="चेक रद्द करणे" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="प्रिंटींग">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#btn_bill_printl" text="बिल प्रिंट " />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_receipt_print" text="पावती प्रिंट" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="तपशील">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#btn_bill_report" text="बिल तपशील" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_customer_report" text="ग्राहक तपशील" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_home_page" text="Home Page" />
+                     </items>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+      </BorderPane>
+   </children>
+</StackPane>

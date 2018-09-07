@@ -41,7 +41,7 @@
                         <Insets />
                      </HBox.margin>
                   </JFXTextField>
-                  <JFXButton onAction="#search_Cheque" onKeyPressed="#search_Cheque" styleClass="btn-search" text="शोध" />
+                 
                </children>
                <padding>
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />

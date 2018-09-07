@@ -2,11 +2,7 @@ package com.iTechnoPhoenix.bills;
 
 import com.iTechnoPhoenix.database.FailureOperation;
 import com.iTechnoPhoenix.database.ReceiptOperation;
-import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.Cheque;
-import com.iTechnoPhoenix.model.MeterBill;
-import com.iTechnoPhoenix.model.Unit;
-import com.iTechnoPhoenix.neelSupport.BillSupport;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
@@ -18,14 +14,10 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -35,14 +27,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import org.controlsfx.control.textfield.TextFields;
 
 public class CancelChequeController implements Initializable {
@@ -75,7 +65,7 @@ public class CancelChequeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         failuredb = new FailureOperation();
         receiptdb = new ReceiptOperation();
-
+        txt_chequenumber.textProperty().addListener((observable, oldValue, newValue) -> tbl_cheque_number.setPredicate(t -> t.getValue().getChequenumber().startsWith(newValue)));
         getAll();
 
         TextFields.bindAutoCompletion(txt_chequenumber, chequeList);
@@ -129,26 +119,30 @@ public class CancelChequeController implements Initializable {
         tbl_cheque_number.setShowRoot(false);
     }
 
-    @FXML
-    private void search_Cheque(KeyEvent event) {
+    private void search_Cheque(ActionEvent event) {
 
+//        if (!txt_chequenumber.getText().isEmpty()) {
+//            cheque = receiptdb.getReceiptByChequeNum(txt_chequenumber.getText());
+//            for (Cheque c : chequeList) {
+//                if (c.getChequenumber() != cheque.getChequenumber()) {
+//                    chequeList.remove(c);
+//                }
+//            }
+//            checking();
+//        } else {
+//            getAll();
+//            checking();
+//        }
+//        refreshTable();
     }
 
     @FXML
-    private void search_Cheque(ActionEvent event) {
-        if (!txt_chequenumber.getText().isEmpty()) {
-            cheque = receiptdb.getReceiptByChequeNum(txt_chequenumber.getText());
-            for (Cheque c : chequeList) {
-                if (c.getChequenumber() != cheque.getChequenumber()) {
-                    chequeList.remove(c);
-                }
-            }
-            checking();
-        } else {
-            getAll();
-            checking();
-        }
-        refreshTable();
+    private void search_Cheque_key(KeyEvent event) {
+    }
+
+    @FXML
+    private void search_Cheque_action(ActionEvent event) {
+
     }
 
     public class ActionCell extends JFXTreeTableCell<Cheque, Integer> {
