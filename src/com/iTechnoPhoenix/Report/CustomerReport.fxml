@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1">
-    
-</AnchorPane>
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Report.CustomerReportController">
+   <children>
+      <VBox>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-background-color: #1F9CFF;" text="ग्राहकाची माहिती" textFill="WHITE" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-border-color: #E2E3DA; -fx-border-width: 0 0 2 0;">
+               <children>
+                  <JFXTextField fx:id="txtmeternumber" maxWidth="400.0" promptText="मीटर क्रमांक" HBox.hgrow="ALWAYS" />
+                  <JFXButton onAction="#btn_search" onKeyPressed="#btn_search_key" ripplerFill="#2a7f68" style="-fx-background-color: #4BB89B;" text="शोध करा" textFill="WHITE" />
+                  <JFXButton onAction="#btn_print" ripplerFill="#2a7f68" style="-fx-background-color: #4BB89B;" text="प्रिंट करा" textFill="WHITE" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="16.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </HBox>
+            <HBox fx:id="hb_meterlist" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+            <JFXTreeTableView fx:id="tbl_bills" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </VBox.margin>
+            </JFXTreeTableView>
+         </children>
+      </VBox>
+   </children>
+</StackPane>
