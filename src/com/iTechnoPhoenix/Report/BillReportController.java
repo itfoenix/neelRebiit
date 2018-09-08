@@ -96,6 +96,9 @@ public class BillReportController implements Initializable {
 
     @FXML
     private void btn_print_all_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            print();
+        }
 
     }
 
@@ -141,6 +144,7 @@ public class BillReportController implements Initializable {
                         if (!bil.getMeter().getMetor_num().equals(e.getMeter().getMetor_num())) {
                             bil.getMeter().setMetor_num(bil.getMeter().getMetor_num() + " , " + e.getMeter().getMetor_num());
                             bil.setTotal(bil.getTotal() + e.getTotal());
+                            bil.setPaidamt(bil.getPaidamt() + e.getPaidamt());
                             bil.setBalance(bil.getBalance() + e.getBalance());
                         }
                     }
@@ -153,8 +157,12 @@ public class BillReportController implements Initializable {
         tbl_bill.setShowRoot(false);
 
         bListCopy.forEach((e) -> {
-            if (e.getSt() == 1 || e.getSt() == 2 || e.getSt() == 5) {
-                remning = remning + e.getTotal();
+            if (e.getSt() == 1 || e.getSt() == 2) {
+                remning = remning + e.getPaidamt();
+            }
+            if (e.getSt() == 5) {
+                remning = remning + e.getPaidamt();
+                paid = paid + e.getTotal() - e.getPaidamt();
             }
             if (e.getSt() == 3) {
                 paid = paid + e.getTotal();
