@@ -155,47 +155,52 @@ public class ReceiptTransactionController implements Initializable {
                     Receipt receipt = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
 
                     if (!billList.isEmpty()) {
-                        txt_duration.setText(billList.get(0).getPeriod());
-                        txt_duration.getStyleClass().add("label-marathi");
-                        String str1[] = billList.get(0).getPdate().split(" ");
-                        txt_lastdate.setText(str1[0]);
-                        txt_customer.setText(billList.get(0).getCust().getName());
-                        refreshTable();
+                        if (billList.get(0).getSt() == 2) {
+                            txt_duration.setText(billList.get(0).getPeriod());
+                            txt_duration.getStyleClass().add("label-marathi");
+                            String str1[] = billList.get(0).getPdate().split(" ");
+                            txt_lastdate.setText(str1[0]);
+                            txt_customer.setText(billList.get(0).getCust().getName());
+                            refreshTable();
 
-                        for (Bill b : billList) {
-                            grandtotal = grandtotal + b.getTotal();
-                            remaining = remaining + b.getPaidamt();
-                        }
+                            for (Bill b : billList) {
+                                grandtotal = grandtotal + b.getTotal();
+                                remaining = remaining + b.getPaidamt();
+                            }
 
-                        if (receipt != null) {
-                            if (billList.get(0).getSt() == 3) {
-                                PhoenixSupport.Info("ह्या बिलाची रक्कम आधीच मिळाली आहे", "पावती व्यवहार", window);
-                                cancel();
-                            } else if (billList.get(0).getSt() == 5) {
-                                if (receipt.getCheq_no() != null) {
-                                    if (!faildb.checkFailed(receipt.getCheq_no())) {
-                                        lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                            if (receipt != null) {
+                                if (billList.get(0).getSt() == 3) {
+                                    PhoenixSupport.Info("ह्या बिलाची रक्कम आधीच मिळाली आहे", "पावती व्यवहार", window);
+                                    cancel();
+                                } else if (billList.get(0).getSt() == 5) {
+                                    if (receipt.getCheq_no() != null) {
+                                        if (!faildb.checkFailed(receipt.getCheq_no())) {
+                                            lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                                        } else {
+                                            lbl_preious_paid_amt.setText(String.valueOf(grandtotal - remaining));
+                                        }
                                     } else {
-                                        lbl_preious_paid_amt.setText(String.valueOf(grandtotal - remaining));
+                                        lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
                                     }
                                 } else {
-                                    lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                                    lbl_preious_paid_amt.setText("००");
                                 }
                             } else {
                                 lbl_preious_paid_amt.setText("००");
                             }
+                            txt_delay_payment.setText("००");
+                            grandCalculation();
                         } else {
-                            lbl_preious_paid_amt.setText("००");
+                            PhoenixSupport.Error("पुढल्या महिन्याच बिल आधीच बनवले आहे.", window);
+                            txt_bill_number.clear();
+                            txt_bill_number.requestFocus();
                         }
-                        txt_delay_payment.setText("००");
-                        grandCalculation();
                     } else {
                         PhoenixSupport.Error("बिल क्रमांक चुकीचा आहे. कृपया तपासून पहा.");
                         txt_bill_number.clear();
                         txt_bill_number.requestFocus();
                     }
                 }
-
             }
         });
         txt_delay_payment.focusedProperty().addListener(new ChangeListener<Boolean>() {

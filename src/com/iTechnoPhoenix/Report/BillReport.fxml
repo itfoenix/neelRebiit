@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Report.BillReportController">
+   <children>
+      <VBox alignment="CENTER_RIGHT">
+         <children>
+            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1F9CFF;" text="बिलाचा तपशील" textFill="WHITE" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="16.0" />
+               </padding>
+            </Label>
+            <HBox maxHeight="-Infinity" prefWidth="200.0" spacing="8.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="कालावधी :" wrapText="true" />
+                  <JFXComboBox fx:id="cb_duration" maxWidth="300.0" HBox.hgrow="ALWAYS" />
+                  <JFXComboBox fx:id="cb_year" maxWidth="100.0" HBox.hgrow="ALWAYS" />
+                  <JFXButton onAction="#btn_search" onKeyPressed="#btn_search_key" style="-fx-background-color: #4BB89B;" text="शोध करा" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <JFXButton onAction="#btn_print_all" onKeyPressed="#btn_print_all_key" style="-fx-background-color: #3E4A4F;" text="तपशील जतन करा" textFill="WHITE" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </HBox>
+            <HBox maxHeight="200.0" spacing="10.0" style="-fx-border-color: #E2E3DA; -fx-border-width: 2 0 2 0;" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="जमा रक्कम :">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_cash" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="थकबाकी रक्कम :">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbl_outstanding" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="एकूण रक्कम :">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="lbl_total" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets left="8.0" right="8.0" />
+               </VBox.margin>
+            </HBox>
+            <JFXTreeTableView fx:id="tbl_bill" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </JFXTreeTableView>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

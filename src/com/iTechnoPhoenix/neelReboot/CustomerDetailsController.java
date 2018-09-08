@@ -6,16 +6,22 @@
 package com.iTechnoPhoenix.neelReboot;
 
 import com.iTechnoPhoenix.database.CustomerOperation;
+import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.Meter;
+import com.iTechnoPhoenix.model.MeterBill;
+import com.iTechnoPhoenix.neelSupport.BillSupport;
+import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,14 +33,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableCell;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.util.Callback;
+import org.apache.poi.ss.formula.ptg.TblPtg;
 import org.controlsfx.control.textfield.TextFields;
 
 /**
@@ -103,6 +117,7 @@ public class CustomerDetailsController implements Initializable {
         tc_outstanding.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getOutstanding()).asObject());
         tc_deposit.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getDeposit()).asObject());
         tc_action.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getId()).asObject());
+        tc_action.setCellFactory(param -> new ActionCell(txt_customer));
 
         CustomerOperation co = new CustomerOperation();
         meterlist = co.getCustomerByName();
@@ -137,6 +152,39 @@ public class CustomerDetailsController implements Initializable {
             Logger.getLogger(CustomerDetailsController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public class ActionCell extends JFXTreeTableCell<Meter, Integer> {
+
+        final JFXButton edit = new JFXButton("Edit");
+        final JFXButton delete = new JFXButton("Delete");
+        final HBox actiongroup = new HBox();
+        final StackPane paddedButton = new StackPane();
+
+        public ActionCell(final JFXTreeTableView<Meter> table) {
+            actiongroup.setAlignment(Pos.CENTER);
+            actiongroup.getChildren().addAll(edit, delete);
+            edit.setGraphic(new ImageView("/com/iTechnoPhoenix/resource/Edit Row_48px.png"));
+            edit.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            delete.setGraphic(new ImageView("/com/iTechnoPhoenix/resource/Trash Can_48px.png"));
+            delete.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+            edit.setOnMouseClicked(event -> {
+            });
+            delete.setOnMouseClicked(event -> {
+            });
+        }
+
+        @Override
+
+        protected void updateItem(Integer item, boolean empty) {
+            super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
+            if (!empty) {
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                setGraphic(actiongroup);
+            } else {
+                setGraphic(null);
+            }
+        }
     }
 
 }

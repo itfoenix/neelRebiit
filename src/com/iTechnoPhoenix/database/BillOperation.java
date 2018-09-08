@@ -496,7 +496,7 @@ public class BillOperation {
                 b.setBdate(rs.getString(2));
                 b.setPeriod(rs.getString(4));
                 b.setYear(rs.getString(5));
-                b.setString(rs.getString(4) + "-" + rs.getString(5));
+                b.setPeriodyear(rs.getString(4) + "-" + rs.getString(5));
                 b.setPdate(rs.getString(6));
                 b.setBalance(rs.getDouble(7));
                 b.setInterested(rs.getDouble(8));
@@ -510,10 +510,12 @@ public class BillOperation {
                 b.setSt(rs.getInt(16));
                 b.setRemark(rs.getString(17));
                 b.setBillref(rs.getInt(18));
-                b.setPmode(rs.getInt(33));
+                b.setPaidamt(rs.getDouble(19));
+                b.setPmode(rs.getInt(34));
                 Meter m = new Meter();
                 m.setId(rs.getInt(3));
-                m.setMetor_num(rs.getString(20));
+                m.setMetor_num(rs.getString(21));
+                m.setOutstanding(rs.getDouble(24));
                 b.setMeter(m);
                 blist.add(b);
             }
@@ -720,17 +722,4 @@ public class BillOperation {
         return billnoSet;
     }
 
-//    public void getStatusDetails(int billno) {
-//        try {
-//            stm =Connector.getConnection().prepareStatement("select sum(b.total), b.status, r.amount from billing b join receipt r on b.billref = r.bill_no where b.billref = ?;");
-//            stm.setInt(1, billno);
-//            ResultSet rs = stm.executeQuery();
-//            while(rs.next()) {
-//                Bill bill = new Bill();
-//                bill.setTotal(rs.getDouble(1));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(BillOperation.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
 }
