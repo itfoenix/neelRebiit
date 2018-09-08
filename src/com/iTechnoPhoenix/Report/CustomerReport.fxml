@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Report.CustomerReportController">
+<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Report.CustomerReportController">
    <children>
       <VBox>
          <children>
@@ -27,9 +27,9 @@
             </Label>
             <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-border-color: #E2E3DA; -fx-border-width: 0 0 2 0;">
                <children>
-                  <JFXTextField fx:id="txtmeternumber" maxWidth="400.0" promptText="मीटर क्रमांक" HBox.hgrow="ALWAYS" />
+                  <JFXTextField fx:id="txtmeternumber" maxWidth="400.0" promptText="ग्राहकाचे नाव" HBox.hgrow="ALWAYS" />
                   <JFXButton onAction="#btn_search" onKeyPressed="#btn_search_key" ripplerFill="#2a7f68" style="-fx-background-color: #4BB89B;" text="शोध करा" textFill="WHITE" />
-                  <JFXButton onAction="#btn_print" ripplerFill="#2a7f68" style="-fx-background-color: #4BB89B;" text="प्रिंट करा" textFill="WHITE" />
+                  <JFXButton onAction="#btn_print" onKeyPressed="#btn_print_key" ripplerFill="#2a7f68" style="-fx-background-color: #4BB89B;" text="प्रिंट करा" textFill="WHITE" />
                </children>
                <VBox.margin>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />

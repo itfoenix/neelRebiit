@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c19c747-f5d7-47e5-8fe5-d8b9ca9eda44">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="border_rlb">
+		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+			<pen lineWidth="1.0"/>
+			<topPen lineWidth="0.0"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="border_rlt">
+		<box>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<field name="billref" class="java.lang.Integer"/>
+	<field name="period" class="java.lang.String"/>
+	<field name="remark" class="java.lang.String"/>
+	<field name="balance" class="java.lang.Double"/>
+	<field name="interested" class="java.lang.Double"/>
+	<field name="curamount" class="java.lang.Double"/>
+	<field name="scharges" class="java.lang.Double"/>
+	<field name="total" class="java.lang.Double"/>
+	<field name="perunit" class="java.lang.Long"/>
+	<field name="curunit" class="java.lang.Long"/>
+	<field name="customername" class="java.lang.String"/>
+	<field name="meternumber" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="127" y="-13" width="300" height="55" uuid="70d4d10b-9da1-4e48-bcef-01314b79307a"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font fontName="Shivaji01" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[
+ga`amapMcaayat palaIdovad
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="155" y="40" width="120" height="15" uuid="97315f11-92be-4525-aa41-6a750fa57b70"/>
+				<textElement textAlignment="Center">
+					<font fontName="Shivaji01"/>
+				</textElement>
+				<text><![CDATA[namaunaa naM. 9 ³k´ inayama 32 ³5´pha
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="40" width="140" height="15" uuid="6bc517bc-4add-4be4-9d0a-c317d1ee5764"/>
+				<textElement textAlignment="Center">
+					<font fontName="Shivaji01"/>
+				</textElement>
+				<text><![CDATA[mau. saukapur ta. pnavaola ija. rayagaD.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="57" width="555" height="1" uuid="e0efee0f-a68c-4995-bc81-1a971766970b"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="1a9ff274-4e99-464c-8940-e00d532a99ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ग्राहकाचे नाव :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="22" width="100" height="20" uuid="627b2441-9c29-48b4-bc85-04680a63e4f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[मीटर क्रमांक :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="98" y="0" width="455" height="20" uuid="b3726524-e830-47f4-8dba-e62b3758e8a3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{customername}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="98" y="22" width="455" height="20" uuid="5b1c3d29-ae90-40b5-8180-efea4e6460fc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{meternumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement style="border_rlt" x="0" y="0" width="55" height="24" uuid="22d92091-851b-464a-adfe-16d6ad3906ee">
+					<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[बिल क्रमांक]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="55" y="0" width="82" height="24" uuid="cb3516e4-8e4e-45bd-8a31-4bf6dee31291"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[महिना]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="255" y="0" width="59" height="24" uuid="265d4189-25ec-4673-bf39-04a01297007d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[थकबाकी]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="314" y="0" width="59" height="24" uuid="67240def-6456-4a27-b679-1aebc65a0d36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[१८ %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="432" y="0" width="59" height="24" uuid="8b0a009d-9df1-43fa-8ad3-d7afdcb7a62d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[बिल रक्कम]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="373" y="0" width="59" height="24" uuid="db31a33b-e082-45be-aa32-911957202faf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[सर्च]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="491" y="0" width="61" height="24" uuid="f21391ee-91da-4db8-8805-66ef0fbafff4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[एकूण रक्कम]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="196" y="0" width="59" height="24" uuid="3328ff0f-9742-4db7-aa2c-028c2b685496"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[मागील युनिट]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="137" y="0" width="59" height="24" uuid="1858632e-7884-4430-94c0-b199af9e50c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[चालू युनिट]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="0" y="0" width="55" height="20" isRemoveLineWhenBlank="true" uuid="1570bcc7-6a36-476e-a48e-df0d6fe6b8e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{billref}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="255" y="0" width="59" height="20" isRemoveLineWhenBlank="true" uuid="00a47225-d8d9-4e97-a0f3-f090d9275613"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="314" y="0" width="59" height="20" isRemoveLineWhenBlank="true" uuid="ec375b9b-f5e1-447c-afc7-baa7ae6626cc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{interested}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="432" y="0" width="59" height="20" isRemoveLineWhenBlank="true" uuid="f0aad9e5-c2f4-4d0e-868d-e547fd6597e5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{curamount}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="373" y="0" width="59" height="20" isRemoveLineWhenBlank="true" uuid="c0406bd0-ef80-40fe-83f0-dd4d625a6648"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{scharges}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="491" y="0" width="61" height="20" isRemoveLineWhenBlank="true" uuid="7bfee742-8fab-4785-b306-dde938b349e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="196" y="0" width="59" height="20" isRemoveLineWhenBlank="true" uuid="1f2d4612-3eb4-44de-91a4-76f6176ace21"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{curunit}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="55" y="0" width="82" height="20" isRemoveLineWhenBlank="true" uuid="daa17518-3dfc-4730-be25-c611b61186e1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{period}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="border_rlb" x="137" y="0" width="59" height="20" isRemoveLineWhenBlank="true" uuid="c55509a1-5475-44c8-9ba4-06b43300a653"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{perunit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

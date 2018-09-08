@@ -286,8 +286,46 @@ public class BillOperation {
     public ObservableList<Bill> getBillHistory(int meterNumber) {
         ObservableList<Bill> blist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("SELECT * FROM billing where meterno=? order by bill_no desc;");
+            stm = Connector.getConnection().prepareStatement("SELECT * FROM billing where meterno =? order by bill_no desc;");
             stm.setInt(1, meterNumber);
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Bill b = new Bill();
+                b.setBillno(rs.getInt(1));
+                b.setBdate(rs.getString(2));
+                Meter m = new Meter();
+                m.setId(rs.getInt(3));
+                b.setMeter(m);
+                b.setPeriod(rs.getString(4));
+                b.setYear(rs.getString(5));
+                b.setString(rs.getString(4) + "-" + rs.getString(5));
+                b.setPdate(rs.getString(6));
+                b.setBalance(rs.getDouble(7));
+                b.setInterested(rs.getDouble(8));
+                b.setCuramount(rs.getDouble(9));
+                b.setScharges(rs.getDouble(10));
+                b.setTotal(rs.getDouble(11));
+                b.setPerunit(rs.getInt(12));
+                b.setCurunit(rs.getInt(13));
+                b.setUseunit(rs.getInt(14));
+                b.setUid(rs.getInt(15));
+                b.setSt(rs.getInt(16));
+                b.setRemark(rs.getString(17));
+                b.setBillref(rs.getInt(18));
+                blist.add(b);
+            }
+        } catch (SQLException ex) {
+            PhoenixConfiguration.loggedRecored("At BillOperation Meter Info ", ex.getMessage());
+        }
+        return blist;
+    }
+
+    public ObservableList<Bill> getBillHistory(String meterNumber) {
+        ObservableList<Bill> blist = FXCollections.observableArrayList();
+        try {
+            stm = Connector.getConnection().prepareStatement("SELECT * FROM neel.billing where meterno in(select id from meter where meter_num=?) order by bill_no desc;");
+            stm.setString(1, meterNumber);
 
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
