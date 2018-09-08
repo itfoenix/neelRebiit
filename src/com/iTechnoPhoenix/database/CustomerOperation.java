@@ -186,4 +186,19 @@ public class CustomerOperation {
         }
         return customer;
     }
+
+    public ObservableList<String> getAllCustomerName() {
+        ObservableList<String> customerlist = FXCollections.observableArrayList();
+        try {
+            stm = Connector.getConnection().prepareStatement("Select distinct Name from customer");
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                customerlist.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            Connector.rollbackresult();
+            Logger.getLogger(MeterOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return customerlist;
+    }
 }
