@@ -39,17 +39,21 @@ public class FailureOperation {
 
     }
 
-//    public boolean checkFailed(String chqNum) {
-//        boolean checked = false;
-//        try {
-//            stm = Connector.getConnection().prepareStatement("Select * from neel.cheque where cheqno = ?");
-//            stm.setString(1, chqNum);
-//            ResultSet rs = stm.executeQuery();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(FailureOperation.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return checked;
-//    }
+    public boolean checkFailed(String chqNum) {
+        boolean checked = false;
+        try {
+            stm = Connector.getConnection().prepareStatement("Select * from neel.cheque where cheqno = ?");
+            stm.setString(1, chqNum);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                checked = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FailureOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return checked;
+    }
+
     public ObservableList<Cheque> getAllFailedReceipts() {
 
         ObservableList<Cheque> flist = FXCollections.observableArrayList();

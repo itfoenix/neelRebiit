@@ -12,7 +12,7 @@ public class Bill extends RecursiveTreeObject<Bill> {
 
     private int billno, uid, st, customernumber, rid, billref;
     long perunit, curunit, useunit;
-    private double balance, interested, curamount, scharges, total;
+    private double balance, interested, curamount, scharges, total, paidamt;
     private String period, year, status, meternumber, customername, address, bankname, cheque;
     private String bdate, pdate;
     private Meter meter;
@@ -46,6 +46,14 @@ public class Bill extends RecursiveTreeObject<Bill> {
             return false;
         }
         return true;
+    }
+
+    public double getPaidamt() {
+        return paidamt;
+    }
+
+    public void setPaidamt(double paidamt) {
+        this.paidamt = paidamt;
     }
 
     public int getBillref() {
