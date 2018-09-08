@@ -23,7 +23,10 @@ public class NeelReboot extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/bills/BillTransaction.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/MainActivity/LoginPage.fxml"));
+//            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/Receipt/ReceiptTransaction.fxml"));
+//            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/bills/BillTransaction.fxml"));
+//            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/bills/CancelCheque.fxml"));
 
             Scene scene = new Scene(root);
             stage.setScene(scene);

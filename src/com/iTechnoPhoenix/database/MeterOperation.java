@@ -84,7 +84,7 @@ public class MeterOperation {
     public ObservableList<Meter> getMeterByNumber(String name) {
         ObservableList<Meter> meterlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select * from meter where meter_num like ?");
+            stm = Connector.getConnection().prepareStatement("select * from meter where meter_num like ? and status = 0");
             stm.setString(1, name + "%");
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -128,7 +128,7 @@ public class MeterOperation {
     public ArrayList<String> getMeterNumber() {
         ArrayList<String> mnumberList = new ArrayList<>();
         try {
-            stm = Connector.getConnection().prepareStatement("Select meter_num from meter");
+            stm = Connector.getConnection().prepareStatement("Select meter_num from meter where status = 0");
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 mnumberList.add(rs.getString(1));
@@ -143,7 +143,7 @@ public class MeterOperation {
     public Meter getMeter(String meterNo) {
         Meter meter = null;
         try {
-            stm = Connector.getConnection().prepareStatement("Select * from meter where meter_num = ?");
+            stm = Connector.getConnection().prepareStatement("Select * from meter where meter_num = ? and status = 0");
             stm.setString(1, meterNo);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -165,7 +165,7 @@ public class MeterOperation {
     public ObservableList<Meter> getMeterByCustomer(Customer customer) {
         ObservableList<Meter> meterList = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("Select * from meter where cust_id = ?");
+            stm = Connector.getConnection().prepareStatement("Select * from meter where cust_id = ? and status = 0");
             stm.setInt(1, customer.getCust_num());
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
@@ -194,7 +194,7 @@ public class MeterOperation {
             while (rs.next()) {
                 Meter meter = new Meter();
 //                meter.setCustomer(rs.getInt(1));
-                PreparedStatement pstm = Connector.getConnection().prepareStatement("Select * from meter where cust_id = ? ");
+                PreparedStatement pstm = Connector.getConnection().prepareStatement("Select * from meter where cust_id = ? and status = 0");
 //                pstm.setInt(1, meter.getCustomer());
                 ResultSet result = pstm.executeQuery();
                 while (result.next()) {

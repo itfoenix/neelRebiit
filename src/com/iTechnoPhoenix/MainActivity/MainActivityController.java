@@ -40,8 +40,7 @@ public class MainActivityController implements Initializable {
 
     @FXML
     private void btn_customer(ActionEvent event) {
-        CenterPanel("/com/iTechnoPhoenix/neelReboot/Customer.fxml");
-
+        CenterPanel("/com/iTechnoPhoenix/neelReboot/CustomerDetails.fxml");
     }
 
     @FXML
@@ -86,12 +85,12 @@ public class MainActivityController implements Initializable {
 
     @FXML
     private void btn_bill_report(ActionEvent event) {
-        // CenterPanel("/com/iTechnoPhoenix/bills/CancelCheque.fxml");
+        CenterPanel("/com/iTechnoPhoenix/Report/BillReport.fxml");
     }
 
     @FXML
     private void btn_customer_report(ActionEvent event) {
-        //CenterPanel("/com/iTechnoPhoenix/bills/CancelCheque.fxml");
+        CenterPanel("/com/iTechnoPhoenix/Report/CustomerReport.fxml");
     }
 
     @FXML

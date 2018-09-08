@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="window" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #F4F7F9;" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerController">
+<StackPane fx:id="window" maxHeight="500.0" minHeight="400.0" minWidth="-Infinity" style="-fx-background-color: #F4F7F9;" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerController">
    <children>
       <VBox StackPane.alignment="TOP_CENTER">
          <children>
