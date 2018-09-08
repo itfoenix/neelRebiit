@@ -10,21 +10,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Receipt.ReceiptTransactionController">
+<StackPane fx:id="window" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Receipt.ReceiptTransactionController">
    <children>
       <VBox alignment="CENTER_RIGHT">
          <children>
-            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1F9CFF;" text="नवीन पावती" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" style="-fx-background-color: #1F9CFF;" text="नवीन पावती" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="18.0" />
                </font>
                <padding>
-                  <Insets left="16.0" />
+                  <Insets bottom="8.0" left="16.0" top="8.0" />
                </padding>
             </Label>
             <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="मीटरची माहिती" textFill="#3e4a4f" VBox.vgrow="ALWAYS">
                <font>
-                  <Font size="18.0" />
+                  <Font size="14.0" />
                </font>
                <padding>
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
@@ -33,7 +33,7 @@
                   <Insets left="8.0" right="8.0" />
                </VBox.margin>
             </Label>
-            <HBox maxHeight="-Infinity" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="-Infinity" VBox.vgrow="ALWAYS">
                <children>
                   <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="बिल क्रमांक :" HBox.hgrow="ALWAYS" />
                   <JFXTextField fx:id="txt_bill_number" maxWidth="350.0" HBox.hgrow="ALWAYS">
@@ -46,7 +46,7 @@
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
                </padding>
             </HBox>
-            <HBox maxHeight="-Infinity" prefWidth="200.0" spacing="8.0" style="-fx-border-width: 1; -fx-border-color: #CECFD0;" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="-Infinity" spacing="8.0" style="-fx-border-width: 1; -fx-border-color: #CECFD0;" VBox.vgrow="ALWAYS">
                <children>
                   <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="100.0" text="ग्राहकाचे  नाव :" HBox.hgrow="ALWAYS" />
                   <Label fx:id="txt_customer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
@@ -62,7 +62,7 @@
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                </VBox.margin>
             </HBox>
-            <JFXTreeTableView fx:id="tbl_meter" VBox.vgrow="ALWAYS">
+            <JFXTreeTableView fx:id="tbl_meter" maxHeight="200.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
                </VBox.margin>
@@ -153,7 +153,7 @@
                   <Insets right="8.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_RIGHT" spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
                   <JFXButton onAction="#btn_cash_paid" onKeyPressed="#btn_cash_paid_key" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="रोख रक्कम भरणा" textFill="WHITE">
                      <padding>

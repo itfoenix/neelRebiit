@@ -10,45 +10,35 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Edit.Bill_EditingController">
+<StackPane fx:id="window" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Edit.Bill_EditingController">
    <children>
       <VBox>
          <children>
-            <HBox maxHeight="50.0" maxWidth="1.7976931348623157E308" styleClass="header" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label maxHeight="50.0" maxWidth="1.7976931348623157E308" text="ibala badlanyaasaazI" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets left="8.0" />
-                     </HBox.margin>
-                     <styleClass>
-                        <String fx:value="heading" />
-                        <String fx:value="label-marathi" />
-                     </styleClass>
-                  </Label>
-                  <Label maxHeight="50.0" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets right="8.0" />
-                     </HBox.margin>
-                     <styleClass>
-                        <String fx:value="helpIcon" />
-                        <String fx:value="heading" />
-                     </styleClass>
-                  </Label>
-               </children>
-            </HBox>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #1F9CFF;" text="बिला मध्ये बदल करण्यासाठी" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+               </padding>
+            </Label>
             <HBox maxHeight="30.0" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <children>
                   <Label maxHeight="50.0" maxWidth="1.7976931348623157E308" text="बिल मध्ये चालु रिडिंग बदलता येईल." HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="8.0" />
                      </HBox.margin>
+                     <padding>
+                        <Insets bottom="8.0" top="8.0" />
+                     </padding>
                   </Label>
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" maxHeight="70.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" fillHeight="false">
                <children>
-                  <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="border" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="8.0" styleClass="border" HBox.hgrow="ALWAYS">
                      <children>
                         <JFXTextField fx:id="txt_BillNumber" labelFloat="true" maxWidth="250.0" promptText="बिल नं : " styleClass="textfield" HBox.hgrow="ALWAYS">
                            <HBox.margin>

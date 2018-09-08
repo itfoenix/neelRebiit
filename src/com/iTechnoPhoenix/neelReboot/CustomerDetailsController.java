@@ -6,21 +6,29 @@
 package com.iTechnoPhoenix.neelReboot;
 
 import com.iTechnoPhoenix.database.CustomerOperation;
+import com.iTechnoPhoenix.database.MeterOperation;
 import com.iTechnoPhoenix.model.Bill;
+import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Meter;
 import com.iTechnoPhoenix.model.MeterBill;
 import com.iTechnoPhoenix.neelSupport.BillSupport;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import java.awt.Font;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -29,6 +37,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -39,6 +49,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.DateCell;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableCell;
@@ -47,6 +60,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import org.apache.poi.ss.formula.ptg.TblPtg;
 import org.controlsfx.control.textfield.TextFields;
@@ -77,19 +91,24 @@ public class CustomerDetailsController implements Initializable {
     @FXML
     void btn_search(ActionEvent event) {
         String search = txt_search.getText();
-        if (search.isEmpty()) {
-            meterlist.clear();
-            meterlist.addAll(allmeter);
-        } else {
-            ObservableList<Meter> copylist = FXCollections.observableArrayList();
-            copylist.addAll(meterlist);
-            meterlist.clear();
-            copylist.forEach((m) -> {
-                if (m.getMetor_num().equals(search) || m.getCustomeObject().getName().equals(search)) {
-                    meterlist.add(m);
-                }
-            });
-        }
+//        if (search.isEmpty()) {
+//            meterlist.clear();
+//            meterlist.addAll(allmeter);
+//        } else {
+//            ObservableList<Meter> copylist = FXCollections.observableArrayList();
+//            copylist.addAll(meterlist);
+//            meterlist.clear();
+//            copylist.forEach((m) -> {
+//                if (m.getMetor_num().equals(search) || m.getCustomeObject().getName().equals(search)) {
+//                    meterlist.add(m);
+//                }
+//            });
+//        }
+        txt_search.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (newValue != null) {
+                txt_customer.setPredicate(t -> t.getValue().getCustomeObject().getName().equals(newValue) || t.getValue().getMetor_num().equals(newValue));
+            }
+        });
     }
 
     @Override
@@ -118,7 +137,13 @@ public class CustomerDetailsController implements Initializable {
         tc_deposit.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getDeposit()).asObject());
         tc_action.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getId()).asObject());
         tc_action.setCellFactory(param -> new ActionCell(txt_customer));
+        txt_customer.getColumns().addAll(tc_action, tc_name, tc_address, tc_meter, tc_connnection, tc_currentReading, tc_outstanding, tc_deposit, tc_mobile, tc_email);
 
+        getData();
+
+    }
+
+    public void getData() {
         CustomerOperation co = new CustomerOperation();
         meterlist = co.getCustomerByName();
         allmeter.addAll(meterlist);
@@ -130,10 +155,8 @@ public class CustomerDetailsController implements Initializable {
         }
         TextFields.bindAutoCompletion(txt_search, suggestionlist);
         final TreeItem<Meter> root = new RecursiveTreeItem<>(meterlist, RecursiveTreeObject::getChildren);
-        txt_customer.getColumns().addAll(tc_action, tc_name, tc_address, tc_meter, tc_connnection, tc_currentReading, tc_outstanding, tc_deposit, tc_mobile, tc_email);
         txt_customer.setRoot(root);
         txt_customer.setShowRoot(false);
-
     }
 
     @FXML
@@ -169,8 +192,123 @@ public class CustomerDetailsController implements Initializable {
             delete.setGraphic(new ImageView("/com/iTechnoPhoenix/resource/Trash Can_48px.png"));
             delete.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             edit.setOnMouseClicked(event -> {
+                JFXDialog dialog;
+                table.getSelectionModel().select(getTreeTableRow().getIndex());
+                Meter meter = table.getSelectionModel().getSelectedItem().getValue();
+                VBox vb = new VBox();
+                JFXTextField txtName = new JFXTextField();
+                txtName.setPromptText("नाव");
+                txtName.setLabelFloat(true);
+                txtName.setMaxWidth(200);
+                txtName.setText(meter.getCustomeObject().getName());
+                JFXTextField txtMobile = new JFXTextField();
+                txtMobile.setPromptText("मोबिले नं");
+                txtMobile.setLabelFloat(true);
+                txtMobile.setMaxWidth(200);
+                txtMobile.setText(meter.getCustomeObject().getPhone());
+                JFXTextField txtEmail = new JFXTextField();
+                txtEmail.setPromptText("एमैल");
+                txtEmail.setLabelFloat(true);
+                txtEmail.setMaxWidth(200);
+                txtEmail.setText(meter.getCustomeObject().getEmail());
+                JFXTextArea txtAddress = new JFXTextArea();
+                txtAddress.setPromptText("पत्ता");
+                txtAddress.setLabelFloat(true);
+                txtAddress.setPrefRowCount(2);
+                txtAddress.setMaxWidth(200);
+                txtAddress.setText(meter.getCustomeObject().getAddress());
+                JFXTextField txtMeterNum = new JFXTextField();
+                txtMeterNum.setPromptText("मीटर नं");
+                txtMeterNum.setLabelFloat(true);
+                txtMeterNum.setMaxWidth(200);
+                txtMeterNum.setText(meter.getMetor_num());
+                JFXTextField txtCurReading = new JFXTextField();
+                txtCurReading.setPromptText("चालु रिडिंग");
+                txtCurReading.setLabelFloat(true);
+                txtCurReading.setMaxWidth(200);
+                txtCurReading.setText(String.valueOf(meter.getCurr_reading()));
+                JFXTextField txtOutstanding = new JFXTextField();
+                txtOutstanding.setPromptText("थकबाकी");
+                txtOutstanding.setLabelFloat(true);
+                txtOutstanding.setMaxWidth(200);
+                txtOutstanding.setText(String.valueOf(meter.getOutstanding()));
+                JFXTextField txtDeposit = new JFXTextField();
+                txtDeposit.setPromptText("जमा");
+                txtDeposit.setLabelFloat(true);
+                txtDeposit.setMaxWidth(200);
+                txtDeposit.setText(String.valueOf(meter.getDeposit()));
+                JFXDatePicker dpMeterCon = new JFXDatePicker();
+                dpMeterCon.setPromptText("मीटर लावलेली दि ");
+                dpMeterCon.setMaxWidth(200);
+                String s[] = meter.getCon_date().split("-");
+                String y[] = s[2].split(" ");
+                dpMeterCon.setValue(LocalDate.parse(y[0] + "/" + s[1] + "/" + s[0], DateTimeFormatter.ofPattern("d/M/yyyy")));
+                dpMeterCon.setDayCellFactory(
+                        (DatePicker param) -> new DateCell() {
+                            @Override
+                            public void updateItem(LocalDate item, boolean empty) {
+                                setDisable(empty || item.compareTo(LocalDate.now()) > 0);
+                            }
+
+                        }
+                );
+
+                JFXButton btnUpdate = new JFXButton("जतन करा");
+                btnUpdate.getStyleClass().add("btn-search");
+                JFXButton btnClose = new JFXButton("राध");
+                btnClose.getStyleClass().add("btn-cancel");
+                vb.setSpacing(16);
+                vb.setAlignment(Pos.CENTER);
+                vb.getChildren().addAll(txtName, txtMobile, txtEmail, txtAddress, txtMeterNum, dpMeterCon, txtOutstanding, txtCurReading, txtDeposit);
+
+                dialog = Support.getDialog(window, new Label("ग्राहक आणि मीटर मध्ये बदलने"), vb, btnUpdate, btnClose);
+                dialog.show();
+
+                btnUpdate.setOnAction(new EventHandler<ActionEvent>() {
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        CustomerOperation customerdb = new CustomerOperation();
+                        Customer c = new Customer();
+                        c.setName(txtName.getText());
+                        c.setAddress(txtAddress.getText());
+                        c.setEmail(txtEmail.getText());
+                        c.setPhone(txtMobile.getText());
+                        Meter m = new Meter();
+                        m.setMetor_num(txtMeterNum.getText());
+                        m.setCurr_reading(PhoenixSupport.getInteger(txtCurReading.getText()));
+                        m.setCon_date(dpMeterCon.getValue().toString());
+                        m.setOutstanding(PhoenixSupport.getDouble(txtOutstanding.getText()));
+                        m.setDeposit(PhoenixSupport.getDouble(txtDeposit.getText()));
+                        c.setCust_num(meter.getCustomeObject().getCust_num());
+                        m.setId(meter.getId());
+                        m.setCustomeObject(c);
+                        customerdb.updateCustomer(c);
+
+                        MeterOperation mo = new MeterOperation();
+                        mo.updateMeter(m);
+
+                        getData();
+
+                        dialog.close();
+                    }
+                });
+
+                btnClose.setOnAction(new EventHandler<ActionEvent>() {
+
+                    @Override
+                    public void handle(ActionEvent event) {
+                        dialog.close();
+                    }
+                });
             });
             delete.setOnMouseClicked(event -> {
+                table.getSelectionModel().select(getTreeTableRow().getIndex());
+                Meter meter = table.getSelectionModel().getSelectedItem().getValue();
+                MeterOperation mo = new MeterOperation();
+                mo.deleteMeter(meter.getId());
+                meterlist.remove(meter);
+                table.refresh();
             });
         }
 

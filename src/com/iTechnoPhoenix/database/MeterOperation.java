@@ -67,11 +67,11 @@ public class MeterOperation {
 
     public void deleteMeter(int id) {
         try {
-            stm = Connector.getConnection().prepareStatement("delete from meter where id=?");
+            stm = Connector.getConnection().prepareStatement("update meter set status = 1 where id=?");
             stm.setInt(1, id);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("ग्राहकाची माहित हटवली आहे", "ग्राहक आणि मीटर माहित");
+                PhoenixSupport.Info("मीटरची माहित हटवली आहे", "मीटर माहित");
             } else {
                 PhoenixSupport.Error("माहिती हटवली नाही गेली. पुन प्रयत्न करा");
             }

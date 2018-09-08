@@ -50,30 +50,36 @@ public class LoginPageController implements Initializable {
         lbl_softwareName.setText("Neel (Grampanchayat palidevad) Sukapur. Developed by iTechnoPhoenix");
     }
 
-    public void login() {
+    @FXML
+    private void btn_key_login(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            if (PhoenixSupport.isValidate(txt_username, txt_password)) {
+                UserOperation up = new UserOperation();
+                if (up.login(txt_username.getText(), txt_password.getText()) != null) {
+                    showWindow(event);
+                } else {
+                    PhoenixSupport.Error("Invalid User", window);
+                }
+            } else {
+                PhoenixSupport.Error("Enter Username and Password ", window);
+            }
+
+        }
+    }
+
+    @FXML
+    private void btn_login(ActionEvent event) {
+
         if (PhoenixSupport.isValidate(txt_username, txt_password)) {
             UserOperation up = new UserOperation();
             if (up.login(txt_username.getText(), txt_password.getText()) != null) {
-
+                showWindow(event);
             } else {
                 PhoenixSupport.Error("Invalid User", window);
             }
         } else {
             PhoenixSupport.Error("Enter Username and Password ", window);
         }
-
-    }
-
-    @FXML
-    private void btn_key_login(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            login();
-        }
-    }
-
-    @FXML
-    private void btn_login(ActionEvent event) {
-        login();
     }
 
     @FXML

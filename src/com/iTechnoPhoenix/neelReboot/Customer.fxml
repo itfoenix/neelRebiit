@@ -14,16 +14,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #F4F7F9;" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerController">
+<StackPane fx:id="window" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #F4F7F9;" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerController">
    <children>
       <VBox StackPane.alignment="TOP_CENTER">
          <children>
-            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="50.0" style="-fx-background-color: #1F9CFF;" text="नवीन ग्राहकाची माहिती" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" style="-fx-background-color: #1F9CFF;" text="नवीन ग्राहकाची माहिती" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="18.0" />
                </font>
                <padding>
-                  <Insets left="16.0" />
+                  <Insets bottom="8.0" left="16.0" top="8.0" />
                </padding>
             </Label>
             <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" text="ग्राहकाची माहिती" textFill="#3e4a4f" wrapText="true" VBox.vgrow="ALWAYS">
@@ -37,7 +37,7 @@
                   <Insets left="8.0" right="8.0" top="8.0" />
                </VBox.margin>
             </Label>
-            <HBox maxHeight="-Infinity" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <HBox maxHeight="-Infinity" VBox.vgrow="ALWAYS">
                <children>
                   <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
@@ -111,14 +111,14 @@
                   <Insets left="8.0" right="8.0" />
                </VBox.margin>
             </Label>
-            <HBox maxHeight="-Infinity" prefWidth="200.0" spacing="8.0" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" VBox.vgrow="ALWAYS">
+            <HBox spacing="8.0" style="-fx-border-color: #CECFD0; -fx-border-width: 0 0 1 0;" VBox.vgrow="ALWAYS">
                <children>
                   <JFXTextField fx:id="txt_meter" labelFloat="true" prefWidth="180.0" promptText="मीटर नं ">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
                   </JFXTextField>
-                  <JFXDatePicker fx:id="txt_date" overLay="true" prefWidth="180.0" promptText="मीटर लावलेली दि " showWeekNumbers="true">
+                  <JFXDatePicker fx:id="txt_date" overLay="true" prefWidth="180.0" showWeekNumbers="true">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
@@ -143,7 +143,7 @@
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
                      <graphic>
-                        <ImageView pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resource/Plus_48px.png" />
                            </image>
@@ -155,15 +155,15 @@
                   <Insets left="8.0" right="8.0" top="8.0" />
                </padding>
                <VBox.margin>
-                  <Insets left="16.0" right="16.0" top="8.0" />
+                  <Insets left="16.0" right="16.0" />
                </VBox.margin>
             </HBox>
-            <JFXTreeTableView fx:id="txt_metertable" VBox.vgrow="ALWAYS">
+            <JFXTreeTableView fx:id="txt_metertable" maxHeight="-Infinity" prefHeight="200.0" VBox.vgrow="ALWAYS">
                <VBox.margin>
-                  <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
+                  <Insets left="16.0" right="16.0" />
                </VBox.margin>
             </JFXTreeTableView>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
                   <JFXButton onAction="#btn_save" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="जतन करा" textFill="WHITE">
                      <padding>
