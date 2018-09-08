@@ -4,6 +4,7 @@ import com.iTechnoPhoenix.database.BillOperation;
 import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.Meter;
+import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -15,10 +16,12 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,6 +58,8 @@ public class CustomerReportController implements Initializable {
     ObservableList<Bill> bill_list;
     ObservableList<Meter> meter_list;
     ObservableList<String> suggestionlist;
+    String name;
+    String meterno;
     @FXML
     private HBox hb_meterlist;
     private CustomerOperation co;
@@ -68,7 +73,7 @@ public class CustomerReportController implements Initializable {
         TextFields.bindAutoCompletion(txtmeternumber, suggestionlist);
 
         tcl_billnumber = new JFXTreeTableColumn<>("बिल क्रमांक");
-        tcl_period = new JFXTreeTableColumn<>("महिना");
+        tcl_period = new JFXTreeTableColumn<>("kalaavaQaI");
         tcl_remark = new JFXTreeTableColumn<>("शेरा");
         tcl_balance = new JFXTreeTableColumn<>("थकबाकी");
         tcl_intreset = new JFXTreeTableColumn<>("१८%");
@@ -79,6 +84,8 @@ public class CustomerReportController implements Initializable {
         tcl_current = new JFXTreeTableColumn<>("चालू युनिट");
 
         tcl_billnumber.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getBillref()).asObject());
+        tcl_period.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPeriod()));
+        tcl_period.getStyleClass().add("label-marathi");
         tcl_balance.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getBalance()).asObject());
         tcl_intreset.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getInterested()).asObject());
         tcl_billtotal.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getCuramount()).asObject());
@@ -92,7 +99,14 @@ public class CustomerReportController implements Initializable {
 
     @FXML
     void btn_print(ActionEvent event) {
+        printReport();
+    }
 
+    @FXML
+    private void btn_print_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            printReport();
+        }
     }
 
     @FXML
@@ -114,8 +128,6 @@ public class CustomerReportController implements Initializable {
         BillOperation bo = new BillOperation();
         hb_meterlist.getChildren().clear();
         VBox vb = new VBox();
-        JFXNodesList nodelist = new JFXNodesList();
-        nodelist.addAnimatedNode(new JFXButton(txtmeternumber.getText()));
         vb.setSpacing(16);
         JFXListView listView = new JFXListView();
         ObservableList<Meter> tempList = FXCollections.observableArrayList();
@@ -142,17 +154,16 @@ public class CustomerReportController implements Initializable {
         listView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
                 Meter meter = (Meter) listView.getFocusModel().getFocusedItem();
+                name = txtmeternumber.getText();
+                JFXNodesList nodelist = new JFXNodesList();
+                nodelist.addAnimatedNode(new JFXButton(meter.getCustomeObject().getName()));
                 for (String s : meter.getMetor_num().split(",")) {
 
-                    JFXButton meternumber = new JFXButton(s);
-                    meter_list.forEach((x) -> {
-                        if (x.getMetor_num().equals(s)) {
-                            meters = x.getId();
-                        }
-                    });
-
+                    JFXButton meternumber = new JFXButton(s.trim());
                     meternumber.setOnMouseClicked((e) -> {
-                        bill_list = bo.getBillHistory(meters);
+                        bill_list = bo.getBillHistory(s.trim());
+                        bill_list.get(0).setCustomername(name);
+                        bill_list.get(0).setMeternumber(s.trim());
                         TreeItem<Bill> treeItem = new RecursiveTreeItem<>(bill_list, RecursiveTreeObject::getChildren);
                         tbl_bills.setRoot(treeItem);
                         tbl_bills.setShowRoot(false);
@@ -167,8 +178,38 @@ public class CustomerReportController implements Initializable {
                 txtmeternumber.clear();
             }
         });
-        dialog.show();
+        listView.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                Meter meter = (Meter) listView.getFocusModel().getFocusedItem();
+                JFXNodesList nodelist = new JFXNodesList();
+                nodelist.addAnimatedNode(new JFXButton(meter.getCustomeObject().getName()));
+                for (String s : meter.getMetor_num().split(",")) {
 
+                    JFXButton meternumber = new JFXButton(s.trim());
+                    meternumber.setOnMouseClicked((e) -> {
+                        bill_list = bo.getBillHistory(s.trim());
+                        TreeItem<Bill> treeItem = new RecursiveTreeItem<>(bill_list, RecursiveTreeObject::getChildren);
+                        tbl_bills.setRoot(treeItem);
+                        tbl_bills.setShowRoot(false);
+                        tbl_bills.refresh();
+                    });
+                }
+                dialog.close();
+                nodelist.setSpacing(30);
+                nodelist.setRotate(270);
+                hb_meterlist.getChildren().add(nodelist);
+                txtmeternumber.clear();
+            }
+        });
+        dialog.show();
+        dialog.setOnDialogOpened(e -> listView.requestFocus());
+
+    }
+
+    public void printReport() {
+        ArrayList<Bill> bills = new ArrayList<>();
+        bills.addAll(bill_list);
+        PhoenixSupport.printCustBill(bills);
     }
 
 }
