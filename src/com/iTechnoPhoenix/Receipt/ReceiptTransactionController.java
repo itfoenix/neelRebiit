@@ -195,7 +195,6 @@ public class ReceiptTransactionController implements Initializable {
                         txt_bill_number.requestFocus();
                     }
                 }
-
             }
         });
         txt_delay_payment.focusedProperty().addListener(new ChangeListener<Boolean>() {

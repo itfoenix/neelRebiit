@@ -293,6 +293,22 @@ public class PhoenixSupport {
         }
     }
 
+    public static void printBillReport(ArrayList<Bill> blist) {
+        String billformate = "BillReport.jrxml";
+        try {
+            ArrayList<Bill> singleReceipt = new ArrayList<>();
+            for (Bill bs : blist) {
+                singleReceipt.add(bs);
+            }
+            JasperReport report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleReceipt);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void printAllReceipt(ArrayList<Bill> blist) {
         String billformate = "ReceiptFormate.jrxml";
         try {
