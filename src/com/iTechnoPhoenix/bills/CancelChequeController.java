@@ -184,7 +184,7 @@ public class CancelChequeController implements Initializable {
                             chq.setAmount((chq.getAmount() - chq.getExtrachages()) + PhoenixSupport.getDouble(txtExtra.getText()));
                             chq.setExtrachages(PhoenixSupport.getDouble(txtExtra.getText()));
                             chq.setStatus("रद्ध");
-                            failuredb.saveFailureBanktransaction(chq);
+                            failuredb.saveFailureBanktransaction(chq, window);
                             refreshTable();
                             dialog.close();
                         }
@@ -213,7 +213,7 @@ public class CancelChequeController implements Initializable {
 
                         @Override
                         public void handle(ActionEvent event) {
-                            failuredb.deleteFailure(chq.getChequenumber());
+                            failuredb.deleteFailure(chq.getChequenumber(), window);
                             chequeList.remove(chq);
                             refreshTable();
                             dialog.close();

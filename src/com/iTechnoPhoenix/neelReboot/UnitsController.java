@@ -110,17 +110,17 @@ public class UnitsController implements Initializable {
                 u.setMin(PhoenixSupport.getInteger(txt_minunit.getText()));
                 u.setUnitprice(PhoenixSupport.getDouble(txt_price.getText()));
                 if (!unitList.contains(u)) {
-                    unitsdb.addUnits(u);
+                    unitsdb.addUnits(u, window);
                     refreshTable();
                 } else {
-                    PhoenixSupport.Error("भरलेली माहिती पहिलीच जतन केली आहे.");
+                    PhoenixSupport.Error("भरलेली माहिती पहिलीच जतन केली आहे.", window);
                 }
                 clear();
             } else {
-                PhoenixSupport.Error("कमाल युनिट हि किमान युनिट पेक्षा छोटी आहे.");
+                PhoenixSupport.Error("कमाल युनिट हि किमान युनिट पेक्षा छोटी आहे.", window);
             }
         } else {
-            PhoenixSupport.Error("सर्व माहिती भरा");
+            PhoenixSupport.Error("सर्व माहिती भरा", window);
         }
     }
 
@@ -180,7 +180,7 @@ public class UnitsController implements Initializable {
                             u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
                             u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
                             u.setUnitprice(PhoenixSupport.getDouble(txtUnit.getText()));
-                            unitsdb.updateUnits(u);
+                            unitsdb.updateUnits(u, window);
                             refreshTable();
                             dialog.close();
                         } else {
@@ -194,7 +194,7 @@ public class UnitsController implements Initializable {
                                 u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
                                 u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
                                 u.setUnitprice(PhoenixSupport.getDouble(txtUnit.getText()));
-                                unitsdb.updateUnits(u);
+                                unitsdb.updateUnits(u, window);
                                 refreshTable();
                                 dialog.close();
                             } else {
@@ -226,7 +226,7 @@ public class UnitsController implements Initializable {
                 ) {
                     table.getSelectionModel().select(getTreeTableRow().getIndex());
                     Unit unit = table.getSelectionModel().getSelectedItem().getValue();
-                    unitsdb.deleteUnits(unit.getId());
+                    unitsdb.deleteUnits(unit.getId(), window);
                     refreshTable();
                 }
             }

@@ -4,6 +4,7 @@ import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.database.MeterOperation;
 import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Meter;
+import com.iTechnoPhoenix.model.Unit;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
@@ -124,6 +125,9 @@ public class CustomerController implements Initializable {
                 EditDialog();
             });
             delete.setOnMouseClicked((e) -> {
+                table.getSelectionModel().select(getTreeTableRow().getIndex());
+                Meter m = table.getSelectionModel().getSelectedItem().getValue();
+                meterlist.remove(m);
             });
 
         }
@@ -249,12 +253,12 @@ public class CustomerController implements Initializable {
                 customer.setPhone(txt_mobile.getText());
                 customer.setAddress(txt_address.getText());
                 CustomerOperation co = new CustomerOperation();
-                int cust_id = co.addCustomer(customer);
+                int cust_id = co.addCustomer(customer, window);
                 customer.setCust_num(cust_id);
                 MeterOperation mo = new MeterOperation();
                 meterlist.forEach((e) -> {
                     e.setCustomeObject(customer);
-                    mo.addMeter(e);
+                    mo.addMeter(e, window);
                 });
                 PhoenixSupport.Info("ग्राहकाची माहित जतन झाली आहे.", "ग्राहक माहित", window);
 

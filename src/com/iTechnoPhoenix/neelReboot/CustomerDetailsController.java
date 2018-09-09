@@ -7,11 +7,8 @@ package com.iTechnoPhoenix.neelReboot;
 
 import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.database.MeterOperation;
-import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Meter;
-import com.iTechnoPhoenix.model.MeterBill;
-import com.iTechnoPhoenix.neelSupport.BillSupport;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
@@ -24,12 +21,10 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import java.awt.Font;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +32,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -54,15 +48,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableCell;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.util.Callback;
-import org.apache.poi.ss.formula.ptg.TblPtg;
 import org.controlsfx.control.textfield.TextFields;
 
 /**
@@ -90,7 +81,8 @@ public class CustomerDetailsController implements Initializable {
 
     @FXML
     void btn_search(ActionEvent event) {
-        String search = txt_search.getText();
+        search();
+//        String search = txt_search.getText();
 //        if (search.isEmpty()) {
 //            meterlist.clear();
 //            meterlist.addAll(allmeter);
@@ -104,11 +96,6 @@ public class CustomerDetailsController implements Initializable {
 //                }
 //            });
 //        }
-        txt_search.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
-            if (newValue != null) {
-                txt_customer.setPredicate(t -> t.getValue().getCustomeObject().getName().equals(newValue) || t.getValue().getMetor_num().equals(newValue));
-            }
-        });
     }
 
     @Override
@@ -169,12 +156,29 @@ public class CustomerDetailsController implements Initializable {
             StackPane root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/neelReboot/Customer.fxml"));
             JFXDialog d = Support.getDialog(window, header, root);
             d.show();
-            b.setOnMouseClicked((e) -> d.close());
+            d.setOnDialogClosed(e -> getData());
+            b.setOnMouseClicked((e) -> {
+                d.close();
+                getData();
+            });
 
         } catch (IOException ex) {
             Logger.getLogger(CustomerDetailsController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    @FXML
+    private void btn_search_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            search();
+        }
+    }
+
+    public void search() {
+        if (txt_search.getText() != null) {
+            txt_customer.setPredicate(t -> t.getValue().getCustomeObject().getName().equals(txt_search.getText()) || t.getValue().getMetor_num().equals(txt_search.getText()));
+        }
     }
 
     public class ActionCell extends JFXTreeTableCell<Meter, Integer> {
@@ -245,12 +249,12 @@ public class CustomerDetailsController implements Initializable {
                 dpMeterCon.setValue(LocalDate.parse(y[0] + "/" + s[1] + "/" + s[0], DateTimeFormatter.ofPattern("d/M/yyyy")));
                 dpMeterCon.setDayCellFactory(
                         (DatePicker param) -> new DateCell() {
-                            @Override
-                            public void updateItem(LocalDate item, boolean empty) {
-                                setDisable(empty || item.compareTo(LocalDate.now()) > 0);
-                            }
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        setDisable(empty || item.compareTo(LocalDate.now()) > 0);
+                    }
 
-                        }
+                }
                 );
 
                 JFXButton btnUpdate = new JFXButton("जतन करा");
@@ -283,10 +287,10 @@ public class CustomerDetailsController implements Initializable {
                         c.setCust_num(meter.getCustomeObject().getCust_num());
                         m.setId(meter.getId());
                         m.setCustomeObject(c);
-                        customerdb.updateCustomer(c);
+                        customerdb.updateCustomer(c, window);
 
                         MeterOperation mo = new MeterOperation();
-                        mo.updateMeter(m);
+                        mo.updateMeter(m, window);
 
                         getData();
 
@@ -306,7 +310,7 @@ public class CustomerDetailsController implements Initializable {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
                 Meter meter = table.getSelectionModel().getSelectedItem().getValue();
                 MeterOperation mo = new MeterOperation();
-                mo.deleteMeter(meter.getId());
+                mo.deleteMeter(meter.getId(), window);
                 meterlist.remove(meter);
                 table.refresh();
             });

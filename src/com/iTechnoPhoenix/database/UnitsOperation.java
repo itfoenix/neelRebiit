@@ -8,12 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 
 public class UnitsOperation {
 
     private PreparedStatement stm;
 
-    public void addUnits(Unit u) {
+    public void addUnits(Unit u, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("insert into units (min_unit,max_unit,unit_price,rdate) values(?,?,?,now())");
             stm.setInt(1, u.getMin());
@@ -21,9 +22,9 @@ public class UnitsOperation {
             stm.setDouble(3, u.getUnitprice());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती");
+                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती", window);
             } else {
-                PhoenixSupport.Error("युनिट माहित जनता नाही झाली");
+                PhoenixSupport.Error("युनिट माहित जनता नाही झाली", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -31,7 +32,7 @@ public class UnitsOperation {
         }
     }
 
-    public void updateUnits(Unit u) {
+    public void updateUnits(Unit u, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("update units set min_unit=?,max_unit=?,unit_price=?,rdate=now() where uid=?");
             stm.setInt(1, u.getMin());
@@ -40,9 +41,9 @@ public class UnitsOperation {
             stm.setInt(4, u.getId());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती");
+                PhoenixSupport.Info("युनिट माहित जतन झाली आहे ", "युनिट माहिती", window);
             } else {
-                PhoenixSupport.Error("युनिट माहित जनता नाही झाली");
+                PhoenixSupport.Error("युनिट माहित जनता नाही झाली", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -50,15 +51,15 @@ public class UnitsOperation {
         }
     }
 
-    public void deleteUnits(int id) {
+    public void deleteUnits(int id, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("delete from units where uid=?");
             stm.setInt(1, id);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("युनिट हटवले गेले आहे .", "युनिट माहिती");
+                PhoenixSupport.Info("युनिट हटवले गेले आहे.", "युनिट माहिती", window);
             } else {
-                PhoenixSupport.Error("युनिट हटवले गेले नाही .");
+                PhoenixSupport.Error("युनिट हटवले गेले नाही.", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();

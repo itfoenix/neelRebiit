@@ -148,6 +148,8 @@ public class ReceiptTransactionController implements Initializable {
         initTable();
         txt_bill_number.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
+                grandtotal = 0;
+                remaining = 0;
                 if (!txt_bill_number.getText().isEmpty()) {
                     String s = txt_bill_number.getText();
 
@@ -155,7 +157,7 @@ public class ReceiptTransactionController implements Initializable {
                     Receipt receipt = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
 
                     if (!billList.isEmpty()) {
-                        if (billList.get(0).getSt() == 2) {
+                        if (billList.get(0).getSt() != 2) {
                             txt_duration.setText(billList.get(0).getPeriod());
                             txt_duration.getStyleClass().add("label-marathi");
                             String str1[] = billList.get(0).getPdate().split(" ");
@@ -196,7 +198,7 @@ public class ReceiptTransactionController implements Initializable {
                             txt_bill_number.requestFocus();
                         }
                     } else {
-                        PhoenixSupport.Error("बिल क्रमांक चुकीचा आहे. कृपया तपासून पहा.");
+                        PhoenixSupport.Error("बिल क्रमांक चुकीचा आहे. कृपया तपासून पहा.", window);
                         txt_bill_number.clear();
                         txt_bill_number.requestFocus();
                     }
@@ -311,11 +313,17 @@ public class ReceiptTransactionController implements Initializable {
 
         JFXButton btn_billsave = new JFXButton("जतन करा");
         btn_billsave.setStyle("-fx-background-color: #4BB89B;-fx-text-fill:white;");
+        JFXButton btn_billcancl = new JFXButton("रद्ध करा");
+        btn_billsave.setStyle("-fx-background-color:#3E4A4F; -fx-text-fill:white;");
         VBox.setMargin(btn_billsave, new Insets(8, 8, 8, 8));
 
         StackPane.setMargin(billbank, new Insets(8));
         billbank.setPadding(new Insets(8, 16, 8, 16));
-        billbank.getChildren().addAll(cb_banklist, txt_cheque, btn_billsave);
+        HBox hb = new HBox();
+        hb.setSpacing(16);
+        hb.setAlignment(Pos.CENTER_RIGHT);
+        hb.getChildren().addAll(btn_billsave, btn_bankclose);
+        billbank.getChildren().addAll(cb_banklist, txt_cheque, hb);
 
         innerStock.getChildren().addAll(newbox, billbank);
 
@@ -327,15 +335,35 @@ public class ReceiptTransactionController implements Initializable {
         JFXDialog dialog = Support.getDialog(window, dialogWindow, JFXDialog.DialogTransition.TOP);
         dialog.setOverlayClose(false);
 
+        btn_billcancl.setOnMouseClicked(e -> {
+            cb_banklist.getSelectionModel().clearSelection();
+            txt_cheque.clear();
+            dialog.close();
+        });
+
+        btn_billcancl.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                cb_banklist.getSelectionModel().clearSelection();
+                txt_cheque.clear();
+                dialog.close();
+            }
+        });
+
         dialog.show();
 
         btn_bankclose.setOnMouseClicked((e) -> {
+            txt_bank.clear();
+            txt_branch.clear();
+            txt_code.clear();
             newbox.setVisible(false);
             billbank.setVisible(true);
         });
 
         btn_bankclose.setOnKeyPressed((e) -> {
             if (e.getCode() == KeyCode.ENTER) {
+                txt_bank.clear();
+                txt_branch.clear();
+                txt_code.clear();
                 newbox.setVisible(false);
                 billbank.setVisible(true);
             }
@@ -346,12 +374,12 @@ public class ReceiptTransactionController implements Initializable {
                 bank.setBankname(txt_bank.getText());
                 bank.setBranch(txt_branch.getText());
                 bank.setCode(txt_code.getText());
-                bankdb.saveBank(bank);
+                bankdb.saveBank(bank, window);
                 bankList.add(bank);
                 newbox.setVisible(false);
                 billbank.setVisible(true);
             } else {
-                PhoenixSupport.Error("सर्व माहिती भरा");
+                PhoenixSupport.Error("सर्व माहिती भरा", window);
             }
         });
 
@@ -361,23 +389,29 @@ public class ReceiptTransactionController implements Initializable {
                     bank.setBankname(txt_bank.getText());
                     bank.setBranch(txt_branch.getText());
                     bank.setCode(txt_code.getText());
-                    bankdb.saveBank(bank);
+                    bankdb.saveBank(bank, window);
                     bankList.add(bank);
                     newbox.setVisible(false);
                     billbank.setVisible(true);
                 } else {
-                    PhoenixSupport.Error("सर्व माहिती भरा");
+                    PhoenixSupport.Error("सर्व माहिती भरा", window);
                 }
             }
         });
 
         newBank.setOnMouseClicked((e) -> {
+            txt_bank.clear();
+            txt_branch.clear();
+            txt_code.clear();
             newbox.setVisible(true);
             billbank.setVisible(false);
         });
 
         newBank.setOnKeyPressed((e) -> {
             if (e.getCode() == KeyCode.ENTER) {
+                txt_bank.clear();
+                txt_branch.clear();
+                txt_code.clear();
                 newbox.setVisible(true);
                 billbank.setVisible(false);
             }
@@ -487,10 +521,10 @@ public class ReceiptTransactionController implements Initializable {
                 list.add(bill);
                 getSuccessDialog(list);
             } else {
-                PhoenixSupport.Info("पावती जतन नाही जाहली", "पावती");
+                PhoenixSupport.Info("पावती जतन नाही जाहली", "पावती", window);
             }
         } else {
-            PhoenixSupport.Error("बिल क्रमांक टाका.");
+            PhoenixSupport.Error("बिल क्रमांक टाका.", window);
             txt_bill_number.requestFocus();
         }
     }

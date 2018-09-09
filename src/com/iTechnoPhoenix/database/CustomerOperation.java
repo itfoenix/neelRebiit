@@ -14,12 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 
 public class CustomerOperation {
 
     private PreparedStatement stm;
 
-    public int addCustomer(Customer cust) {
+    public int addCustomer(Customer cust, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("insert into customer (name,address,phone,email,rdate) values(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             stm.setString(1, cust.getName());
@@ -38,7 +39,7 @@ public class CustomerOperation {
                 }
 
             } else {
-                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा");
+                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा", window);
                 return 0;
             }
         } catch (SQLException ex) {
@@ -48,7 +49,7 @@ public class CustomerOperation {
         return 0;
     }
 
-    public int updateCustomer(Customer cust) {
+    public int updateCustomer(Customer cust, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("update customer set name=?,address=?,phone=?,email=?,rdate=? where cust_num=?");
             stm.setString(1, cust.getName());
@@ -61,7 +62,7 @@ public class CustomerOperation {
                 Connector.commit();
                 return 1;
             } else {
-                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा");
+                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -71,7 +72,7 @@ public class CustomerOperation {
 
     }
 
-    public int deleteCustomer(int cust_num) {
+    public int deleteCustomer(int cust_num, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("delete from customer where cust_num=?");
             stm.setInt(1, cust_num);
@@ -79,7 +80,7 @@ public class CustomerOperation {
                 Connector.commit();
                 return 1;
             } else {
-                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा");
+                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();

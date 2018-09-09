@@ -243,15 +243,15 @@ public class Bill_EditingController implements Initializable {
             } else {
                 switch (billList.get(0).getStatus()) {
                     case "2":
-                        PhoenixSupport.Error("पुढच्या महिन्याच बिल बनवले आहे.");
+                        PhoenixSupport.Error("पुढच्या महिन्याच बिल बनवले आहे.", window);
                         break;
                     case "3":
-                        PhoenixSupport.Error("ह्या महिन्याच बिल आधीच भरले आहे.");
+                        PhoenixSupport.Error("ह्या महिन्याच बिल आधीच भरले आहे.", window);
                         break;
                 }
             }
         } else {
-            PhoenixSupport.Error("बिल क्रमांक चुकीचा आहे.");
+            PhoenixSupport.Error("बिल क्रमांक चुकीचा आहे.", window);
         }
     }
 
@@ -368,7 +368,7 @@ public class Bill_EditingController implements Initializable {
             dialog.show();
             dialog.setOnDialogOpened(e -> btnCancel.requestFocus());
         } else {
-            PhoenixSupport.Error("कृपया बिल क्रमांक शोधा.");
+            PhoenixSupport.Error("कृपया बिल क्रमांक शोधा.", window);
         }
     }
 }

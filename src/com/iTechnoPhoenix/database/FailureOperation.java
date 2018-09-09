@@ -12,12 +12,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 
 public class FailureOperation {
 
     private PreparedStatement stm;
 
-    public void saveFailureBanktransaction(Cheque fr) {
+    public void saveFailureBanktransaction(Cheque fr, StackPane window) {
 
         try {
             CallableStatement stm = Connector.getConnection().prepareCall("{ call bankChequeReturn(?,?,?,?,?,?,?)}");
@@ -30,7 +31,7 @@ public class FailureOperation {
             stm.setString(7, LocalDate.now().toString());
             stm.executeUpdate();
             Connector.commit();
-            PhoenixSupport.Info("चेक माहित जतन झाली", "चेक माहित ");
+            PhoenixSupport.Info("चेक माहित जतन झाली", "चेक माहित ", window);
         } catch (SQLException ex) {
             Connector.rollbackresult();
             PhoenixSupport.Info("save", "failure operation");
@@ -82,7 +83,7 @@ public class FailureOperation {
 
     }
 
-    public void updateFailureBanktransaction(Cheque fr) {
+    public void updateFailureBanktransaction(Cheque fr, StackPane window) {
 
         try {
             stm = Connector.getConnection().prepareStatement("update cheque set extracharges=?,total=?,rdate=? where id=?");
@@ -93,11 +94,11 @@ public class FailureOperation {
 
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("चेक माहित जतन झाली आहे", "चेक माहित ");
+                PhoenixSupport.Info("चेक माहित जतन झाली आहे", "चेक माहित ", window);
 
             } else {
                 Connector.rollbackresult();
-                PhoenixSupport.Info("चेक माहिती जतन नाहीत झाली ", "चेक माहित ");
+                PhoenixSupport.Info("चेक माहिती जतन नाहीत झाली ", "चेक माहित ", window);
             }
 
         } catch (SQLException ex) {
@@ -107,15 +108,15 @@ public class FailureOperation {
 
     }
 
-    public void deleteFailure(String chq) {
+    public void deleteFailure(String chq, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("update cheque set visible = 1 where cheqno=?");
             stm.setString(1, chq);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("चेक माहित हटवली गेली आहे ", "चेक माहिती");
+                PhoenixSupport.Info("चेक माहित हटवली गेली आहे ", "चेक माहिती", window);
             } else {
-                PhoenixSupport.Error("चेक माहित हटवली गेली नाही");
+                PhoenixSupport.Error("चेक माहित हटवली गेली नाही", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();

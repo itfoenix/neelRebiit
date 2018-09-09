@@ -126,7 +126,7 @@ public class BillTransactionController implements Initializable {
             save();
             valid.clear();
         } else {
-            PhoenixSupport.Error("कृपया चालु रिडिंग टाका.");
+            PhoenixSupport.Error("कृपया चालु रिडिंग टाका.", window);
         }
     }
 
@@ -223,7 +223,7 @@ public class BillTransactionController implements Initializable {
                             dialog.setOnDialogOpened(e -> listView.requestFocus());
                         }
                     } else {
-                        PhoenixSupport.Error("कृपया सर्व माहिती भरा.");
+                        PhoenixSupport.Error("कृपया सर्व माहिती भरा.", window);
                     }
                 }
             }
@@ -250,7 +250,7 @@ public class BillTransactionController implements Initializable {
                 save();
                 valid.clear();
             } else {
-                PhoenixSupport.Error("कृपया चालु रिडिंग टाका.");
+                PhoenixSupport.Error("कृपया चालु रिडिंग टाका.", window);
             }
         }
     }
@@ -302,7 +302,7 @@ public class BillTransactionController implements Initializable {
                 tblItem.getValue().setCuramount(0);
                 tblItem.getValue().setUseunit(0);
                 calculateGrand();
-                PhoenixSupport.Error("चालू रीडीग ही कमी आहे मागील रीडीग पेक्षा. रीडीग तपासून पहा.");
+                PhoenixSupport.Error("चालू रीडीग ही कमी आहे मागील रीडीग पेक्षा. रीडीग तपासून पहा.", window);
             }
             tbl_meter.refresh();
         });
@@ -342,7 +342,7 @@ public class BillTransactionController implements Initializable {
                 tblItem.getValue().setCuramount(0);
                 tblItem.getValue().setUseunit(0);
                 calculateGrand();
-                PhoenixSupport.Error("वापर युनिट ही खूप कमी आहे.");
+                PhoenixSupport.Error("वापर युनिट ही खूप कमी आहे.", window);
             }
             tbl_meter.refresh();
         });
@@ -389,7 +389,7 @@ public class BillTransactionController implements Initializable {
         BillOperation bo = new BillOperation();
         JFXTreeTableColumn<Bill, Integer> tclbillno = new JFXTreeTableColumn<>("बिल क्रमांक");
         JFXTreeTableColumn<Bill, Long> tclcurrentreading = new JFXTreeTableColumn<>("चालू रीडिंग");
-        JFXTreeTableColumn<Bill, String> tclperiod = new JFXTreeTableColumn<>("कालावधी");
+        JFXTreeTableColumn<Bill, String> tclperiod = new JFXTreeTableColumn<>("kalaavaQaI");
         JFXTreeTableColumn<Bill, Long> tclprereading = new JFXTreeTableColumn<>("मागील रीडिंग");
         JFXTreeTableColumn<Bill, String> tclstatus = new JFXTreeTableColumn<>("स्थिती");
         JFXTreeTableColumn<Bill, Double> tcltotal = new JFXTreeTableColumn<>("एकूण रक्कम");
@@ -482,7 +482,7 @@ public class BillTransactionController implements Initializable {
                         bill.setBillref(billref);
                         billno = 0;
                     } else {
-                        PhoenixSupport.Error("मीटर क्रमांक " + bill.getMeter().getMetor_num() + ", ह्या महिन्याचे बिल आधीच बनवल आहे.");
+                        PhoenixSupport.Error("मीटर क्रमांक " + bill.getMeter().getMetor_num() + ", ह्या महिन्याचे बिल आधीच बनवल आहे.", window);
                     }
                 }
                 if (billno == 0) {
@@ -492,26 +492,26 @@ public class BillTransactionController implements Initializable {
                     btnDPrint.setOnAction(e -> {
                         ArrayList<MeterBill> meterBillList = billSupport.assignBillValue(billList);
                         PhoenixSupport.printMeterBill(meterBillList);
-                        cancel();
+                        successCancel();
                         dialog.close();
                     });
                     btnDPrint.setOnKeyPressed(e -> {
                         if (e.getCode() == KeyCode.ENTER) {
                             ArrayList<MeterBill> meterBillList = billSupport.assignBillValue(billList);
                             PhoenixSupport.printMeterBill(meterBillList);
-                            cancel();
+                            successCancel();
                             dialog.close();
                         }
                     });
                     JFXButton btnDCancel = new JFXButton("रद्द करा");
                     btnDCancel.getStyleClass().add("btn-cancel");
                     btnDCancel.setOnAction(e -> {
-                        cancel();
+                        successCancel();
                         dialog.close();
                     });
                     btnDCancel.setOnKeyPressed(e -> {
                         if (e.getCode() == KeyCode.ENTER) {
-                            cancel();
+                            successCancel();
                             dialog.close();
                         }
                     });
@@ -522,16 +522,34 @@ public class BillTransactionController implements Initializable {
                     });
                 }
             } else {
-                PhoenixSupport.Error("कृपया ग्राहक किवा मीटरची माहिती टाका.");
+                PhoenixSupport.Error("कृपया ग्राहक किवा मीटरची माहिती टाका.", window);
             }
         } else {
-            PhoenixSupport.Error("कृपया सर्व माहिती भरा.");
+            PhoenixSupport.Error("कृपया सर्व माहिती भरा.", window);
         }
     }
 
     public void cancel() {
         cb_period.getSelectionModel().clearSelection();
         txt_duration.setValue(null);
+        txt_meter_customer.clear();
+        txt_remark.clear();
+        txt_total_amt.setText("००");
+        lbl_customer_name.setText("");
+        billList.clear();
+        refreshTable();
+        billno = 0;
+        billref = 0;
+        finaltotal = 0;
+        grandtotal = 0;
+        outrate = 0;
+        outstanding = 0;
+        scharge = 0;
+        total = 0;
+        use_unit = 0;
+    }
+
+    public void successCancel() {
         txt_meter_customer.clear();
         txt_remark.clear();
         txt_total_amt.setText("००");

@@ -14,12 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 
 public class MeterOperation {
 
     private PreparedStatement stm;
 
-    public int addMeter(Meter m) {
+    public int addMeter(Meter m, StackPane window) {
         int i = 0;
         try {
             stm = Connector.getConnection().prepareStatement("insert into meter (meter_num,con_date,curr_reading,outstanding,deposit,rdate,cust_id) values(?,?,?,?,?,?,?)");
@@ -33,7 +34,7 @@ public class MeterOperation {
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
             } else {
-                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा");
+                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -42,7 +43,7 @@ public class MeterOperation {
         return i;
     }
 
-    public void updateMeter(Meter m) {
+    public void updateMeter(Meter m, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("update meter set meter_num=?,con_date=?,curr_reading=?, outstanding=?,deposit=?,rdate=?,cust_id=? where id=?");
             stm.setString(1, m.getMetor_num());
@@ -55,9 +56,9 @@ public class MeterOperation {
             stm.setInt(8, m.getId());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("ग्राहक आणि मीटर माहिती जतन झाली आहे", "ग्राहक आणि मीटर माहित ");
+                PhoenixSupport.Info("ग्राहक आणि मीटर माहिती जतन झाली आहे", "ग्राहक आणि मीटर माहित ", window);
             } else {
-                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा");
+                PhoenixSupport.Error("माहिती जतन नाही झाली. पुन प्रयत्न करा", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -65,15 +66,15 @@ public class MeterOperation {
         }
     }
 
-    public void deleteMeter(int id) {
+    public void deleteMeter(int id, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("update meter set status = 1 where id=?");
             stm.setInt(1, id);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("मीटरची माहित हटवली आहे", "मीटर माहित");
+                PhoenixSupport.Info("मीटरची माहित हटवली आहे", "मीटर माहित", window);
             } else {
-                PhoenixSupport.Error("माहिती हटवली नाही गेली. पुन प्रयत्न करा");
+                PhoenixSupport.Error("माहिती हटवली नाही गेली. पुन प्रयत्न करा", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();

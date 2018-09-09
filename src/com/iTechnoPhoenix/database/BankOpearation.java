@@ -8,12 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 
 public class BankOpearation {
 
     private PreparedStatement stm;
 
-    public void saveBank(Banks b) {
+    public void saveBank(Banks b, StackPane window) {
 
         try {
             stm = Connector.getConnection().prepareStatement("insert into bank (name,branch,code) values(?,?,?)");
@@ -22,10 +23,10 @@ public class BankOpearation {
             stm.setString(3, b.getCode());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("बँकेची माहिती जतन झाली आहे.", "बँक माहिती");
+                PhoenixSupport.Info("बँकेची माहिती जतन झाली आहे.", "बँक माहिती", window);
             } else {
                 Connector.rollbackresult();
-                PhoenixSupport.Info("बँकेची माहिती जतन नाही झाली. पुन प्रयत्न करा", "बँक माहिती");
+                PhoenixSupport.Info("बँकेची माहिती जतन नाही झाली. पुन प्रयत्न करा", "बँक माहिती", window);
             }
 
         } catch (SQLException ex) {
@@ -56,7 +57,7 @@ public class BankOpearation {
         return bankslist;
     }
 
-    public void updateBank(Banks b) {
+    public void updateBank(Banks b, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("update bank set name=?,branch=?,code=? where bid=?");
             stm.setString(1, b.getBankname());
@@ -65,10 +66,10 @@ public class BankOpearation {
             stm.setInt(4, b.getBid());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("बँकेची माहिती जतन झाली आहे.", "बँक माहिती");
+                PhoenixSupport.Info("बँकेची माहिती जतन झाली आहे.", "बँक माहिती", window);
             } else {
                 Connector.rollbackresult();
-                PhoenixSupport.Info("बँकेची माहिती जतन नाही झाली. पुन प्रयत्न करा", "बँक माहिती");
+                PhoenixSupport.Info("बँकेची माहिती जतन नाही झाली. पुन प्रयत्न करा", "बँक माहिती", window);
             }
 
         } catch (SQLException ex) {
@@ -77,16 +78,16 @@ public class BankOpearation {
         }
     }
 
-    public void deleteBank(int bid) {
+    public void deleteBank(int bid, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("delete from bank where bid=?");
             stm.setInt(1, bid);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("बँकेची माहित हटवली आहे", "बँक माहिती");
+                PhoenixSupport.Info("बँकेची माहित हटवली आहे", "बँक माहिती", window);
             } else {
                 Connector.rollbackresult();
-                PhoenixSupport.Info("बँकेची माहिती जतन नाही झाली. पुन प्रयत्न करा", "बँक माहिती");
+                PhoenixSupport.Info("बँकेची माहिती जतन नाही झाली. पुन प्रयत्न करा", "बँक माहिती", window);
             }
 
         } catch (SQLException ex) {

@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 
 public class ReceiptOperation {
 
@@ -86,17 +87,17 @@ public class ReceiptOperation {
         return re;
     }
 
-    public void deleteReceipt(int rid) {
+    public void deleteReceipt(int rid, StackPane window) {
 
         try {
             stm = Connector.getConnection().prepareStatement("delete from receipt where receipt_no=?");
             stm.setInt(1, rid);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("Delete Receipt", "Receipt Operation");
+                PhoenixSupport.Info("Delete Receipt", "Receipt Operation", window);
             } else {
                 Connector.rollbackresult();
-                PhoenixSupport.Info("Not Delete Receipt", "Receipt Operation");
+                PhoenixSupport.Info("Not Delete Receipt", "Receipt Operation", window);
             }
 
         } catch (SQLException ex) {

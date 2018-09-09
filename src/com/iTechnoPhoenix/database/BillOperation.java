@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
+import javafx.scene.layout.StackPane;
 
 public class BillOperation {
 
@@ -599,7 +600,7 @@ public class BillOperation {
         return i;
     }
 
-    public void insertNameWise(Bill bill) {
+    public void insertNameWise(Bill bill, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("Insert into custwisebill (cust_id, meter_no, bill_no) values (?,?,?)");
             stm.setInt(1, bill.getCustomernumber());
@@ -608,7 +609,7 @@ public class BillOperation {
             int i = stm.executeUpdate();
             if (i == 1) {
                 Connector.commit();
-                PhoenixSupport.Info("बिल जतन झालं आहे ", "बिल व्यवहार");
+                PhoenixSupport.Info("बिल जतन झालं आहे ", "बिल व्यवहार", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();

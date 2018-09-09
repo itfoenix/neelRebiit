@@ -125,19 +125,19 @@ public class UserController implements Initializable {
                 u.setPassword(txt_password.getText());
                 u.setRole(cb_role.getSelectionModel().getSelectedIndex());
                 if (!userList.contains(u)) {
-                    userdb.addUser(u);
+                    userdb.addUser(u, window);
                     refresh();
                     cancel();
                 } else {
                     txt_username.requestFocus();
                     txt_username.clear();
-                    PhoenixSupport.Error("युझरनेम आधीच वापरण्यात आहे.");
+                    PhoenixSupport.Error("युझरनेम आधीच वापरण्यात आहे.", window);
                 }
             } else {
-                PhoenixSupport.Error("परवानगी नाही");
+                PhoenixSupport.Error("परवानगी नाही", window);
             }
         } else {
-            PhoenixSupport.Error("सर्व माहिती भरा");
+            PhoenixSupport.Error("सर्व माहिती भरा", window);
         }
     }
 
@@ -196,14 +196,14 @@ public class UserController implements Initializable {
                             if (PhoenixSupport.role == 0) {
                                 u.setName(txtName.getText());
                                 u.setRole(cbRole.getSelectionModel().getSelectedIndex());
-                                userdb.updateUser(u);
+                                userdb.updateUser(u, window);
                                 refresh();
                                 dialog.close();
                             } else {
-                                PhoenixSupport.Error("परवानगी नाही");
+                                PhoenixSupport.Error("परवानगी नाही", window);
                             }
                         } else {
-                            PhoenixSupport.Error("सर्व माहिती भरा");
+                            PhoenixSupport.Error("सर्व माहिती भरा", window);
                         }
                     });
                     btnSave.setOnKeyPressed(e -> {
@@ -212,14 +212,14 @@ public class UserController implements Initializable {
                                 if (PhoenixSupport.role == 0) {
                                     u.setName(txtName.getText());
                                     u.setRole(cbRole.getSelectionModel().getSelectedIndex());
-                                    userdb.updateUser(u);
+                                    userdb.updateUser(u, window);
                                     refresh();
                                     dialog.close();
                                 } else {
-                                    PhoenixSupport.Error("परवानगी नाही");
+                                    PhoenixSupport.Error("परवानगी नाही", window);
                                 }
                             } else {
-                                PhoenixSupport.Error("सर्व माहिती भरा");
+                                PhoenixSupport.Error("सर्व माहिती भरा", window);
                             }
                         }
                     });
@@ -237,7 +237,7 @@ public class UserController implements Initializable {
             delete.setOnMouseClicked(event -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
                 User user = table.getSelectionModel().getSelectedItem().getValue();
-                userdb.deleteUser(user.getId());
+                userdb.deleteUser(user.getId(), window);
                 refresh();
             });
         }

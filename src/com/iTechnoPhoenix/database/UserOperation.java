@@ -10,12 +10,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.layout.StackPane;
 
 public class UserOperation {
 
     private PreparedStatement stm;
 
-    public void addUser(User u) {
+    public void addUser(User u, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("insert into users (name,username,password,role,rdate) values(?,?,?,?,now())");
             stm.setString(1, u.getName());
@@ -24,9 +25,9 @@ public class UserOperation {
             stm.setInt(4, u.getRole());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("जतन झालं", "user माहिती");
+                PhoenixSupport.Info("जतन झालं", "user माहिती", window);
             } else {
-                PhoenixSupport.Error("जतन नाही झालं");
+                PhoenixSupport.Error("जतन नाही झालं", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -34,7 +35,7 @@ public class UserOperation {
         }
     }
 
-    public void updateUser(User u) {
+    public void updateUser(User u, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("update users set name=?,username=?,password=?,role=?,rdate=now() where uid=?");
             stm.setString(1, u.getName());
@@ -44,9 +45,9 @@ public class UserOperation {
             stm.setInt(5, u.getId());
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("जतन झालं", "user माहिती");
+                PhoenixSupport.Info("जतन झालं", "user माहिती", window);
             } else {
-                PhoenixSupport.Error("जतन नाही झालं");
+                PhoenixSupport.Error("जतन नाही झालं", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
@@ -54,15 +55,15 @@ public class UserOperation {
         }
     }
 
-    public void deleteUser(int id) {
+    public void deleteUser(int id, StackPane window) {
         try {
             stm = Connector.getConnection().prepareStatement("delete from users where uid=?");
             stm.setInt(1, id);
             if (stm.executeUpdate() > 0) {
                 Connector.commit();
-                PhoenixSupport.Info("User Information deleted", "User Master");
+                PhoenixSupport.Info("Userची माहिती काढून टाकली.", "User Master", window);
             } else {
-                PhoenixSupport.Error("User info Not delete");
+                PhoenixSupport.Error("Userची माहिती नाही काढली आहे.", window);
             }
         } catch (SQLException ex) {
             Connector.rollbackresult();
