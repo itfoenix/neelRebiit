@@ -314,7 +314,7 @@ public class ReceiptTransactionController implements Initializable {
         JFXButton btn_billsave = new JFXButton("जतन करा");
         btn_billsave.setStyle("-fx-background-color: #4BB89B;-fx-text-fill:white;");
         JFXButton btn_billcancl = new JFXButton("रद्ध करा");
-        btn_billsave.setStyle("-fx-background-color:#3E4A4F; -fx-text-fill:white;");
+        btn_billcancl.setStyle("-fx-background-color:#3E4A4F; -fx-text-fill:white;");
         VBox.setMargin(btn_billsave, new Insets(8, 8, 8, 8));
 
         StackPane.setMargin(billbank, new Insets(8));
@@ -322,7 +322,7 @@ public class ReceiptTransactionController implements Initializable {
         HBox hb = new HBox();
         hb.setSpacing(16);
         hb.setAlignment(Pos.CENTER_RIGHT);
-        hb.getChildren().addAll(btn_billsave, btn_bankclose);
+        hb.getChildren().addAll(btn_billsave, btn_billcancl);
         billbank.getChildren().addAll(cb_banklist, txt_cheque, hb);
 
         innerStock.getChildren().addAll(newbox, billbank);
@@ -336,15 +336,12 @@ public class ReceiptTransactionController implements Initializable {
         dialog.setOverlayClose(false);
 
         btn_billcancl.setOnMouseClicked(e -> {
-            cb_banklist.getSelectionModel().clearSelection();
-            txt_cheque.clear();
             dialog.close();
         });
 
         btn_billcancl.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                cb_banklist.getSelectionModel().clearSelection();
-                txt_cheque.clear();
+
                 dialog.close();
             }
         });
