@@ -55,7 +55,8 @@ public class UnitsOperation {
         try {
             stm = Connector.getConnection().prepareStatement("delete from units where uid=?");
             stm.setInt(1, id);
-            if (stm.executeUpdate() > 0) {
+            int i = stm.executeUpdate();
+            if (i > 0) {
                 Connector.commit();
                 PhoenixSupport.Info("युनिट हटवले गेले आहे.", "युनिट माहिती", window);
             } else {

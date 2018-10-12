@@ -148,13 +148,14 @@ public class ReceiptOperation {
         return fr;
     }
 
-    public Receipt checkBill(int billId) {
-        Receipt receipt = null;
+    public ObservableList<Receipt> checkBill(int billId) {
+        ObservableList<Receipt> receiptList = FXCollections.observableArrayList();
         try {
             stm = Connector.getConnection().prepareStatement("SELECT * from receipt where bill_no=?");
             stm.setInt(1, billId);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
+                Receipt receipt = new Receipt();
                 receipt = new Receipt();
                 receipt.setReceipt_no(rs.getInt(1));
                 receipt.setPdate(rs.getString(2));
@@ -166,11 +167,12 @@ public class ReceiptOperation {
                 }
                 receipt.setBankid(rs.getInt(8));
                 receipt.setUid(rs.getInt(9));
+                receiptList.add(receipt);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReceiptOperation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return receipt;
+        return receiptList;
     }
 
     public ObservableList<Bill> getAllReceipt(String period) {

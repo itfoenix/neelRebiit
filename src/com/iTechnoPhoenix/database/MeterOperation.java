@@ -23,7 +23,7 @@ public class MeterOperation {
     public int addMeter(Meter m, StackPane window) {
         int i = 0;
         try {
-            stm = Connector.getConnection().prepareStatement("insert into meter (meter_num,con_date,curr_reading,outstanding,deposit,rdate,cust_id) values(?,?,?,?,?,?,?)");
+            stm = Connector.getConnection().prepareStatement("insert into meter (meter_num,con_date,curr_reading,outstanding,deposit,rdate,cust_id,status) values(?,?,?,?,?,?,?,0)");
             stm.setString(1, m.getMetor_num());
             stm.setString(2, m.getCon_date().toString());
             stm.setLong(3, m.getCurr_reading());

@@ -261,7 +261,8 @@ public class CustomerController implements Initializable {
                     mo.addMeter(e, window);
                 });
                 PhoenixSupport.Info("ग्राहकाची माहित जतन झाली आहे.", "ग्राहक माहित", window);
-
+                clearAll();
+                txt_metertable.getRoot().getChildren().clear();
             } else {
                 PhoenixSupport.Error("मीटरची माहीत भरणे अनिवार्य आहे.", window);
             }

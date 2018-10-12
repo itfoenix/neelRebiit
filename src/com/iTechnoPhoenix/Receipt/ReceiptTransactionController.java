@@ -99,6 +99,7 @@ public class ReceiptTransactionController implements Initializable {
     private FailureOperation faildb;
     private ObservableList<Bill> billList;
     private ObservableList<Banks> bankList;
+    private ObservableList<Receipt> receiptList;
     private Bill bill;
     private Banks bank = new Banks();
     private double grandtotal;
@@ -142,6 +143,7 @@ public class ReceiptTransactionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        receiptList = FXCollections.observableArrayList();
         billdb = new BillOperation();
         recieptdb = new ReceiptOperation();
         faildb = new FailureOperation();
@@ -154,7 +156,7 @@ public class ReceiptTransactionController implements Initializable {
                     String s = txt_bill_number.getText();
 
                     billList = billdb.getBillRef(PhoenixSupport.getInteger(s));
-                    Receipt receipt = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
+                    receiptList = recieptdb.checkBill(PhoenixSupport.getInteger(txt_bill_number.getText()));
 
                     if (!billList.isEmpty()) {
                         if (billList.get(0).getSt() != 2) {
@@ -170,19 +172,24 @@ public class ReceiptTransactionController implements Initializable {
                                 remaining = remaining + b.getPaidamt();
                             }
 
-                            if (receipt != null) {
+                            if (!receiptList.isEmpty()) {
                                 if (billList.get(0).getSt() == 3) {
                                     PhoenixSupport.Info("ह्या बिलाची रक्कम आधीच मिळाली आहे", "पावती व्यवहार", window);
                                     cancel();
                                 } else if (billList.get(0).getSt() == 5) {
-                                    if (receipt.getCheq_no() != null) {
-                                        if (!faildb.checkFailed(receipt.getCheq_no())) {
-                                            lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
+                                    double sum = 0;
+                                    for (Receipt receipt : receiptList) {
+                                        if (receipt.getCheq_no() != null) {
+                                            if (!faildb.checkFailed(receipt.getCheq_no())) {
+                                                sum = sum + receipt.getAmount();
+                                                lbl_preious_paid_amt.setText(String.valueOf(sum));
+                                            } else {
+                                                lbl_preious_paid_amt.setText(String.valueOf(grandtotal - remaining));
+                                            }
                                         } else {
-                                            lbl_preious_paid_amt.setText(String.valueOf(grandtotal - remaining));
+                                            sum = sum + receipt.getAmount();
+                                            lbl_preious_paid_amt.setText(String.valueOf(sum));
                                         }
-                                    } else {
-                                        lbl_preious_paid_amt.setText(String.valueOf(receipt.getAmount()));
                                     }
                                 } else {
                                     lbl_preious_paid_amt.setText("००");
@@ -190,6 +197,7 @@ public class ReceiptTransactionController implements Initializable {
                             } else {
                                 lbl_preious_paid_amt.setText("००");
                             }
+
                             txt_delay_payment.setText("००");
                             grandCalculation();
                         } else {

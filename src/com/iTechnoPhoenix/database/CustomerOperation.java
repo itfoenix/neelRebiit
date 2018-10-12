@@ -92,7 +92,7 @@ public class CustomerOperation {
     public ObservableList<Meter> getCustomerByName() {
         ObservableList<Meter> customerlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("Select * from customer c join meter m on c.cust_num = m.cust_id");
+            stm = Connector.getConnection().prepareStatement("Select * from customer c join meter m on c.cust_num = m.cust_id where m.status != 1");
 
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {

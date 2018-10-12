@@ -133,7 +133,7 @@ public class UnitsController implements Initializable {
     public class ActionCell extends JFXTreeTableCell<Unit, Integer> {
 
         final JFXButton edit = new JFXButton("Edit");
-        final JFXButton delete = new JFXButton("delete");
+        final JFXButton delete = new JFXButton("Delete");
         final HBox actiongroup = new HBox();
         final StackPane paddedButton = new StackPane();
 
@@ -143,39 +143,51 @@ public class UnitsController implements Initializable {
             edit.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             delete.setGraphic(new ImageView("/com/iTechnoPhoenix/resource/Trash Can_48px.png"));
             delete.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-            edit.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    table.getSelectionModel().select(getTreeTableRow().getIndex());
-                    Unit u = table.getSelectionModel().getSelectedItem().getValue();
-                    VBox vb = new VBox();
-                    JFXTextField txtMin = new JFXTextField();
-                    PhoenixSupport.onlyNumber(txtMin);
-                    txtMin.setPromptText("किमान युनिट");
-                    txtMin.setLabelFloat(true);
-                    txtMin.setMaxWidth(200);
-                    txtMin.setText(String.valueOf(u.getMin()));
-                    JFXTextField txtMax = new JFXTextField();
-                    PhoenixSupport.onlyNumber(txtMax);
-                    txtMax.setPromptText("कमाल युनिट");
-                    txtMax.setLabelFloat(true);
-                    txtMax.setMaxWidth(200);
-                    txtMax.setText(String.valueOf(u.getMax()));
-                    JFXTextField txtUnit = new JFXTextField();
-                    PhoenixSupport.onlyNumber(txtUnit);
-                    txtUnit.setPromptText("रक्कम");
-                    txtUnit.setLabelFloat(true);
-                    txtUnit.setMaxWidth(200);
-                    txtUnit.setText(String.valueOf(u.getUnitprice()));
-                    vb.setSpacing(16);
-                    vb.setAlignment(Pos.CENTER);
-                    vb.getChildren().addAll(txtMin, txtMax, txtUnit);
-                    JFXButton btnSave = new JFXButton("जतन");
-                    btnSave.getStyleClass().add("btn-search");
-                    JFXButton btnClose = new JFXButton("राध");
-                    btnClose.getStyleClass().add("btn-cancel");
-                    JFXDialog dialog = Support.getDialog(window, new Label("युनिट बदल करणे"), vb, btnSave, btnClose);
-                    btnSave.setOnAction(e -> {
+            edit.setOnMouseClicked(event -> {
+                table.getSelectionModel().select(getTreeTableRow().getIndex());
+                Unit u = table.getSelectionModel().getSelectedItem().getValue();
+                VBox vb = new VBox();
+                JFXTextField txtMin = new JFXTextField();
+                PhoenixSupport.onlyNumber(txtMin);
+                txtMin.setPromptText("किमान युनिट");
+                txtMin.setLabelFloat(true);
+                txtMin.setMaxWidth(200);
+                txtMin.setText(String.valueOf(u.getMin()));
+                JFXTextField txtMax = new JFXTextField();
+                PhoenixSupport.onlyNumber(txtMax);
+                txtMax.setPromptText("कमाल युनिट");
+                txtMax.setLabelFloat(true);
+                txtMax.setMaxWidth(200);
+                txtMax.setText(String.valueOf(u.getMax()));
+                JFXTextField txtUnit = new JFXTextField();
+                PhoenixSupport.onlyNumber(txtUnit);
+                txtUnit.setPromptText("रक्कम");
+                txtUnit.setLabelFloat(true);
+                txtUnit.setMaxWidth(200);
+                txtUnit.setText(String.valueOf(u.getUnitprice()));
+                vb.setSpacing(16);
+                vb.setAlignment(Pos.CENTER);
+                vb.getChildren().addAll(txtMin, txtMax, txtUnit);
+                JFXButton btnSave = new JFXButton("जतन");
+                btnSave.getStyleClass().add("btn-search");
+                JFXButton btnClose = new JFXButton("राध");
+                btnClose.getStyleClass().add("btn-cancel");
+                JFXDialog dialog = Support.getDialog(window, new Label("युनिट बदल करणे"), vb, btnSave, btnClose);
+                btnSave.setOnAction(e -> {
+                    if (PhoenixSupport.getInteger(txtMax.getText()) > PhoenixSupport.getInteger(txtMin.getText())) {
+                        u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
+                        u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
+                        u.setUnitprice(PhoenixSupport.getDouble(txtUnit.getText()));
+                        unitsdb.updateUnits(u, window);
+                        refreshTable();
+                        dialog.close();
+                    } else {
+                        txtMax.setFocusColor(Paint.valueOf("red"));
+                        txtMax.requestFocus();
+                    }
+                });
+                btnSave.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.ENTER) {
                         if (PhoenixSupport.getInteger(txtMax.getText()) > PhoenixSupport.getInteger(txtMin.getText())) {
                             u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
                             u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
@@ -187,54 +199,26 @@ public class UnitsController implements Initializable {
                             txtMax.setFocusColor(Paint.valueOf("red"));
                             txtMax.requestFocus();
                         }
-                    });
-                    btnSave.setOnKeyPressed(e -> {
-                        if (e.getCode() == KeyCode.ENTER) {
-                            if (PhoenixSupport.getInteger(txtMax.getText()) > PhoenixSupport.getInteger(txtMin.getText())) {
-                                u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
-                                u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
-                                u.setUnitprice(PhoenixSupport.getDouble(txtUnit.getText()));
-                                unitsdb.updateUnits(u, window);
-                                refreshTable();
-                                dialog.close();
-                            } else {
-                                txtMax.setFocusColor(Paint.valueOf("red"));
-                                txtMax.requestFocus();
-                            }
-                        }
                     }
-                    );
-                    btnClose.setOnAction(e
-                            -> dialog.close());
-                    btnClose.setOnKeyPressed(e
-                            -> {
-                        if (e.getCode() == KeyCode.ENTER) {
-                            dialog.close();
-                        }
+                });
+                btnClose.setOnAction(e -> dialog.close());
+                btnClose.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.ENTER) {
+                        dialog.close();
                     }
-                    );
-                    dialog.show();
-
-                    dialog.setOnDialogOpened(e
-                            -> btnSave.requestFocus());
-                }
+                });
+                dialog.setOnDialogOpened(e -> btnSave.requestFocus());
+                dialog.show();
             });
-            delete.setOnMouseClicked(
-                    new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event
-                ) {
-                    table.getSelectionModel().select(getTreeTableRow().getIndex());
-                    Unit unit = table.getSelectionModel().getSelectedItem().getValue();
-                    unitsdb.deleteUnits(unit.getId(), window);
-                    refreshTable();
-                }
-            }
-            );
+            delete.setOnMouseClicked((MouseEvent event) -> {
+                table.getSelectionModel().select(getTreeTableRow().getIndex());
+                Unit unit = table.getSelectionModel().getSelectedItem().getValue();
+                unitsdb.deleteUnits(unit.getId(), window);
+                refreshTable();
+            });
         }
 
         @Override
-
         protected void updateItem(Integer item, boolean empty) {
             super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
             if (!empty) {

@@ -13,7 +13,7 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="inch"/>
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="241"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#D3D3D3">
 		<box>
 			<topPen lineWidth="0.5" lineColor="#000000"/>
@@ -238,7 +238,7 @@ ga`amapMcaayat palaIdovad
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[maITar naM :]]></text>
+				<text><![CDATA[maITr naM :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="222" y="89" width="111" height="14" uuid="3016d5f4-2c45-46b4-ade6-757ebd1ea90f"/>
