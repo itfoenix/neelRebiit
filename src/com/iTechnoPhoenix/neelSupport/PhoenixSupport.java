@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -278,6 +279,38 @@ public class PhoenixSupport {
 
     public void printReceipt(ArrayList<Bill> blist) {
         String billformate = "ReceiptFormate.jrxml";
+        try {
+            ArrayList<Bill> singleReceipt = new ArrayList<>();
+            for (Bill bs : blist) {
+                singleReceipt.add(bs);
+            }
+            JasperReport report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleReceipt);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void printAllBillList(List<Bill> blist) {
+        String billformate = "BillList.jrxml";
+        try {
+            ArrayList<Bill> singleReceipt = new ArrayList<>();
+            for (Bill bs : blist) {
+                singleReceipt.add(bs);
+            }
+            JasperReport report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleReceipt);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void printAllReceiptList(List<Bill> blist) {
+        String billformate = "ReceiptList.jrxml";
         try {
             ArrayList<Bill> singleReceipt = new ArrayList<>();
             for (Bill bs : blist) {

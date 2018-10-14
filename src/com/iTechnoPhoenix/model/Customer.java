@@ -80,4 +80,9 @@ public class Customer extends RecursiveTreeObject<Customer> {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

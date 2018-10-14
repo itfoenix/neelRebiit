@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6a90039b-3c08-463d-9450-c9b2ce790ad5">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="border_rlb">
+		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+			<pen lineWidth="1.0"/>
+			<topPen lineWidth="0.0"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="border_rlt">
+		<box>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<field name="bdate" class="java.lang.String"/>
+	<field name="customername" class="java.lang.String"/>
+	<field name="balance" class="java.lang.Double"/>
+	<field name="useunit" class="java.lang.Long"/>
+	<field name="scharges" class="java.lang.Double"/>
+	<field name="billref" class="java.lang.Integer"/>
+	<field name="meternumber" class="java.lang.String"/>
+	<field name="total" class="java.lang.Double"/>
+	<field name="period" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="69" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="64" width="556" height="1" uuid="91712448-bf29-41a1-97dd-96d89f440239"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="63" uuid="80addb70-1a73-46ce-9f03-ec455b89b48e"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Shivaji01" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ga`amapMcaayat palaIdovad]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36">
+			<textField>
+				<reportElement x="108" y="8" width="186" height="20" uuid="eee4a576-a1f7-4f50-8f40-e98cea5edb6b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{period}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="8" width="98" height="20" uuid="caaade86-9d00-441b-b68d-8a5b3bd1efa8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[कालावधी : ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement style="border_rlt" x="150" y="0" width="69" height="20" uuid="31a19844-cae4-434b-b8d0-feaa613a5938"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[बिलाची तारिक]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="0" y="0" width="86" height="20" uuid="84d84142-088d-4354-8226-4e73a26f653a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ग्राहकाचे नाव]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="297" y="0" width="69" height="20" uuid="5d23709d-7a23-44fa-a017-038345aad061"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[थकबाकी]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="366" y="0" width="60" height="20" uuid="c186b9ec-64f6-445b-beb0-3bacd5bd9f34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[वापर युनिट]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="426" y="0" width="60" height="20" uuid="d85ce7a9-499b-4298-be68-253208d5d785"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[सर चार्ज]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="86" y="0" width="64" height="20" uuid="75e99501-7fa7-402a-a8e9-dfb7835ab3d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[बिल क्र]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="219" y="0" width="78" height="20" uuid="c64e557a-e7fe-4dbe-b80c-94b3c538864e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[मीटर क्र]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="486" y="0" width="69" height="20" uuid="0c7d3ecb-6b74-4606-9c9b-7a567fa419b6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[बिलाची रक्कम]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="150" y="0" width="69" height="20" uuid="eda7bc20-b569-4d73-b8a9-e19954e76409"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bdate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="0" y="0" width="86" height="20" uuid="0ffc7967-c3f2-4f37-9b90-22eaeb91002e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customername}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="297" y="0" width="69" height="20" uuid="57b0430a-522f-4076-a485-f073a059dd8b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="366" y="0" width="60" height="20" uuid="d823023a-679f-4492-a5c9-f137d9461026"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{useunit}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="426" y="0" width="60" height="20" uuid="734a1910-1068-4488-bf90-00192716f071"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{scharges}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="86" y="0" width="64" height="20" uuid="e2e41bd9-7888-4f1e-9fe6-2a3ee11048cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billref}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="219" y="0" width="78" height="20" uuid="93a69b67-0906-4e67-b963-b6a984a9ea89"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{meternumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlt" stretchType="RelativeToTallestObject" x="486" y="0" width="69" height="20" uuid="1e60afa8-3b08-4338-abc6-9ce9829480ec"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="451" y="9" width="103" height="20" uuid="d50f29f1-64af-4620-a2ac-3f480d76fcb5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[पान नं : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="485" y="9" width="69" height="20" uuid="bf334a40-de51-4095-91a4-f5fc5b85ba3e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="5" width="556" height="1" uuid="22e5dc13-ab9d-4450-8865-83a2bec0cbf9"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

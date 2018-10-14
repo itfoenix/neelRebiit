@@ -68,6 +68,7 @@ public class ReceiptPrintingController implements Initializable {
     private JFXTreeTableColumn<Bill, Integer> tclaction;
     private JFXTreeTableColumn<Bill, String> tclreceiptdate;
     private JFXTreeTableColumn<Bill, Integer> tclreceiptnumber;
+    private JFXTreeTableColumn<Bill, String> tclcustomername;
     private JFXTreeTableColumn<Bill, Integer> tclbillno;
     private JFXTreeTableColumn<Bill, Double> tclamount;
     private JFXTreeTableColumn<Bill, Integer> tclmode;
@@ -138,6 +139,9 @@ public class ReceiptPrintingController implements Initializable {
         tclreceiptdate = new JFXTreeTableColumn<>("पावतीची तारिक");
         tclreceiptdate.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPdate()));
         tclreceiptdate.setPrefWidth(95);
+        tclcustomername = new JFXTreeTableColumn<>("ग्राहकाचे नाव");
+        tclcustomername.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getCust().getName()));
+        tclcustomername.setPrefWidth(95);
         tclmode = new JFXTreeTableColumn<>("देयक पद्धत");
         tclmode.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getPmode()).asObject());
         tclmode.setPrefWidth(95);
@@ -151,7 +155,7 @@ public class ReceiptPrintingController implements Initializable {
         tclaction.setPrefWidth(95);
         tclaction.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getBillno()).asObject());
         tclaction.setCellFactory(e -> new ActionCell(tbl_receipt));
-        tbl_receipt.getColumns().addAll(tclaction, tclreceiptnumber, tclreceiptdate, tclbillno, tclmode, tclamount);
+        tbl_receipt.getColumns().addAll(tclaction, tclcustomername, tclreceiptnumber, tclreceiptdate, tclbillno, tclmode, tclamount);
     }
 
     public void refreshTable() {
@@ -180,6 +184,8 @@ public class ReceiptPrintingController implements Initializable {
         tmeplist.forEach((e) -> {
             MarathiNumber mn = new MarathiNumber();
             e.setNumberInWord(mn.getMarathiNumber(e.getTotal()));
+            e.setPdate(e.getPdate().split(" ")[0]);
+            e.setPeriod(cb_duration.getSelectionModel().getSelectedItem());
             billList.add(e);
         });
         refreshTable();
@@ -192,6 +198,14 @@ public class ReceiptPrintingController implements Initializable {
         meterBillList.addAll(billList);
         PhoenixSupport ps = new PhoenixSupport();
         ps.printAllReceipt(meterBillList);
+    }
+
+    @FXML
+    private void printallList(ActionEvent event) {
+        ArrayList<Bill> meterBillList = new ArrayList<>();
+        meterBillList.addAll(billList);
+        PhoenixSupport ps = new PhoenixSupport();
+        ps.printAllReceiptList(meterBillList);
     }
 
     public class ActionCell extends JFXTreeTableCell<Bill, Integer> {

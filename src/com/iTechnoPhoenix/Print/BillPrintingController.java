@@ -19,6 +19,7 @@ import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -177,12 +178,15 @@ public class BillPrintingController implements Initializable {
         tmeplist.addAll(billList);
         billList.clear();
         tmeplist.forEach((e) -> {
+            e.setBdate(e.getBdate().split(" ")[0]);
+            e.setPeriod(cb_duration.getSelectionModel().getSelectedItem());
             if (!billList.contains(e)) {
                 billList.add(e);
             } else {
                 for (Bill bil : billList) {
                     if (bil.getBillref() == e.getBillref()) {
                         bil.getMeter().setMetor_num(bil.getMeter().getMetor_num() + " , " + e.getMeter().getMetor_num());
+                        bil.setMeternumber(bil.getMeter().getMetor_num());
                         bil.setTotal(bil.getTotal() + e.getTotal());
                         bil.setBalance(bil.getBalance() + e.getBalance());
                     }
@@ -192,6 +196,21 @@ public class BillPrintingController implements Initializable {
         refreshTable();
         txt_meter_customer.clear();
         cb_duration.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    private void btn_print_list(ActionEvent event) {
+        List<Bill> meterBillList = new ArrayList<>();
+        ObservableList<Bill> billListPrint = FXCollections.observableArrayList();
+        BillOperation bo = new BillOperation();
+        for (TreeItem<Bill> treeItem : tbl_bill.getRoot().getChildren()) {
+            billListPrint.add(treeItem.getValue());
+//            BillSupport billSupport = new BillSupport();
+//            meterBillList = billSupport.assignBillValue(billListPrint);
+        }
+        meterBillList = billListPrint.subList(0, billListPrint.size());
+        PhoenixSupport ps = new PhoenixSupport();
+        ps.printAllBillList(meterBillList);
     }
 
     public class ActionCell extends JFXTreeTableCell<Bill, Integer> {

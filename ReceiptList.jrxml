@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7870a446-5dc4-487c-a9d7-be326b824c68">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="63"/>
+	<style name="border_rlb">
+		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+			<pen lineWidth="1.0"/>
+			<topPen lineWidth="0.0"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="border_rlt">
+		<box>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<field name="rid" class="java.lang.Integer"/>
+	<field name="customername" class="java.lang.String"/>
+	<field name="billref" class="java.lang.Integer"/>
+	<field name="period" class="java.lang.String"/>
+	<field name="pmode" class="java.lang.Integer"/>
+	<field name="pdate" class="java.lang.String"/>
+	<field name="total" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="69" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="63" uuid="6151aadc-340c-4ccb-abc5-56e5c014e072"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Shivaji01" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ga`amapMcaayat palaIdovad]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="64" width="556" height="1" uuid="1247d794-8188-4c33-bac0-be55c7bf3278"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="7" width="87" height="20" uuid="58e90cfa-3a1d-4a32-abb3-bfc640ddc7d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[कालावधी : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="97" y="7" width="186" height="20" uuid="27bca7df-0287-44e8-b32b-9f1b4aebd3b4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{period}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement style="border_rlt" x="113" y="0" width="86" height="20" uuid="866885d8-a8bc-49ca-a692-8a6e3d92cdcc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[पावती क्र]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="0" y="0" width="114" height="20" uuid="8633218b-1962-4873-b76b-9061e995b59a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ग्राहकाचे नाव]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="288" y="0" width="88" height="20" uuid="4af37799-44e8-4e16-aee7-69145365eef0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[बिल क्र]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="375" y="0" width="89" height="20" uuid="ca34b3e8-a3d2-4f8e-b120-554d57da1cb2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[देयक पद्धत]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="198" y="0" width="91" height="20" uuid="ed08d664-1185-46fa-b459-9c8616abb0b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[पावती दिनांक]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="463" y="0" width="92" height="20" uuid="43a459e8-fc91-4f9f-958c-ed5523d74061"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[पावती रक्कम]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="114" y="0" width="85" height="20" uuid="8fd9133c-2d76-4d20-91df-b472317c6897"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rid}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="0" y="0" width="114" height="20" uuid="af5fbb08-87fb-48cc-9646-40f7a5bc4f6f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customername}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="288" y="0" width="88" height="20" uuid="64d9da29-71d0-43c4-b298-802ebe5c819d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billref}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="375" y="0" width="89" height="20" uuid="1e3db497-427a-4387-97ed-cc5a384b1b17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pmode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="198" y="0" width="91" height="20" uuid="f02ff3da-1ee2-4508-8101-951e01097980"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pdate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="464" y="0" width="91" height="20" uuid="b9fc8d01-0c0d-45fd-bb19-f4ef88d870f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="6" width="556" height="1" uuid="a1c590b8-e23f-462e-9378-ca8df81824be"/>
+			</line>
+			<staticText>
+				<reportElement x="452" y="10" width="103" height="20" uuid="63033ee6-b378-45d2-9c0a-1f420cd7eba0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[पान नं : ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="487" y="10" width="69" height="20" uuid="0f8dbd05-c442-4063-ad5c-5dba0377099f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
