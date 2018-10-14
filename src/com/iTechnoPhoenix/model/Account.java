@@ -5,17 +5,30 @@
  */
 package com.iTechnoPhoenix.model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
 /**
  *
  * @author choudhary
  */
-public class Account {
+public class Account extends RecursiveTreeObject<Account> {
 
     private int account_id;
     private Customer customer;
     private String reason;
     private double amount;
     private String date;
+
+    public Account() {
+    }
+
+    public Account(int account_id, Customer customer, String reason, double amount, String date) {
+        this.account_id = account_id;
+        this.customer = customer;
+        this.reason = reason;
+        this.amount = amount;
+        this.date = date;
+    }
 
     public int getAccount_id() {
         return account_id;

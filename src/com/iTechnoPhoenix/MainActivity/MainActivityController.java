@@ -98,6 +98,16 @@ public class MainActivityController implements Initializable {
         CenterPanel("HomePage.fxml");
     }
 
+    @FXML
+    private void btn_account_bill(ActionEvent event) {
+        CenterPanel("/com/iTechnoPhoenix/Account/AccountingBill.fxml");
+    }
+
+    @FXML
+    private void btn_account_receipt(ActionEvent event) {
+        CenterPanel("/com/iTechnoPhoenix/Account/AccountReceipt.fxml");
+    }
+
     private void CenterPanel(String name) {
         try {
             URL newclient = getClass().getResource(name);

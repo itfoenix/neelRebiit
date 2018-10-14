@@ -40,6 +40,12 @@
                         <MenuItem mnemonicParsing="false" onAction="#btn_home_page" text="Home Page" />
                      </items>
                   </Menu>
+                  <Menu mnemonicParsing="false" text="खर्च">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#btn_account_bill" text="खर्च बिल" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_account_receipt" text="खर्च पावती" />
+                    </items>
+                  </Menu>
               </menus>
             </MenuBar>
          </top>
