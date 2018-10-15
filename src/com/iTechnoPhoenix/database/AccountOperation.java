@@ -11,6 +11,7 @@ import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,12 +29,14 @@ public class AccountOperation {
 
     public void insertBill(Account account, StackPane window) {
         try {
-            stmt = Connector.getConnection().prepareStatement("insert into accountbill (customer_id,amount,account_date,reason,status) values (?,?,now(),?,0)");
+            stmt = Connector.getConnection().prepareStatement("insert into accountbill (customer_id,amount,account_date,reason,status) values (?,?,now(),?,0)", Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, account.getCustomer().getCust_num());
             stmt.setDouble(2, account.getAmount());
             stmt.setString(3, account.getReason());
             int i = stmt.executeUpdate();
             if (i > 0) {
+                stmt = Connector.getConnection().prepareStatement("insert into reason (reason, amount, account_id) values (?,?,?)");
+                stmt.setInt(1, account.);
                 Connector.commit();
                 PhoenixSupport.Info("बिलाची माहिती जतन झाली आहे.", "खर्च बिल बनवणे", window);
             } else {
