@@ -16,8 +16,8 @@ public class Account extends RecursiveTreeObject<Account> {
 
     private int account_id;
     private Customer customer;
-    private ObservableList<Reason> reasonList;
     private String date;
+    private double totalAmt;
 
     public Account() {
     }
@@ -30,20 +30,20 @@ public class Account extends RecursiveTreeObject<Account> {
         this.account_id = account_id;
     }
 
+    public double getTotalAmt() {
+        return totalAmt;
+    }
+
+    public void setTotalAmt(double totalAmt) {
+        this.totalAmt = totalAmt;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
-    }
-
-    public ObservableList<Reason> getReasonList() {
-        return reasonList;
-    }
-
-    public void setReasonList(ObservableList<Reason> reasonList) {
-        this.reasonList = reasonList;
     }
 
     public String getDate() {
@@ -56,7 +56,7 @@ public class Account extends RecursiveTreeObject<Account> {
 
     @Override
     public String toString() {
-        return "Account{" + "account_id=" + account_id + ", customer=" + customer + ", reasonList=" + reasonList + ", date=" + date + '}';
+        return "Account{" + "account_id=" + account_id + ", customer=" + customer + ", date=" + date + '}';
     }
 
 }

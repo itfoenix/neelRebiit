@@ -65,14 +65,14 @@ public class AccountingBillController implements Initializable {
     private JFXTextField txt_reason;
 
     @FXML
-    private JFXTreeTableView<Account> tbl_account;
+    private JFXTreeTableView<Reason> tbl_account;
 
-    private JFXTreeTableColumn<Account, Integer> tc_action;
-    private JFXTreeTableColumn<Account, Integer> tc_billNo;
-    private JFXTreeTableColumn<Account, String> tc_customer;
-    private JFXTreeTableColumn<Account, String> tc_date;
-    private JFXTreeTableColumn<Account, Double> tc_amt;
-    private JFXTreeTableColumn<Account, String> tc_reason;
+    private JFXTreeTableColumn<Reason, Integer> tc_action;
+    private JFXTreeTableColumn<Reason, Integer> tc_billNo;
+    private JFXTreeTableColumn<Reason, String> tc_customer;
+    private JFXTreeTableColumn<Reason, String> tc_date;
+    private JFXTreeTableColumn<Reason, Double> tc_amt;
+    private JFXTreeTableColumn<Reason, String> tc_reason;
 
     @FXML
     private StackPane window;
@@ -83,7 +83,6 @@ public class AccountingBillController implements Initializable {
     private boolean open = false;
     private Meter meter;
     private Customer customer;
-    private ObservableList<Account> accountList;
 
     /**
      * Initializes the controller class.
@@ -94,7 +93,6 @@ public class AccountingBillController implements Initializable {
         CustomerOperation co = new CustomerOperation();
         ObservableList<String> customerName = co.getAllCustomerName();
         TextFields.bindAutoCompletion(txt_name, customerName);
-        accountList = FXCollections.observableArrayList();
         reasonList = FXCollections.observableArrayList();
         initTable();
 //        refreshTable();
@@ -183,13 +181,23 @@ public class AccountingBillController implements Initializable {
     }
 
     private void save() {
-        Account account = new Account();
-        account.setCustomer(customer);
-        account.setAmount(PhoenixSupport.getDouble(txt_amount.getText()));
-        account.setReason(txt_reason.getText());
-        AccountOperation ao = new AccountOperation();
-        ao.insertBill(account, window);
-        refreshTable();
+        if (!reasonList.isEmpty()) {
+            double sum = 0;
+            AccountOperation ao = new AccountOperation();
+            for (Reason r : reasonList) {
+                sum = sum + r.getAmount();
+            }
+            reasonList.get(0).getAccount().setTotalAmt(sum);
+            int id = ao.insertBill(reasonList.get(0), window);
+            txt_name.setFocusTraversable(true);
+            for (Reason r : reasonList) {
+                r.getAccount().setAccount_id(id);
+                ao.insertReason(r, window);
+            }
+            cancel();
+            reasonList.clear();
+            refreshTable();
+        }
     }
 
     private void cancel() {
@@ -199,10 +207,10 @@ public class AccountingBillController implements Initializable {
 
     private void initTable() {
         tc_action = new JFXTreeTableColumn<>();
-        tc_action.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getAccount_id()).asObject());
+        tc_action.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getReason_id()).asObject());
         tc_action.setCellFactory(param -> new ActionCell(tbl_account));
         tc_billNo = new JFXTreeTableColumn<>("खर्च क्रमांक");
-        tc_billNo.setCellValueFactory(param -> new SimpleIntegerProperty(accountList.indexOf(param.getValue().getValue()) + 1).asObject());
+        tc_billNo.setCellValueFactory(param -> new SimpleIntegerProperty(reasonList.indexOf(param.getValue().getValue()) + 1).asObject());
 //        tc_customer = new JFXTreeTableColumn<>("ग्राहकाचे नाव");
 //        tc_customer.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getCustomer().getName()));
 //        tc_date = new JFXTreeTableColumn<>("बिलाची तारिक");
@@ -216,7 +224,7 @@ public class AccountingBillController implements Initializable {
     }
 
     public void refreshTable() {
-        TreeItem<Account> treeItem = new RecursiveTreeItem<>(accountList, RecursiveTreeObject::getChildren);
+        TreeItem<Reason> treeItem = new RecursiveTreeItem<>(reasonList, RecursiveTreeObject::getChildren);
         tbl_account.setRoot(treeItem);
         tbl_account.setShowRoot(false);
     }
@@ -234,23 +242,27 @@ public class AccountingBillController implements Initializable {
     }
 
     public void addAccount() {
-        Account account = new Account();
-        account.setCustomer(meter.getCustomeObject());
-        account.setAmount(PhoenixSupport.getDouble(txt_amount.getText()));
-        account.setReason(txt_reason.getText());
-        accountList.add(account);
-        refreshTable();
-        cancel();
+        if (PhoenixSupport.isValidate(txt_name, txt_amount)) {
+            Reason reason = new Reason();
+            Account account = new Account();
+            account.setCustomer(meter.getCustomeObject());
+            reason.setAmount(PhoenixSupport.getDouble(txt_amount.getText()));
+            reason.setReason(txt_reason.getText());
+            reason.setAccount(account);
+            reasonList.add(reason);
+            refreshTable();
+            cancel();
+        }
     }
 
-    public class ActionCell extends JFXTreeTableCell<Account, Integer> {
+    public class ActionCell extends JFXTreeTableCell<Reason, Integer> {
 
         final JFXButton edit = new JFXButton("Edit");
         final JFXButton delete = new JFXButton("Delete");
         final HBox actiongroup = new HBox();
         final StackPane paddedButton = new StackPane();
 
-        public ActionCell(final JFXTreeTableView<Account> table) {
+        public ActionCell(final JFXTreeTableView<Reason> table) {
             actiongroup.getChildren().addAll(edit, delete);
             edit.setGraphic(new ImageView("/com/iTechnoPhoenix/resource/Edit Row_48px.png"));
             edit.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
@@ -258,19 +270,19 @@ public class AccountingBillController implements Initializable {
             delete.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             edit.setOnMouseClicked(event -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
-                Account account = table.getSelectionModel().getSelectedItem().getValue();
+                Reason reason = table.getSelectionModel().getSelectedItem().getValue();
                 VBox vb = new VBox();
                 JFXTextField txtAmt = new JFXTextField();
                 PhoenixSupport.onlyNumber(txtAmt);
                 txtAmt.setPromptText("रक्कम");
                 txtAmt.setLabelFloat(true);
                 txtAmt.setMaxWidth(200);
-                txtAmt.setText(String.valueOf(account.getAmount()));
+                txtAmt.setText(String.valueOf(reason.getAmount()));
                 JFXTextField txtRes = new JFXTextField();
                 txtRes.setPromptText("कारण");
                 txtRes.setLabelFloat(true);
                 txtRes.setMaxWidth(200);
-                txtRes.setText(account.getReason());
+                txtRes.setText(reason.getReason());
                 vb.setSpacing(16);
                 vb.setAlignment(Pos.CENTER);
                 vb.getChildren().addAll(txtAmt, txtRes);
@@ -280,27 +292,19 @@ public class AccountingBillController implements Initializable {
                 btnDelete.getStyleClass().add("btn-cancel");
                 JFXDialog dialog = Support.getDialog(window, new Label("युनिट बदल करणे"), vb, btnUpdate, btnDelete);
                 btnUpdate.setOnAction(e -> {
-                    Account account1 = new Account();
-                    account1.setAccount_id(account.getAccount_id());
-                    account1.setCustomer(account.getCustomer());
-                    account1.setAmount(Double.parseDouble(txtAmt.getText()));
-                    account1.setDate(account.getDate());
-                    account1.setReason(txtRes.getText());
-                    AccountOperation ao = new AccountOperation();
-                    ao.updateAccount(account, window);
+                    reason.setAmount(Double.parseDouble(txtAmt.getText()));
+                    reason.setReason(txtRes.getText());
+//                    AccountOperation ao = new AccountOperation();
+//                    ao.updateAccount(reason, window);
                     dialog.close();
                     refreshTable();
                 });
                 btnUpdate.setOnKeyPressed(e -> {
                     if (e.getCode() == KeyCode.ENTER) {
-                        Account account1 = new Account();
-                        account1.setAccount_id(account.getAccount_id());
-                        account1.setCustomer(account.getCustomer());
-                        account1.setAmount(Double.parseDouble(txtAmt.getText()));
-                        account1.setDate(account.getDate());
-                        account1.setReason(txtRes.getText());
-                        AccountOperation ao = new AccountOperation();
-                        ao.updateAccount(account, window);
+                        reason.setAmount(Double.parseDouble(txtAmt.getText()));
+                        reason.setReason(txtRes.getText());
+//                        AccountOperation ao = new AccountOperation();
+//                        ao.updateAccount(reason, window);
                         dialog.close();
                         refreshTable();
                     }
@@ -312,12 +316,13 @@ public class AccountingBillController implements Initializable {
                     }
                 });
                 dialog.setOnDialogOpened(e -> btnUpdate.requestFocus());
+                dialog.setOnDialogClosed(e -> txt_reason.requestFocus());
                 dialog.show();
             });
             delete.setOnMouseClicked((MouseEvent e) -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
-                Account accot = table.getSelectionModel().getSelectedItem().getValue();
-                accountList.remove(accot);
+                Reason accot = table.getSelectionModel().getSelectedItem().getValue();
+                reasonList.remove(accot);
                 refreshTable();
                 txt_reason.requestFocus();
             });
