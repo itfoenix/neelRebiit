@@ -6,6 +6,7 @@
 package com.iTechnoPhoenix.database;
 
 import com.iTechnoPhoenix.model.Account;
+import com.iTechnoPhoenix.model.AccountReceipt;
 import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Reason;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
@@ -36,8 +37,11 @@ public class AccountOperation {
             i = stmt.executeUpdate();
             if (i > 0) {
                 ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    i = rs.getInt(1);
+                }
                 Connector.commit();
-                PhoenixSupport.Info("बिलाची माहिती जतन झाली आहे.", "खर्च बिल बनवणे", window);
+//                PhoenixSupport.Info("बिलाची माहिती जतन झाली आहे.", "खर्च बिल बनवणे", window);
             } else {
                 Connector.rollbackresult();
                 PhoenixSupport.Error("बिलाची माहिती जतन नाही झाली आहे.", window);
@@ -135,6 +139,57 @@ public class AccountOperation {
             Logger.getLogger(AccountOperation.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ObservableList<Reason> getAccountFromBillNumber(int number) {
+        ObservableList<Reason> reasonList = FXCollections.observableArrayList();
+        try {
+            stmt = Connector.getConnection().prepareStatement("SELECT a.*, r.reason, r.amount, c.name FROM accountbill a join reason r ON r.account_id = a.account_id join customer c ON c.cust_num = a.customer_id WHERE a.account_id = 16 AND a.status = 0");
+            stmt.setInt(1, number);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Reason reason = new Reason();
+                reason.setAccount_id(rs.getInt(1));
+                reason.setName(rs.getString(8));
+                reason.setReason(rs.getString(6));
+                reason.setAmount(rs.getDouble(7));
+                Account account = new Account();
+                account.setDate(rs.getDate(4).toString());
+                account.setTotalAmt(rs.getDouble(3));
+                account.setAccount_id(rs.getInt(1));
+                account.setStatus(rs.getInt(5));
+                Customer customer = new Customer();
+                customer.setCust_num(rs.getInt(2));
+                customer.setName(rs.getString(8));
+                account.setCustomer(customer);
+                reason.setAccount(account);
+                reasonList.add(reason);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return reasonList;
+    }
+
+    public int insertReceiptDetails(AccountReceipt areceipt, StackPane window) {
+        int i = 0;
+        try {
+            stmt = Connector.getConnection().prepareStatement("INSERT INTO accountreceipt(bill_id, paid_amt, date, pay_mode, cheque_no) VALUES (?,?,now(),?,?)");
+            stmt.setInt(1, areceipt.getAccount().getAccount_id());
+            stmt.setDouble(2, areceipt.getPaid_amt());
+            stmt.setInt(4, areceipt.getPaymode());
+            stmt.setString(5, areceipt.getCheque_no());
+            i = stmt.executeUpdate();
+            if (i > 0) {
+                Connector.commit();
+            } else {
+                Connector.rollbackresult();
+                PhoenixSupport.Error("पावती जतन नाही झाली आहे.", window);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return i;
     }
 
 }

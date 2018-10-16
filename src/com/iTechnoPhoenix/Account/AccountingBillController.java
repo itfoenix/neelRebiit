@@ -10,7 +10,9 @@ import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.model.Account;
 import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Meter;
+import com.iTechnoPhoenix.model.MeterBill;
 import com.iTechnoPhoenix.model.Reason;
+import com.iTechnoPhoenix.neelSupport.BillSupport;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
 import com.jfoenix.controls.JFXButton;
@@ -25,6 +27,8 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.cells.editors.base.JFXTreeTableCell;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -78,6 +82,7 @@ public class AccountingBillController implements Initializable {
     private StackPane window;
     private CustomerOperation co;
     private JFXListView listView;
+    private JFXDialog dialog;
     private ObservableList<Meter> meterList;
     private ObservableList<Reason> reasonList;
     private boolean open = false;
@@ -183,6 +188,7 @@ public class AccountingBillController implements Initializable {
     private void save() {
         if (!reasonList.isEmpty()) {
             double sum = 0;
+            int z = 0;
             AccountOperation ao = new AccountOperation();
             for (Reason r : reasonList) {
                 sum = sum + r.getAmount();
@@ -192,11 +198,69 @@ public class AccountingBillController implements Initializable {
             txt_name.setFocusTraversable(true);
             for (Reason r : reasonList) {
                 r.getAccount().setAccount_id(id);
+                r.getAccount().setDate(LocalDate.now().toString().split(" ")[0]);
                 ao.insertReason(r, window);
+                z = 1;
             }
-            cancel();
-            reasonList.clear();
-            refreshTable();
+            if (z == 1) {
+                JFXButton btnDPrint = new JFXButton("प्रिंट करा");
+                btnDPrint.getStyleClass().add("btn-search");
+                btnDPrint.setOnAction(e -> {
+                    ArrayList<Reason> reasonBillList = new ArrayList<>();
+                    for (Reason r : reasonList) {
+                        r.setName(r.getAccount().getCustomer().getName());
+                        r.setAccount_id(r.getAccount().getAccount_id());
+                        r.setDate(r.getAccount().getDate());
+                        reasonBillList.add(r);
+                    }
+                    Reason r = new Reason();
+                    r.setReason("एकूण रक्कम");
+                    r.setAmount(reasonBillList.get(0).getAccount().getTotalAmt());
+                    reasonBillList.add(r);
+                    PhoenixSupport.printAccountBill(reasonBillList);
+                    dialog.close();
+                    cancel();
+                    reasonList.clear();
+                    refreshTable();
+                });
+                btnDPrint.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.ENTER) {
+                        ArrayList<Reason> reasonBillList = new ArrayList<>();
+                        for (Reason r : reasonList) {
+                            r.setName(r.getAccount().getCustomer().getName());
+                            r.setAccount_id(r.getAccount().getAccount_id());
+                            r.setDate(r.getAccount().getDate());
+                            reasonBillList.add(r);
+                        }
+                        PhoenixSupport.printAccountBill(reasonBillList);
+                        dialog.close();
+                        cancel();
+                        reasonList.clear();
+                        refreshTable();
+                    }
+                });
+                JFXButton btnDCancel = new JFXButton("रद्द करा");
+                btnDCancel.getStyleClass().add("btn-cancel");
+                btnDCancel.setOnAction(e -> {
+                    cancel();
+                    reasonList.clear();
+                    refreshTable();
+                    dialog.close();
+                });
+                btnDCancel.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.ENTER) {
+                        cancel();
+                        reasonList.clear();
+                        refreshTable();
+                        dialog.close();
+                    }
+                });
+                dialog = Support.getDialog(window, new Label("खर्च बिल व्यवहार"), new Label("बिल जतन झाले आहे."), btnDPrint, btnDCancel);
+                dialog.show();
+                dialog.setOnDialogOpened(e -> {
+                    btnDCancel.requestFocus();
+                });
+            }
         }
     }
 
@@ -243,15 +307,19 @@ public class AccountingBillController implements Initializable {
 
     public void addAccount() {
         if (PhoenixSupport.isValidate(txt_name, txt_amount)) {
-            Reason reason = new Reason();
-            Account account = new Account();
-            account.setCustomer(meter.getCustomeObject());
-            reason.setAmount(PhoenixSupport.getDouble(txt_amount.getText()));
-            reason.setReason(txt_reason.getText());
-            reason.setAccount(account);
-            reasonList.add(reason);
-            refreshTable();
-            cancel();
+            if (reasonList.size() < 7) {
+                Reason reason = new Reason();
+                Account account = new Account();
+                account.setCustomer(meter.getCustomeObject());
+                reason.setAmount(PhoenixSupport.getDouble(txt_amount.getText()));
+                reason.setReason(txt_reason.getText());
+                reason.setAccount(account);
+                reasonList.add(reason);
+                refreshTable();
+                cancel();
+            } else {
+                PhoenixSupport.Error("फक्त ७ चार्ज लावण्याची परवानगी", window);
+            }
         }
     }
 
@@ -290,7 +358,7 @@ public class AccountingBillController implements Initializable {
                 btnUpdate.getStyleClass().add("btn-search");
                 JFXButton btnDelete = new JFXButton("रद्ध");
                 btnDelete.getStyleClass().add("btn-cancel");
-                JFXDialog dialog = Support.getDialog(window, new Label("युनिट बदल करणे"), vb, btnUpdate, btnDelete);
+                dialog = Support.getDialog(window, new Label("युनिट बदल करणे"), vb, btnUpdate, btnDelete);
                 btnUpdate.setOnAction(e -> {
                     reason.setAmount(Double.parseDouble(txtAmt.getText()));
                     reason.setReason(txtRes.getText());

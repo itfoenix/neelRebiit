@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -9,7 +10,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <StackPane fx:id="window" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Account.AccountReceiptController">
    <children>
@@ -36,7 +36,7 @@
             </Label>
             <HBox maxHeight="-Infinity" VBox.vgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="बिल क्रमांक :" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="बिल क्रमांक : " HBox.hgrow="ALWAYS" />
                   <JFXTextField fx:id="txt_bill_number" maxWidth="350.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
@@ -49,9 +49,9 @@
             </HBox>
             <HBox maxHeight="-Infinity" spacing="8.0" style="-fx-border-width: 1; -fx-border-color: #CECFD0;" VBox.vgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="100.0" text="ग्राहकाचे  नाव :" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="100.0" text="ग्राहकाचे  नाव : " HBox.hgrow="ALWAYS" />
                   <Label fx:id="txt_customer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="बिलाची अंतिम दिनांक:" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="बिला वरील दिनांक : " HBox.hgrow="ALWAYS" />
                   <Label fx:id="txt_lastdate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                </children>
                <padding>
@@ -61,9 +61,14 @@
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                </VBox.margin>
             </HBox>
+            <JFXTreeTableView fx:id="tbl_receipt" maxHeight="200.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets left="8.0" right="8.0" />
+               </VBox.margin>
+            </JFXTreeTableView>
             <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="विलंब रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="विलंब रक्कम : " HBox.hgrow="ALWAYS" />
                   <JFXTextField fx:id="txt_delay_payment" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
@@ -82,7 +87,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="एकूण रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="एकूण रक्कम : " HBox.hgrow="ALWAYS" />
                   <Label fx:id="lbl_total" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="00" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets right="16.0" />
@@ -98,7 +103,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="भरलेली रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="भरलेली रक्कम : " HBox.hgrow="ALWAYS" />
                   <JFXTextField fx:id="txt_paid_amount" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
@@ -117,7 +122,7 @@
             </HBox>
             <HBox maxHeight="-Infinity" maxWidth="600.0" prefWidth="200.0" spacing="8.0">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="उर्वरित रक्कम :" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="150.0" text="उर्वरित रक्कम : " HBox.hgrow="ALWAYS" />
                   <Label fx:id="txt_remaining_amt" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="00" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets right="16.0" />

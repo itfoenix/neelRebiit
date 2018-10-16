@@ -197,7 +197,6 @@ public class ReceiptTransactionController implements Initializable {
                             } else {
                                 lbl_preious_paid_amt.setText("००");
                             }
-
                             txt_delay_payment.setText("००");
                             grandCalculation();
                         } else {

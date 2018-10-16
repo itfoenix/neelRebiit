@@ -2,6 +2,7 @@ package com.iTechnoPhoenix.neelSupport;
 
 import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.MeterBill;
+import com.iTechnoPhoenix.model.Reason;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -249,6 +250,23 @@ public class PhoenixSupport {
 
     public static void printing() {
         String billformate = "report1.jrxml";
+        JasperReport report;
+        try {
+            report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void printAccountBill(ArrayList<Reason> blist) {
+        ArrayList<Reason> singleBill = new ArrayList<>();
+        for (Reason bs : blist) {
+            singleBill.add(bs);
+        }
+        String billformate = "AccountBill.jrxml";
         JasperReport report;
         try {
             report = JasperCompileManager.compileReport(billformate);

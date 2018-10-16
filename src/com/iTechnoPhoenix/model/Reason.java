@@ -17,6 +17,9 @@ public class Reason extends RecursiveTreeObject<Reason> {
     private String reason;
     private double amount;
     private Account account;
+    private int account_id;
+    private String name;
+    private String date;
 
     public Reason() {
     }
@@ -51,6 +54,30 @@ public class Reason extends RecursiveTreeObject<Reason> {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public int getAccount_id() {
+        return account_id;
+    }
+
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
 }
