@@ -29,6 +29,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -296,6 +297,7 @@ public class Bill_EditingController implements Initializable {
         ftotal = (outrate + outstanding + scharge + total);
         ftotal = Math.round(ftotal);
         bill.setTotal(ftotal);
+        bill.setPaidamt(ftotal);
     }
 
     public void cancel() {
@@ -343,6 +345,7 @@ public class Bill_EditingController implements Initializable {
                 ArrayList<MeterBill> meterBillList = billsupport.assignBillValue(billList);
                 PhoenixSupport.printMeterBill(meterBillList);
                 dialog.close();
+                cancel();
                 vbBill.setVisible(false);
             });
             btnPrint.setOnKeyPressed((e) -> {
@@ -350,11 +353,13 @@ public class Bill_EditingController implements Initializable {
                     ArrayList<MeterBill> meterBillList = billsupport.assignBillValue(billList);
                     PhoenixSupport.printMeterBill(meterBillList);
                     dialog.close();
+                    cancel();
                     vbBill.setVisible(false);
                 }
             });
             btnCancel.setOnAction(e -> {
                 dialog.close();
+                cancel();
                 vbBill.setVisible(false);
             });
             btnCancel.setOnKeyPressed(e -> {
@@ -370,5 +375,97 @@ public class Bill_EditingController implements Initializable {
         } else {
             PhoenixSupport.Error("कृपया बिल क्रमांक शोधा.", window);
         }
+    }
+
+    @FXML
+    private void adjust_Key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            adjustment();
+        }
+    }
+
+    @FXML
+    private void adjust_Action(ActionEvent event) {
+        adjustment();
+    }
+
+    private void adjustment() {
+        JFXButton shut = new JFXButton("रद्ध करा");
+        JFXButton open = new JFXButton("सेट");
+        open.getStyleClass().add("btn-search");
+        shut.getStyleClass().add("btn-cancel");
+        Label lblOld = new Label("जुनी रक्कम : " + lbl_FinalTotal.getText());
+        JFXTextField txtAdjust = new JFXTextField();
+        txtAdjust.setLabelFloat(true);
+        txtAdjust.setPromptText("एडजस्टमेंट रक्कम");
+        Label lblNew = new Label("नवीन रक्कम : " + String.valueOf(PhoenixSupport.getDouble(lbl_FinalTotal.getText()) - PhoenixSupport.getDouble(txtAdjust.getText())));
+        txtAdjust.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+            if (!newValue) {
+                if (!txtAdjust.getText().isEmpty()) {
+                    lblNew.setText("नवीन रक्कम : " + String.valueOf(PhoenixSupport.getDouble(lbl_FinalTotal.getText()) - PhoenixSupport.getDouble(txtAdjust.getText())));
+                } else {
+                    txtAdjust.setText("0");
+                    lblNew.setText("नवीन रक्कम : " + String.valueOf(PhoenixSupport.getDouble(lbl_FinalTotal.getText()) - PhoenixSupport.getDouble(txtAdjust.getText())));
+                }
+            }
+        });
+        VBox vb = new VBox();
+        vb.setSpacing(8);
+        vb.getChildren().addAll(lblOld, txtAdjust, lblNew);
+        JFXDialog dialog = Support.getDialog(window, new Label("एडजस्टमेंट करणे"), vb, open, shut);
+        open.setOnAction(e -> {
+            double adjust = PhoenixSupport.getDouble(txtAdjust.getText());
+            for (Bill b : billList) {
+                if (b.getPaidamt() >= adjust) {
+                    b.setAdjustment(adjust);
+                    b.setPaidamt(b.getPaidamt() - adjust);
+                    b.setTotal(b.getPaidamt());
+                    adjust = 0;
+                } else if (b.getPaidamt() < adjust) {
+                    adjust = adjust - b.getPaidamt();
+                    b.setAdjustment(b.getPaidamt());
+                    b.setPaidamt(0);
+                    b.setTotal(0);
+                }
+            }
+            TreeItem<Bill> treeItm = new RecursiveTreeItem<>(billList, RecursiveTreeObject::getChildren);
+            tblMeters.setRoot(treeItm);
+            tblMeters.setShowRoot(false);
+            dialog.close();
+            lbl_FinalTotal.setText(String.valueOf(PhoenixSupport.getDouble(lbl_FinalTotal.getText()) - PhoenixSupport.getDouble(txtAdjust.getText())));
+            tblMeters.requestFocus();
+        });
+        open.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                double adjust = PhoenixSupport.getDouble(txtAdjust.getText());
+                for (Bill b : billList) {
+                    if (b.getPaidamt() >= adjust) {
+                        b.setAdjustment(adjust);
+                        b.setPaidamt(b.getPaidamt() - adjust);
+                        b.setTotal(b.getPaidamt());
+                        adjust = 0;
+                    } else if (b.getPaidamt() < adjust) {
+                        adjust = adjust - b.getPaidamt();
+                        b.setAdjustment(b.getPaidamt());
+                        b.setPaidamt(0);
+                        b.setTotal(0);
+                    }
+                }
+                initializeTable();
+                dialog.close();
+                lbl_FinalTotal.setText(String.valueOf(PhoenixSupport.getDouble(lbl_FinalTotal.getText()) - PhoenixSupport.getDouble(txtAdjust.getText())));
+                tblMeters.requestFocus();
+            }
+        });
+        shut.setOnAction(e -> {
+            dialog.close();
+        });
+        shut.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                dialog.close();
+            }
+        });
+        dialog.show();
+        dialog.setOverlayClose(false);
     }
 }

@@ -1,29 +1,230 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD JasperReport//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <background>
-        <band/>
-    </background>
-    <title>
-        <band height="79"/>
-    </title>
-    <pageHeader>
-        <band height="35"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="61"/>
-    </columnHeader>
-    <detail>
-        <band height="125"/>
-    </detail>
-    <columnFooter>
-        <band height="45"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54"/>
-    </pageFooter>
-    <summary>
-        <band height="42"/>
-    </summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b0c8422-38e8-4df0-a298-af6d4cd9055c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="border_rlb">
+		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+			<pen lineWidth="1.0"/>
+			<topPen lineWidth="0.0"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="border_rlt">
+		<box>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<field name="areceipt_id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="paydate" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="cheque_no" class="java.lang.String"/>
+	<field name="bankname" class="java.lang.String"/>
+	<field name="numberInWord" class="java.lang.String"/>
+	<field name="account_id" class="java.lang.Integer"/>
+	<field name="paid_amt" class="java.lang.Double"/>
+	<field name="total_amt" class="java.lang.Double"/>
+	<field name="delay_amt" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="158" y="49" width="120" height="15" uuid="e7506ada-6525-4467-9fb3-1c49e3131aed"/>
+				<textElement textAlignment="Center">
+					<font fontName="Shivaji01"/>
+				</textElement>
+				<text><![CDATA[namaunaa naM. 9 ³k´ inayama 32 ³5´pha]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="66" width="555" height="1" uuid="c350237c-e8e6-4181-902b-0ad8666d1d57"/>
+			</line>
+			<staticText>
+				<reportElement x="278" y="49" width="119" height="15" uuid="f2ae2559-a0e4-4ab0-ad19-1f78c1126169"/>
+				<textElement textAlignment="Center">
+					<font fontName="Shivaji01"/>
+				</textElement>
+				<text><![CDATA[mau. saukapur ta. pnavaola ija. rayagaD.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="127" y="1" width="306" height="64" uuid="3a207e0e-c60e-4ce9-8466-0b308915d6c7"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font fontName="Shivaji01" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ga`amapMcaayat palaIdovad]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Transparent" x="24" y="8" width="86" height="20" forecolor="#000000" uuid="3b598b2d-3c17-4979-b528-b9582b634787"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[jamaa pavatI naM. :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="59" width="308" height="20" uuid="ea8b8a06-8941-4762-b0cb-80fcd077223f"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="33" width="308" height="20" uuid="f25d3645-18f2-4bdb-897e-968cff6cfa64"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="461" y="8" width="69" height="20" uuid="7feb89c9-36a4-48bd-9471-05241d4f690b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{paydate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="38" y="59" width="72" height="20" uuid="097d4b4a-d5ee-428e-8854-f0f5ea2debba"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[p<ta :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="33" width="72" height="20" uuid="27e34f54-9a43-4992-aea7-30685d940991"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ga`ahkacao naava :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="8" width="100" height="20" uuid="1f0f5eb0-9621-48df-a2ed-9448f63e5e59"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{areceipt_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="426" y="8" width="35" height="20" forecolor="#000000" uuid="1638f245-43fe-4ffe-9eb3-45d13e19aa63"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[idnaaMk :]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement style="border_rlt" x="0" y="0" width="141" height="25" uuid="615d5428-a6fa-44e8-ac99-95984fc1c220"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[खर्च बिल क्र.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="270" y="0" width="141" height="25" uuid="22fe4921-5dff-4ac8-bd9b-de82f49c8d4c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[एकूण रक्कम]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="411" y="0" width="143" height="25" uuid="87b8084e-53dd-481d-b369-96a5857c535d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[भरलेली रक्कम]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="141" y="0" width="129" height="25" uuid="3334b3fd-65ab-407a-a386-c037f509879f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[विलंब रक्कम]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="176" splitType="Stretch">
+			<textField>
+				<reportElement style="border_rlb" x="0" y="0" width="141" height="25" uuid="3b137dee-e779-4a30-93bd-88ec2c4aedaa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="border_rlb" x="411" y="0" width="144" height="25" uuid="77b5c771-c106-4c46-a458-551bcce7d8fc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paid_amt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="border_rlb" x="270" y="0" width="141" height="25" uuid="83b76fcb-a40d-4450-b52f-28a85e5536a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_amt}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="96" y="47" width="189" height="15" uuid="d95c0f2c-fa62-4442-8fcb-27eba842e26e"/>
+				<textFieldExpression><![CDATA[$F{cheque_no}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="96" y="100" width="287" height="15" uuid="fa530d32-ad10-4919-bcfa-2840f6c1e6b6"/>
+				<textElement markup="none"/>
+				<textFieldExpression><![CDATA[$F{numberInWord}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="436" y="143" width="100" height="20" uuid="f93b8275-4d52-4a8b-ae19-57d9803443ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[vasaula krNaar]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="96" y="73" width="189" height="15" uuid="665994e1-b9dd-4dd5-af7e-e63bfd3ea065"/>
+				<textFieldExpression><![CDATA[$F{bankname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="73" width="71" height="15" uuid="5bf81eab-5286-4b91-b3b5-963fb3fca179"/>
+				<textElement textAlignment="Right">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ba^Mk naava :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="100" width="71" height="15" uuid="cb4acfa2-f861-47c4-b9e6-67b779f4e1fc"/>
+				<textElement textAlignment="Right">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[r@kma :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="96" y="143" width="255" height="20" uuid="be8b7afc-9930-4e9d-bd00-eaab226b5b2c"/>
+				<textElement>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ varIla r@kma Ka%yaavar jamaa JaalyaanaMtr hI pavatI ga`ahya QarlaI jaa[-la. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="47" width="71" height="15" uuid="e8499ffe-33ba-4c14-baa7-0caa21ba42f0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[caok naM :]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="border_rlb" x="141" y="0" width="129" height="25" uuid="55043bd9-bf3a-4e72-b707-de867bfdbc1c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{delay_amt}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
 </jasperReport>

@@ -111,6 +111,12 @@
                   <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
                      <children>
                         <Region HBox.hgrow="ALWAYS" />
+                        <JFXButton onAction="#adjust_Action" onKeyPressed="#adjust_Key" styleClass="btn-search" text="एडजस्टमेंट रक्कम" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="16.0" styleClass="hbox" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Region HBox.hgrow="ALWAYS" />
                         <JFXButton onAction="#save_Action" onKeyPressed="#save_Key" styleClass="btn-search" text="जतन करा" HBox.hgrow="ALWAYS" />
                         <JFXButton onAction="#cancel_Action" onKeyPressed="#cancel_Key" styleClass="btn-cancel" text="रद्ध करा" />
                      </children>

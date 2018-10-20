@@ -161,6 +161,7 @@ public class BillOperation {
                 b.setCustomernumber(rs.getInt(1));
                 b.setAddress(rs.getString(3));
                 b.setBillref(rs.getInt(33));
+                b.setPaidamt(rs.getDouble(34));
                 b.setStatus(rs.getString(31));
                 billlist.add(b);
             }
@@ -687,7 +688,7 @@ public class BillOperation {
 
     public void updateBill(Bill m) {
         try {
-            CallableStatement stm = Connector.getConnection().prepareCall("{ call updateBill(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+            CallableStatement stm = Connector.getConnection().prepareCall("{ call updateBill(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             stm.setInt(1, m.getMeter().getId());
             stm.setString(2, m.getPeriod());
             stm.setString(3, m.getYear());
@@ -701,6 +702,8 @@ public class BillOperation {
             stm.setLong(11, m.getUseunit());
             stm.setInt(13, m.getUid());
             stm.setInt(12, m.getBillref());
+            stm.setDouble(14, m.getPaidamt());
+            stm.setDouble(15, m.getAdjustment());
             stm.executeUpdate();
             Connector.commit();
         } catch (SQLException ex) {

@@ -1,5 +1,7 @@
 package com.iTechnoPhoenix.neelSupport;
 
+import com.iTechnoPhoenix.model.Account;
+import com.iTechnoPhoenix.model.AccountReceipt;
 import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.MeterBill;
 import com.iTechnoPhoenix.model.Reason;
@@ -278,6 +280,23 @@ public class PhoenixSupport {
         }
     }
 
+    public static void printAccountReceipt(ArrayList<AccountReceipt> blist) {
+        ArrayList<AccountReceipt> singleBill = new ArrayList<>();
+        for (AccountReceipt bs : blist) {
+            singleBill.add(bs);
+        }
+        String billformate = "AccountReceipt.jrxml";
+        JasperReport report;
+        try {
+            report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static void printCustBill(ArrayList<Bill> blist) {
         ArrayList<Bill> singleBill = new ArrayList<>();
         for (Bill bs : blist) {
@@ -300,6 +319,22 @@ public class PhoenixSupport {
         try {
             ArrayList<Bill> singleReceipt = new ArrayList<>();
             for (Bill bs : blist) {
+                singleReceipt.add(bs);
+            }
+            JasperReport report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleReceipt);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void printAllAccountBillList(List<Account> blist) {
+        String billformate = "AccountBillList.jrxml";
+        try {
+            ArrayList<Account> singleReceipt = new ArrayList<>();
+            for (Account bs : blist) {
                 singleReceipt.add(bs);
             }
             JasperReport report = JasperCompileManager.compileReport(billformate);
@@ -348,6 +383,24 @@ public class PhoenixSupport {
         try {
             for (MeterBill bs : blist) {
                 ArrayList<MeterBill> singleBill = new ArrayList<>();
+                singleBill.add(bs);
+                JasperReport report = JasperCompileManager.compileReport(billformate);
+                JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);
+                JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+                jp.setOrientation(OrientationEnum.LANDSCAPE);
+                PrintReportToPrinter(jp);
+            }
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void printAllAccountBill(ArrayList<Reason> blist) {
+        String billformate = "AccountBill.jrxml";
+        try {
+            for (Reason bs : blist) {
+                ArrayList<Reason> singleBill = new ArrayList<>();
                 singleBill.add(bs);
                 JasperReport report = JasperCompileManager.compileReport(billformate);
                 JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);

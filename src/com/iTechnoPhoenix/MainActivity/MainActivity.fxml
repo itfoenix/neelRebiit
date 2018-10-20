@@ -44,6 +44,8 @@
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#btn_account_bill" text="खर्च बिल" />
                         <MenuItem mnemonicParsing="false" onAction="#btn_account_receipt" text="खर्च पावती" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_account_bill_print" text="खर्च बिल प्रिंटींग" />
+                        <MenuItem mnemonicParsing="false" onAction="#btn_account_receipt_print" text="खर्च पावती प्रिंटींग" />
                     </items>
                   </Menu>
               </menus>

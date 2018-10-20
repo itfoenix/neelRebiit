@@ -200,13 +200,22 @@ public class BillPrintingController implements Initializable {
 
     @FXML
     private void btn_print_list(ActionEvent event) {
+        printallList();
+    }
+
+    @FXML
+    private void btn_print_list_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            printallList();
+        }
+    }
+
+    public void printallList() {
         List<Bill> meterBillList = new ArrayList<>();
         ObservableList<Bill> billListPrint = FXCollections.observableArrayList();
         BillOperation bo = new BillOperation();
         for (TreeItem<Bill> treeItem : tbl_bill.getRoot().getChildren()) {
             billListPrint.add(treeItem.getValue());
-//            BillSupport billSupport = new BillSupport();
-//            meterBillList = billSupport.assignBillValue(billListPrint);
         }
         meterBillList = billListPrint.subList(0, billListPrint.size());
         PhoenixSupport ps = new PhoenixSupport();

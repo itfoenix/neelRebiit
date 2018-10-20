@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bc7761db-6a80-4b9a-b3a1-506c07fe2081">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="45"/>
+	<property name="ireport.y" value="0"/>
+	<style name="border_rlb">
+		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+			<pen lineWidth="1.0"/>
+			<topPen lineWidth="0.0"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="border_rlt">
+		<box>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<field name="account_id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="totalAmt" class="java.lang.Double"/>
+	<field name="date" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="69" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="64" width="556" height="1" uuid="84ce25d1-3d43-4cb0-908c-34a8229f818b"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="63" uuid="790c3834-70df-430a-a483-1f742dbd6daa"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Shivaji01" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ga`amapMcaayat palaIdovad]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement style="border_rlt" x="458" y="0" width="97" height="25" uuid="472b6993-37f0-4afa-9aa9-a4c5dea014d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[एकूण रक्कम]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="332" y="0" width="126" height="25" uuid="14aa8623-65a4-46dd-93a1-5318e55af884"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[बिलाची तारिक]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="74" y="0" width="258" height="25" uuid="40a2526e-e871-4919-a1e0-1bdb3daef03f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ग्राहकाचे नाव]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="0" y="0" width="75" height="25" uuid="ef674cd4-ee0c-4117-8147-7cdd0dee7078"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[खर्च बिल क्र]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement style="border_rlb" x="458" y="0" width="97" height="25" uuid="02666338-8b1b-4b19-b3ba-f2639a699080"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalAmt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="border_rlb" x="332" y="0" width="126" height="25" uuid="28d7c7dd-2b6f-4a34-887f-f70646c61bde"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="border_rlb" x="74" y="0" width="258" height="25" uuid="01d14701-4b15-466d-9c58-78839f2b960e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="border_rlb" x="0" y="0" width="75" height="25" uuid="5d9628b4-de61-47ba-b00b-456be7507344"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="13" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="486" y="8" width="69" height="20" uuid="85396a84-a88e-46c7-a5d0-b63086067a19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="4" width="556" height="1" uuid="5137e211-a648-4123-9986-803e2cf0d101"/>
+			</line>
+			<staticText>
+				<reportElement x="452" y="8" width="103" height="20" uuid="f39fedbc-c508-4267-8a9d-7a227b810d2f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[पान नं : ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Print.BillPrintingController">
+<StackPane fx:id="window" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.Account.Print.AccBillPrintingController">
    <children>
       <VBox alignment="CENTER_RIGHT">
          <children>
-            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" style="-fx-background-color: #1F9CFF;" text="बिल प्रिंटींग" textFill="WHITE" VBox.vgrow="ALWAYS">
+            <Label maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" style="-fx-background-color: #1F9CFF;" text="खर्च बिल प्रिंटींग" textFill="WHITE" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="18.0" />
                </font>
@@ -25,14 +25,16 @@
             </Label>
             <HBox maxHeight="-Infinity" spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="बिल क्रमांक / मीटर क्रमांक / ग्राहकाचे नाव :" wrapText="true" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="खर्च बिल क्रमांक / ग्राहकाचे नाव :" wrapText="true" HBox.hgrow="ALWAYS" />
                   <JFXTextField fx:id="txt_meter_customer" maxWidth="350.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </JFXTextField>
                   <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="कालावधी :" wrapText="true" />
-                  <JFXComboBox fx:id="cb_duration" maxWidth="300.0" HBox.hgrow="ALWAYS" />
+                  <JFXDatePicker fx:id="dp_sdate" />
+                  <Label text="-" />
+                  <JFXDatePicker fx:id="dp_edate" />
                   <JFXButton onAction="#btn_search" onKeyPressed="#btn_search_key" style="-fx-background-color: #4BB89B;" text="शोध करा" textFill="WHITE" />
                   <JFXButton onAction="#btn_print_all" onKeyPressed="#btn_print_all_key" style="-fx-background-color: #4BB89B;" text="प्रिंट करा" textFill="WHITE" />
                   <JFXButton onAction="#btn_print_list" onKeyPressed="#btn_print_list_key" style="-fx-background-color: #4BB89B;" text="लिस्ट प्रिंट करा" textFill="WHITE" />

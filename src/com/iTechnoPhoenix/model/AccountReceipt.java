@@ -5,25 +5,67 @@
  */
 package com.iTechnoPhoenix.model;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+
 /**
  *
  * @author choudhary
  */
-public class AccountReceipt {
+public class AccountReceipt extends RecursiveTreeObject<AccountReceipt> {
 
-    private int areceipt_id;
-    private double paid_amt;
-    private String cheque_no;
+    private int areceipt_id, account_id, bank_id;
+    private double paid_amt, total_amt, delay_amt;
+    private String cheque_no, bankname, numberInWord;
     private int paymode;
-    private String paydate, paymodes;
+    private String paydate;
     private Account account;
     private String name, address;
+
+    public int getAccount_id() {
+        return account_id;
+    }
+
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
+    }
+
+    public double getDelay_amt() {
+        return delay_amt;
+    }
+
+    public void setDelay_amt(double delay_amt) {
+        this.delay_amt = delay_amt;
+    }
 
     public AccountReceipt() {
     }
 
     public int getAreceipt_id() {
         return areceipt_id;
+    }
+
+    public int getBank_id() {
+        return bank_id;
+    }
+
+    public void setBank_id(int bank_id) {
+        this.bank_id = bank_id;
+    }
+
+    public String getBankname() {
+        return bankname;
+    }
+
+    public String getNumberInWord() {
+        return numberInWord;
+    }
+
+    public void setNumberInWord(String numberInWord) {
+        this.numberInWord = numberInWord;
+    }
+
+    public void setBankname(String bankname) {
+        this.bankname = bankname;
     }
 
     public void setAreceipt_id(int areceipt_id) {
@@ -84,6 +126,14 @@ public class AccountReceipt {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getTotal_amt() {
+        return total_amt;
+    }
+
+    public void setTotal_amt(double total_amt) {
+        this.total_amt = total_amt;
     }
 
 }

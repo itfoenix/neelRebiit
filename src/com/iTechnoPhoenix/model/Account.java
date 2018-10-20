@@ -16,6 +16,7 @@ public class Account extends RecursiveTreeObject<Account> {
 
     private int account_id;
     private Customer customer;
+    private String name;
     private String date;
     private double totalAmt;
     private int status;
@@ -29,6 +30,14 @@ public class Account extends RecursiveTreeObject<Account> {
 
     public void setAccount_id(int account_id) {
         this.account_id = account_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getStatus() {

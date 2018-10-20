@@ -35,7 +35,7 @@
                   <JFXComboBox fx:id="cb_duration" maxWidth="300.0" HBox.hgrow="ALWAYS" />
                   <JFXButton onAction="#btn_search" onKeyPressed="#btn_search_key" style="-fx-background-color: #4BB89B;" text="शोध करा" textFill="WHITE" />
                   <JFXButton onAction="#btn_print_all" onKeyPressed="#btn_print_all_key" style="-fx-background-color: #4BB89B;" text="प्रिंट करा" textFill="WHITE" />
-                  <JFXButton onAction="#printallList" onKeyPressed="#btn_print_all_key" style="-fx-background-color: #4BB89B;" text="लिस्ट प्रिंट करा" textFill="WHITE" />
+                  <JFXButton onAction="#printallList" onKeyPressed="#printallList_key" style="-fx-background-color: #4BB89B;" text="लिस्ट प्रिंट करा" textFill="WHITE" />
                </children>
                <padding>
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />

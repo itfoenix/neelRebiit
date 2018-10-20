@@ -81,7 +81,6 @@ public class ReceiptPrintingController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cb_duration.setItems(PhoenixConfiguration.getMonth());
         cb_duration.getStyleClass().add("label-marathi");
-
         meterReceiptCustList = FXCollections.observableSet();
         CustomerOperation co = new CustomerOperation();
         for (Customer customer : co.getCustomerName()) {
@@ -202,6 +201,17 @@ public class ReceiptPrintingController implements Initializable {
 
     @FXML
     private void printallList(ActionEvent event) {
+        printList();
+    }
+
+    @FXML
+    private void printallList_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            printList();
+        }
+    }
+
+    public void printList() {
         ArrayList<Bill> meterBillList = new ArrayList<>();
         meterBillList.addAll(billList);
         PhoenixSupport ps = new PhoenixSupport();
