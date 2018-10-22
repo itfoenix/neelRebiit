@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bc7761db-6a80-4b9a-b3a1-506c07fe2081">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="border_rlb">
+		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+			<pen lineWidth="1.0"/>
+			<topPen lineWidth="0.0"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<style name="border_rlt">
+		<box>
+			<topPen lineWidth="0.5"/>
+			<leftPen lineWidth="0.5"/>
+			<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+			<rightPen lineWidth="0.5"/>
+		</box>
+	</style>
+	<field name="account_id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="paydate" class="java.lang.String"/>
+	<field name="areceipt_id" class="java.lang.Integer"/>
+	<field name="paid_amt" class="java.lang.Double"/>
+	<field name="delay_amt" class="java.lang.Double"/>
+	<field name="total_amt" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="69" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="64" width="556" height="1" uuid="84ce25d1-3d43-4cb0-908c-34a8229f818b"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="63" uuid="790c3834-70df-430a-a483-1f742dbd6daa"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Shivaji01" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ga`amapMcaayat palaIdovad]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement style="border_rlt" x="0" y="0" width="60" height="25" uuid="812373de-0e03-41ae-9cf9-4282410b83ad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[खर्च पावती क्र.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="60" y="0" width="60" height="25" uuid="1860a638-aaf8-4db1-9176-2eabc05351c1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[खर्च बिल क्र.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="120" y="0" width="150" height="25" uuid="8035af5e-768a-4fce-b240-0a35a1f2a794"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ग्राहकाचे नाव]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="270" y="0" width="80" height="25" uuid="c7589f20-e91f-42c0-8e9f-07319e9f7a08"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[भरलेली तारीक]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="350" y="0" width="66" height="25" uuid="1bde3a69-8188-4b6b-a34a-6cb293a2a919"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[भरलेली रक्कम]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="416" y="0" width="70" height="25" uuid="83e27f24-510f-4271-b8b4-bae04b05111a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[विलंब रक्कम]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="border_rlt" x="486" y="0" width="69" height="25" uuid="fd5f0a72-fbd7-4f92-a332-dc9ce3fd382a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[एकूण रक्कम]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="0" y="0" width="60" height="25" uuid="ac24068d-dab9-4e81-ad9f-d6f7c9de79a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{areceipt_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="60" y="0" width="60" height="25" uuid="c351927d-d973-49e4-87b4-55f0c153b76a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_id}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="120" y="0" width="150" height="25" uuid="1864c988-7377-42ee-a489-7eedc4a0ad03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="270" y="0" width="80" height="25" uuid="83e4e5ab-c117-4701-8961-4a7dfb459b8b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paydate}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="350" y="0" width="66" height="25" uuid="7f4c0f3d-e848-473c-a50c-01d07407e3ac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paid_amt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="416" y="0" width="70" height="25" uuid="12359e9f-6cae-44f0-b620-b969b767d401"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{delay_amt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="486" y="0" width="69" height="25" uuid="68fa3308-5401-4d92-9eab-880693ec985c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_amt}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="486" y="8" width="69" height="20" uuid="85396a84-a88e-46c7-a5d0-b63086067a19"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="4" width="556" height="1" uuid="5137e211-a648-4123-9986-803e2cf0d101"/>
+			</line>
+			<staticText>
+				<reportElement x="452" y="8" width="103" height="20" uuid="f39fedbc-c508-4267-8a9d-7a227b810d2f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[पान नं : ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -10,10 +10,13 @@ import com.iTechnoPhoenix.model.AccountReceipt;
 import com.iTechnoPhoenix.model.Customer;
 import com.iTechnoPhoenix.model.Reason;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
+import englishtomarathinumberconvertor.MarathiNumber;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -182,6 +185,36 @@ public class AccountOperation {
         return reasonList;
     }
 
+    public ObservableList<AccountReceipt> getReceiptFromReceiptNumber(int number) {
+        ObservableList<AccountReceipt> reasonList = FXCollections.observableArrayList();
+        try {
+            stmt = Connector.getConnection().prepareStatement("SELECT a.*, r.amount, c.cust_num, c.name, c.address, b.name FROM accountreceipt a join accountbill r ON r.account_id = a.bill_id join customer c ON c.cust_num = r.customer_id left join bank b ON b.bid = a.bank_id WHERE a.areceipt_id = ?");
+            stmt.setInt(1, number);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                AccountReceipt ar = new AccountReceipt();
+                ar.setAccount_id(rs.getInt(2));
+                ar.setAddress(rs.getString(15));
+                ar.setAreceipt_id(rs.getInt(1));
+                ar.setBank_id(rs.getInt(8));
+                ar.setBankname(rs.getString(16));
+                ar.setCheque_no(rs.getString(7));
+                ar.setCheque_status(rs.getInt(9));
+                ar.setDelay_amt(rs.getDouble(3));
+                ar.setName(rs.getString(14));
+                ar.setNumberInWord(new MarathiNumber().getMarathiNumber(rs.getDouble(4)));
+                ar.setPaid_amt(rs.getDouble(4));
+                ar.setPaydate(rs.getDate(5).toString());
+                ar.setPaymode(rs.getInt(6));
+                ar.setTotal_amt(rs.getDouble(12));
+                reasonList.add(ar);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return reasonList;
+    }
+
     public int insertReceiptDetails(AccountReceipt areceipt, StackPane window) {
         int i = 0;
         try {
@@ -287,4 +320,80 @@ public class AccountOperation {
         return accountList;
     }
 
+    public ObservableList<AccountReceipt> searchReceipts(int i, String name, String sdate, String edate) {
+        ObservableList<AccountReceipt> receiptList = FXCollections.observableArrayList();
+        try {
+            if (i == 1) {
+                stmt = Connector.getConnection().prepareStatement("SELECT r.areceipt_id, r.bill_id, r.date, r.delay, r.paid_amt, r.pay_mode, r.cheque_no, r.cheq_status, b.amount, c.cust_num, c.name, c.address FROM accountreceipt r JOIN accountbill b ON b.account_id = r.bill_id JOIN customer c ON c.cust_num = b.customer_id WHERE r.areceipt_id = ? OR c.name = ? AND r.date BETWEEN ? AND ?");
+                if (Pattern.matches("\\d", name)) {
+                    stmt.setInt(1, Integer.parseInt(name));
+                    stmt.setString(2, null);
+                } else {
+                    stmt.setInt(1, 0);
+                    stmt.setString(2, name);
+                }
+                stmt.setString(3, sdate);
+                stmt.setString(4, edate);
+            } else if (i == 2) {
+                stmt = Connector.getConnection().prepareStatement("SELECT r.areceipt_id, r.bill_id, r.date, r.delay, r.paid_amt, r.pay_mode, r.cheque_no, r.cheq_status, b.amount, c.cust_num, c.name, c.address FROM accountreceipt r JOIN accountbill b ON b.account_id = r.bill_id JOIN customer c ON c.cust_num = b.customer_id WHERE r.date BETWEEN ? AND ?");
+                stmt.setString(1, sdate);
+                stmt.setString(2, edate);
+            } else if (i == 3) {
+                stmt = Connector.getConnection().prepareStatement("SELECT r.areceipt_id, r.bill_id, r.date, r.delay, r.paid_amt, r.pay_mode, r.cheque_no, r.cheq_status, b.amount, c.cust_num, c.name, c.address FROM accountreceipt r JOIN accountbill b ON b.account_id = r.bill_id JOIN customer c ON c.cust_num = b.customer_id WHERE r.areceipt_id = ? OR c.name = ?");
+                if (Pattern.matches("\\d", name)) {
+                    stmt.setInt(1, Integer.parseInt(name));
+                    stmt.setString(2, null);
+                } else {
+                    stmt.setInt(1, 0);
+                    stmt.setString(2, name);
+                }
+            }
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Account account = new Account();
+                account.setAccount_id(rs.getInt(2));
+                Customer customer = new Customer();
+                customer.setCust_num(rs.getInt(10));
+                customer.setName(rs.getString(11));
+                customer.setAddress(rs.getString(12));
+                account.setCustomer(customer);
+                account.setTotalAmt(rs.getDouble(9));
+                AccountReceipt receipt = new AccountReceipt();
+                receipt.setAccount(account);
+                receipt.setAccount_id(rs.getInt(2));
+                receipt.setAddress(rs.getString(12));
+                receipt.setAreceipt_id(rs.getInt(1));
+                receipt.setCheque_no(rs.getString(7));
+                receipt.setDelay_amt(rs.getDouble(4));
+                receipt.setName(rs.getString(11));
+                receipt.setPaid_amt(rs.getDouble(5));
+                receipt.setPaydate(rs.getDate(3).toString());
+                receipt.setPaymode(rs.getInt(6));
+                receipt.setCheque_status(rs.getInt(8));
+                receipt.setTotal_amt(rs.getDouble(9));
+                receiptList.add(receipt);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return receiptList;
+    }
+
+    public void updateChequeStatus(AccountReceipt receipt, StackPane window) {
+        try {
+            stmt = Connector.getConnection().prepareStatement("Update accountreceipt set cheq_status = ?, cheqcancel_time = now() where areceipt_id = ?");
+            stmt.setInt(1, receipt.getCheque_status());
+            stmt.setInt(2, receipt.getAreceipt_id());
+            int i = stmt.executeUpdate();
+            if (i > 0) {
+                Connector.commit();
+                PhoenixSupport.Info("चेक रद्ध झाला आहे.", "चेक रद्ध करणे", window);
+            } else {
+                Connector.rollbackresult();
+                PhoenixSupport.Error("चेकची स्तिथी बदलण्यात आली नाही आहे.", window);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

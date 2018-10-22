@@ -346,6 +346,22 @@ public class PhoenixSupport {
         }
     }
 
+    public void printAllAccountReceiptList(List<AccountReceipt> blist) {
+        String billformate = "AccountReceiptList.jrxml";
+        try {
+            ArrayList<AccountReceipt> singleReceipt = new ArrayList<>();
+            for (AccountReceipt bs : blist) {
+                singleReceipt.add(bs);
+            }
+            JasperReport report = JasperCompileManager.compileReport(billformate);
+            JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleReceipt);
+            JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+            JasperViewer.viewReport(jp, false);
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void printAllBillList(List<Bill> blist) {
         String billformate = "BillList.jrxml";
         try {
@@ -401,6 +417,24 @@ public class PhoenixSupport {
         try {
             for (Reason bs : blist) {
                 ArrayList<Reason> singleBill = new ArrayList<>();
+                singleBill.add(bs);
+                JasperReport report = JasperCompileManager.compileReport(billformate);
+                JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);
+                JasperPrint jp = JasperFillManager.fillReport(report, null, datasource);
+                jp.setOrientation(OrientationEnum.LANDSCAPE);
+                PrintReportToPrinter(jp);
+            }
+        } catch (JRException ex) {
+            Logger.getLogger(PhoenixSupport.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void printAllAccountReceipt(ArrayList<AccountReceipt> blist) {
+        String billformate = "AccountReceipt.jrxml";
+        try {
+            for (AccountReceipt bs : blist) {
+                ArrayList<AccountReceipt> singleBill = new ArrayList<>();
                 singleBill.add(bs);
                 JasperReport report = JasperCompileManager.compileReport(billformate);
                 JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(singleBill);

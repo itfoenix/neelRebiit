@@ -16,7 +16,7 @@ public class AccountReceipt extends RecursiveTreeObject<AccountReceipt> {
     private int areceipt_id, account_id, bank_id;
     private double paid_amt, total_amt, delay_amt;
     private String cheque_no, bankname, numberInWord;
-    private int paymode;
+    private int paymode, cheque_status;
     private String paydate;
     private Account account;
     private String name, address;
@@ -27,6 +27,14 @@ public class AccountReceipt extends RecursiveTreeObject<AccountReceipt> {
 
     public void setAccount_id(int account_id) {
         this.account_id = account_id;
+    }
+
+    public int getCheque_status() {
+        return cheque_status;
+    }
+
+    public void setCheque_status(int cheque_status) {
+        this.cheque_status = cheque_status;
     }
 
     public double getDelay_amt() {
