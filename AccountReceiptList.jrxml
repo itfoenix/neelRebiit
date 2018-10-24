@@ -48,42 +48,42 @@
 	<columnHeader>
 		<band height="25" splitType="Stretch">
 			<staticText>
-				<reportElement style="border_rlt" x="0" y="0" width="60" height="25" uuid="812373de-0e03-41ae-9cf9-4282410b83ad"/>
+				<reportElement style="border_rlt" x="0" y="0" width="57" height="25" uuid="812373de-0e03-41ae-9cf9-4282410b83ad"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[खर्च पावती क्र.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="border_rlt" x="60" y="0" width="60" height="25" uuid="1860a638-aaf8-4db1-9176-2eabc05351c1"/>
+				<reportElement style="border_rlt" x="57" y="0" width="60" height="25" uuid="1860a638-aaf8-4db1-9176-2eabc05351c1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[खर्च बिल क्र.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="border_rlt" x="120" y="0" width="150" height="25" uuid="8035af5e-768a-4fce-b240-0a35a1f2a794"/>
+				<reportElement style="border_rlt" x="117" y="0" width="163" height="25" uuid="8035af5e-768a-4fce-b240-0a35a1f2a794"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ग्राहकाचे नाव]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="border_rlt" x="270" y="0" width="80" height="25" uuid="c7589f20-e91f-42c0-8e9f-07319e9f7a08"/>
+				<reportElement style="border_rlt" x="280" y="0" width="80" height="25" uuid="c7589f20-e91f-42c0-8e9f-07319e9f7a08"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[भरलेली तारीक]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="border_rlt" x="350" y="0" width="66" height="25" uuid="1bde3a69-8188-4b6b-a34a-6cb293a2a919"/>
+				<reportElement style="border_rlt" x="360" y="0" width="66" height="25" uuid="1bde3a69-8188-4b6b-a34a-6cb293a2a919"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[भरलेली रक्कम]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="border_rlt" x="416" y="0" width="70" height="25" uuid="83e27f24-510f-4271-b8b4-bae04b05111a"/>
+				<reportElement style="border_rlt" x="426" y="0" width="60" height="25" uuid="83e27f24-510f-4271-b8b4-bae04b05111a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
@@ -101,42 +101,42 @@
 	<detail>
 		<band height="25" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="0" y="0" width="60" height="25" uuid="ac24068d-dab9-4e81-ad9f-d6f7c9de79a7"/>
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="0" y="0" width="57" height="25" uuid="ac24068d-dab9-4e81-ad9f-d6f7c9de79a7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{areceipt_id}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="60" y="0" width="60" height="25" uuid="c351927d-d973-49e4-87b4-55f0c153b76a"/>
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="57" y="0" width="60" height="25" uuid="c351927d-d973-49e4-87b4-55f0c153b76a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{account_id}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="120" y="0" width="150" height="25" uuid="1864c988-7377-42ee-a489-7eedc4a0ad03"/>
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="117" y="0" width="163" height="25" uuid="1864c988-7377-42ee-a489-7eedc4a0ad03"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="270" y="0" width="80" height="25" uuid="83e4e5ab-c117-4701-8961-4a7dfb459b8b"/>
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="280" y="0" width="80" height="25" uuid="83e4e5ab-c117-4701-8961-4a7dfb459b8b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{paydate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="350" y="0" width="66" height="25" uuid="7f4c0f3d-e848-473c-a50c-01d07407e3ac"/>
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="360" y="0" width="66" height="25" uuid="7f4c0f3d-e848-473c-a50c-01d07407e3ac"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{paid_amt}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="416" y="0" width="70" height="25" uuid="12359e9f-6cae-44f0-b620-b969b767d401"/>
+				<reportElement style="border_rlb" stretchType="RelativeToTallestObject" x="426" y="0" width="60" height="25" uuid="12359e9f-6cae-44f0-b620-b969b767d401"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>

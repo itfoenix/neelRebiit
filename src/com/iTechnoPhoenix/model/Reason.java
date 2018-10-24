@@ -6,6 +6,7 @@
 package com.iTechnoPhoenix.model;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import javafx.scene.layout.HBox;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Reason extends RecursiveTreeObject<Reason> {
     private int account_id;
     private String name;
     private String date;
+    private HBox actionBox;
 
     public Reason() {
     }
@@ -30,6 +32,14 @@ public class Reason extends RecursiveTreeObject<Reason> {
 
     public void setReason_id(int reason_id) {
         this.reason_id = reason_id;
+    }
+
+    public HBox getActionBox() {
+        return actionBox;
+    }
+
+    public void setActionBox(HBox actionBox) {
+        this.actionBox = actionBox;
     }
 
     public String getReason() {

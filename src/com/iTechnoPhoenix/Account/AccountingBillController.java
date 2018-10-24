@@ -97,6 +97,17 @@ public class AccountingBillController implements Initializable {
         reasonList = FXCollections.observableArrayList();
         initTable();
 //        refreshTable();
+        if (PhoenixSupport.accountBill != 0) {
+            AccountOperation ao = new AccountOperation();
+            reasonList = ao.getAccountFromBillNumber(PhoenixSupport.accountBill);
+            txt_name.setText(reasonList.get(0).getName());
+            txt_name.setDisable(true);
+            tbl_account.setMaxHeight(300);
+            refreshTable();
+        } else {
+            txt_name.clear();
+            txt_name.setDisable(false);
+        }
         txt_name.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
                 if (!txt_name.getText().isEmpty()) {
@@ -306,7 +317,12 @@ public class AccountingBillController implements Initializable {
             if (reasonList.size() < 7) {
                 Reason reason = new Reason();
                 Account account = new Account();
-                account.setCustomer(meter.getCustomeObject());
+                if (PhoenixSupport.accountBill > 0) {
+                    account.setAccount_id(reasonList.get(0).getAccount().getAccount_id());
+                    account.setCustomer(reasonList.get(0).getAccount().getCustomer());
+                } else {
+                    account.setCustomer(meter.getCustomeObject());
+                }
                 reason.setAmount(PhoenixSupport.getDouble(txt_amount.getText()));
                 reason.setReason(txt_reason.getText());
                 reason.setAccount(account);
@@ -386,10 +402,19 @@ public class AccountingBillController implements Initializable {
             delete.setOnMouseClicked((MouseEvent e) -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
                 Reason accot = table.getSelectionModel().getSelectedItem().getValue();
-                reasonList.remove(accot);
+                if (PhoenixSupport.accountBill != 0) {
+                    AccountOperation ao = new AccountOperation();
+                    int i = ao.deleteReason(accot, window);
+                    if (i > 0) {
+                        reasonList.remove(accot);
+                    }
+                } else {
+                    reasonList.remove(accot);
+                }
                 refreshTable();
                 txt_reason.requestFocus();
-            });
+            }
+            );
         }
 
         @Override

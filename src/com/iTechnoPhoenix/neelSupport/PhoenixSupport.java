@@ -48,6 +48,7 @@ public class PhoenixSupport {
 
     public static int uid = 0;
     public static int role = 0;
+    public static int accountBill = 0;
     public static ArrayList<MeterBill> singleBill;
 
     public static void EmailValidation(TextField t) {

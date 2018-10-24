@@ -6,11 +6,13 @@
 package com.iTechnoPhoenix.MainActivity;
 
 import com.iTechnoPhoenix.database.UserOperation;
+import com.iTechnoPhoenix.neelSupport.PhoenixConfiguration;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +55,26 @@ public class LoginPageController implements Initializable {
     @FXML
     private void btn_key_login(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
+            if (!LocalDate.parse(PhoenixConfiguration.getTrialDate()).equals(LocalDate.now())) {
+                if (PhoenixSupport.isValidate(txt_username, txt_password)) {
+                    UserOperation up = new UserOperation();
+                    if (up.login(txt_username.getText(), txt_password.getText()) != null) {
+                        showWindow(event);
+                    } else {
+                        PhoenixSupport.Error("Invalid User", window);
+                    }
+                } else {
+                    PhoenixSupport.Error("Enter Username and Password ", window);
+                }
+            } else {
+                PhoenixSupport.Error("तुमचा १ महिन्याचा ट्रायल वापर संपला आहे, कृपया iTechnoPhoenix ला संपर्क करा.", window);
+            }
+        }
+    }
+
+    @FXML
+    private void btn_login(ActionEvent event) {
+        if (!LocalDate.parse(PhoenixConfiguration.getTrialDate()).equals(LocalDate.now())) {
             if (PhoenixSupport.isValidate(txt_username, txt_password)) {
                 UserOperation up = new UserOperation();
                 if (up.login(txt_username.getText(), txt_password.getText()) != null) {
@@ -63,34 +85,22 @@ public class LoginPageController implements Initializable {
             } else {
                 PhoenixSupport.Error("Enter Username and Password ", window);
             }
-
-        }
-    }
-
-    @FXML
-    private void btn_login(ActionEvent event) {
-
-        if (PhoenixSupport.isValidate(txt_username, txt_password)) {
-            UserOperation up = new UserOperation();
-            if (up.login(txt_username.getText(), txt_password.getText()) != null) {
-                showWindow(event);
-            } else {
-                PhoenixSupport.Error("Invalid User", window);
-            }
         } else {
-            PhoenixSupport.Error("Enter Username and Password ", window);
+            PhoenixSupport.Error("तुमचा १ महिन्याचा ट्रायल वापर संपला आहे, कृपया iTechnoPhoenix ला संपर्क करा.", window);
         }
     }
 
     @FXML
-    private void btn_key_cancel(KeyEvent event) {
+    private void btn_key_cancel(KeyEvent event
+    ) {
         if (event.getCode() == KeyCode.ENTER) {
             clear();
         }
     }
 
     @FXML
-    private void btn_cancel(ActionEvent event) {
+    private void btn_cancel(ActionEvent event
+    ) {
         clear();
     }
 

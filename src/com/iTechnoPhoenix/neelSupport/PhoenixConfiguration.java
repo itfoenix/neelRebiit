@@ -63,6 +63,17 @@ public class PhoenixConfiguration {
         return value;
     }
 
+    public static String getTrialDate() {
+        String value = "";
+        try {
+            prop.load(new FileInputStream("Configuration.cfg"));
+            value = prop.getProperty("trialdate");
+        } catch (IOException ex) {
+            Logger.getLogger(PhoenixConfiguration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return value;
+    }
+
     public static ObservableList<String> getRoles() {
 
         ObservableList<String> roles = FXCollections.observableArrayList();

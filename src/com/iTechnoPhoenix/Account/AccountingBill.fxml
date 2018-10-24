@@ -33,10 +33,10 @@
                   <Insets left="8.0" right="8.0" top="8.0" />
                </VBox.margin>
             </Label>
-            <HBox maxHeight="-Infinity" VBox.vgrow="ALWAYS">
+            <HBox accessibleText="hb1" maxHeight="-Infinity" VBox.vgrow="ALWAYS">
                <children>
                   <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="75.0" text="नाव :" HBox.hgrow="ALWAYS" />
-                  <JFXTextField fx:id="txt_name" maxWidth="350.0" HBox.hgrow="ALWAYS">
+                  <JFXTextField fx:id="txt_name" accessibleText="txt_names" maxWidth="350.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="8.0" right="8.0" />
                      </HBox.margin>
@@ -68,10 +68,10 @@
                   <Insets bottom="8.0" left="16.0" right="16.0" top="8.0" />
                </padding>
             </HBox>
-            <JFXTreeTableView fx:id="tbl_account" />
-            <HBox alignment="CENTER_RIGHT" spacing="8.0" VBox.vgrow="ALWAYS">
+            <JFXTreeTableView fx:id="tbl_account" accessibleText="tbl_account" />
+            <HBox accessibleText="hb2" alignment="CENTER_RIGHT" spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton onAction="#btn_save" onKeyPressed="#btn_save_key" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="जतन करा" textFill="WHITE">
+                  <JFXButton accessibleText="btnSave" onAction="#btn_save" onKeyPressed="#btn_save_key" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="जतन करा" textFill="WHITE">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
