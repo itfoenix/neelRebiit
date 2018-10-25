@@ -55,7 +55,7 @@ public class LoginPageController implements Initializable {
     @FXML
     private void btn_key_login(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-            if (!LocalDate.parse(PhoenixConfiguration.getTrialDate()).equals(LocalDate.now())) {
+            if (LocalDate.parse(PhoenixConfiguration.getTrialDate()).isAfter(LocalDate.now())) {
                 if (PhoenixSupport.isValidate(txt_username, txt_password)) {
                     UserOperation up = new UserOperation();
                     if (up.login(txt_username.getText(), txt_password.getText()) != null) {
@@ -74,7 +74,7 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void btn_login(ActionEvent event) {
-        if (!LocalDate.parse(PhoenixConfiguration.getTrialDate()).equals(LocalDate.now())) {
+        if (LocalDate.parse(PhoenixConfiguration.getTrialDate()).isAfter(LocalDate.now())) {
             if (PhoenixSupport.isValidate(txt_username, txt_password)) {
                 UserOperation up = new UserOperation();
                 if (up.login(txt_username.getText(), txt_password.getText()) != null) {

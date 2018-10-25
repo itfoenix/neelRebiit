@@ -138,7 +138,7 @@
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
                   </JFXTextField>
-                  <JFXButton contentDisplay="GRAPHIC_ONLY" maxWidth="-Infinity" onAction="#btn_add_meter" ripplerFill="#3a0ee3" text="+" textFill="#ebebeb" wrapText="true" HBox.hgrow="ALWAYS">
+                  <JFXButton contentDisplay="GRAPHIC_ONLY" maxWidth="-Infinity" onAction="#btn_add_meter" onKeyPressed="#btn_add_meter_key" ripplerFill="#3a0ee3" text="+" textFill="#ebebeb" wrapText="true" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
@@ -165,12 +165,12 @@
             </JFXTreeTableView>
             <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="8.0" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton onAction="#btn_save" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="जतन करा" textFill="WHITE">
+                  <JFXButton onAction="#btn_save" onKeyPressed="#btn_save_key" ripplerFill="#2c725f" style="-fx-background-color: #4BB89B;" text="जतन करा" textFill="WHITE">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>
                   </JFXButton>
-                  <JFXButton onAction="#btn_cancel" ripplerFill="#1a2022" style="-fx-background-color: #3E4A4F;" text="रद्द करा" textFill="WHITE" HBox.hgrow="ALWAYS">
+                  <JFXButton onAction="#btn_cancel" onKeyPressed="#btn_cancel_key" ripplerFill="#1a2022" style="-fx-background-color: #3E4A4F;" text="रद्द करा" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                      </padding>

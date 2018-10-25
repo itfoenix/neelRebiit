@@ -174,20 +174,7 @@ public class UnitsController implements Initializable {
                 btnClose.getStyleClass().add("btn-cancel");
                 JFXDialog dialog = Support.getDialog(window, new Label("युनिट बदल करणे"), vb, btnSave, btnClose);
                 btnSave.setOnAction(e -> {
-                    if (PhoenixSupport.getInteger(txtMax.getText()) > PhoenixSupport.getInteger(txtMin.getText())) {
-                        u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
-                        u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
-                        u.setUnitprice(PhoenixSupport.getDouble(txtUnit.getText()));
-                        unitsdb.updateUnits(u, window);
-                        refreshTable();
-                        dialog.close();
-                    } else {
-                        txtMax.setFocusColor(Paint.valueOf("red"));
-                        txtMax.requestFocus();
-                    }
-                });
-                btnSave.setOnKeyPressed(e -> {
-                    if (e.getCode() == KeyCode.ENTER) {
+                    if (PhoenixSupport.isValidate(txtMax, txtUnit)) {
                         if (PhoenixSupport.getInteger(txtMax.getText()) > PhoenixSupport.getInteger(txtMin.getText())) {
                             u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
                             u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
@@ -198,6 +185,27 @@ public class UnitsController implements Initializable {
                         } else {
                             txtMax.setFocusColor(Paint.valueOf("red"));
                             txtMax.requestFocus();
+                        }
+                    } else {
+                        PhoenixSupport.Error("कृपया सर्व माहिती भरा.", window);
+                    }
+                });
+                btnSave.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.ENTER) {
+                        if (PhoenixSupport.isValidate(txtMax, txtUnit)) {
+                            if (PhoenixSupport.getInteger(txtMax.getText()) > PhoenixSupport.getInteger(txtMin.getText())) {
+                                u.setMin(PhoenixSupport.getInteger(txtMin.getText()));
+                                u.setMax(PhoenixSupport.getInteger(txtMax.getText()));
+                                u.setUnitprice(PhoenixSupport.getDouble(txtUnit.getText()));
+                                unitsdb.updateUnits(u, window);
+                                refreshTable();
+                                dialog.close();
+                            } else {
+                                txtMax.setFocusColor(Paint.valueOf("red"));
+                                txtMax.requestFocus();
+                            }
+                        } else {
+                            PhoenixSupport.Error("कृपया सर्व माहिती भरा.", window);
                         }
                     }
                 });
@@ -219,6 +227,7 @@ public class UnitsController implements Initializable {
         }
 
         @Override
+
         protected void updateItem(Integer item, boolean empty) {
             super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
             if (!empty) {

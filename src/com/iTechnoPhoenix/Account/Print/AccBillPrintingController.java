@@ -5,7 +5,6 @@
  */
 package com.iTechnoPhoenix.Account.Print;
 
-import com.iTechnoPhoenix.Account.AccountingBillController;
 import com.iTechnoPhoenix.database.AccountOperation;
 import com.iTechnoPhoenix.database.CustomerOperation;
 import com.iTechnoPhoenix.model.Account;
@@ -31,13 +30,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,17 +42,12 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableCell;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -153,28 +145,36 @@ public class AccBillPrintingController implements Initializable {
     }
 
     private void printAllList() {
-        List<Account> accList = new ArrayList<>();
-        ObservableList<Account> billListPrint = FXCollections.observableArrayList();
-        AccountOperation ao = new AccountOperation();
-        for (TreeItem<Account> treeItem : tbl_bill.getRoot().getChildren()) {
-            billListPrint.add(treeItem.getValue());
+        if (!accountList.isEmpty()) {
+            List<Account> accList = new ArrayList<>();
+            ObservableList<Account> billListPrint = FXCollections.observableArrayList();
+            AccountOperation ao = new AccountOperation();
+            for (TreeItem<Account> treeItem : tbl_bill.getRoot().getChildren()) {
+                billListPrint.add(treeItem.getValue());
+            }
+            accList = billListPrint.subList(0, billListPrint.size());
+            PhoenixSupport ps = new PhoenixSupport();
+            ps.printAllAccountBillList(accList);
+        } else {
+            PhoenixSupport.Error("प्रिंट करण्यासाठी कुठलीच माहिती नाही आहे.", window);
         }
-        accList = billListPrint.subList(0, billListPrint.size());
-        PhoenixSupport ps = new PhoenixSupport();
-        ps.printAllAccountBillList(accList);
     }
 
     private void printAllAccountBills() {
-        ObservableList<Reason> billListPrint = FXCollections.observableArrayList();
-        AccountOperation ao = new AccountOperation();
-        for (TreeItem<Account> treeItem : tbl_bill.getRoot().getChildren()) {
-            billListPrint = ao.getAccountFromBillNumber(treeItem.getValue().getAccount_id());
-            ArrayList<Reason> billList = new ArrayList<>();
-            for (Reason r : billListPrint) {
-                billList.add(r);
+        if (!accountList.isEmpty()) {
+            ObservableList<Reason> billListPrint = FXCollections.observableArrayList();
+            AccountOperation ao = new AccountOperation();
+            for (TreeItem<Account> treeItem : tbl_bill.getRoot().getChildren()) {
+                billListPrint = ao.getAccountFromBillNumber(treeItem.getValue().getAccount_id());
+                ArrayList<Reason> billList = new ArrayList<>();
+                for (Reason r : billListPrint) {
+                    billList.add(r);
+                }
+                PhoenixSupport ps = new PhoenixSupport();
+                ps.printAllAccountBill(billList);
             }
-            PhoenixSupport ps = new PhoenixSupport();
-            ps.printAllAccountBill(billList);
+        } else {
+            PhoenixSupport.Error("प्रिंट करण्यासाठी कुठलीच माहिती नाही आहे.", window);
         }
     }
 
@@ -262,70 +262,6 @@ public class AccBillPrintingController implements Initializable {
                     try {
                         PhoenixSupport.accountBill = b.getAccount_id();
                         StackPane viewBox = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/Account/AccountingBill.fxml"));
-//                        VBox mainbox = (VBox) viewBox.getChildren().get(0);
-//                        mainbox.getChildren().forEach((e) -> {
-//                            if (e.getAccessibleText() != null) {
-//                                if (e.getAccessibleText().equals("hb1")) {
-//                                    ((HBox) e).getChildren().forEach(f -> {
-//                                        if (f.getAccessibleText() != null) {
-//                                            if (f.getAccessibleText().equals("txt_names")) {
-//                                                ((JFXTextField) f).setText(b.getCustomer().getName());
-//                                                ((JFXTextField) f).setDisable(true);
-//                                            }
-//                                        }
-//                                    });
-//                                }
-//                                if (e.getAccessibleText().equals("tbl_account")) {
-//                                    tbl_account = ((JFXTreeTableView) e);
-//                                    TreeTableColumn<Reason, Integer> tcaction = (TreeTableColumn<Reason, Integer>) tbl_account.getColumns().get(0);
-//                                    TreeTableColumn<Reason, Double> tcamount = (TreeTableColumn<Reason, Double>) tbl_account.getColumns().get(2);
-//                                    tbl_account.setEditable(true);
-//                                    tbl_account.setMaxHeight(300);
-//                                    tcamount.setCellFactory(p -> {
-//                                        TextFieldTreeTableCell<Reason, Double> txtAmt = new TextFieldTreeTableCell();
-//                                        strConvert = new StringConverter<Double>() {
-//
-//                                            @Override
-//                                            public String toString(Double object) {
-//                                                return String.valueOf(object);
-//                                            }
-//
-//                                            @Override
-//                                            public Double fromString(String string) {
-//                                                return PhoenixSupport.getDouble(string);
-//                                            }
-//                                        };
-//                                        txtAmt.setConverter(strConvert);
-//                                        return txtAmt;
-//                                    });
-//                                    tcamount.setOnEditCommit(new EventHandler<TreeTableColumn.CellEditEvent<Reason, Double>>() {
-//
-//                                        @Override
-//                                        public void handle(TreeTableColumn.CellEditEvent<Reason, Double> event) {
-//                                            TreeItem<Reason> tblItem = tbl_account.getTreeItem(event.getTreeTablePosition().getRow());
-//                                            tblItem.getValue().setAmount(event.getNewValue());
-//                                            tbl_account.refresh();
-//                                        }
-//                                    });
-//                                    final TreeItem<Reason> root = new RecursiveTreeItem<>(reasonListPrint, RecursiveTreeObject::getChildren);
-//                                    tbl_account.setRoot(root);
-//                                    tbl_account.setShowRoot(false);
-//                                }
-//                                if (e.getAccessibleText().equals("hb2")) {
-//                                    ((HBox) e).getChildren().forEach(f -> {
-//                                        if (f.getAccessibleText() != null) {
-//                                            if (f.getAccessibleText().equals("btnsave")) {
-////                                                ((JFXButton) f).setOnAction(new EventHandler<Event>() {
-////                                                    @Override
-////                                                    public void handle(Event event) {
-////                                                    }
-////                                                });
-//                                            }
-//                                        }
-//                                    });
-//                                }
-//                            }
-//                        });
                         JFXDialog dialog = Support.getDialog(window, viewBox, JFXDialog.DialogTransition.TOP);
                         dialog.show();
                         dialog.setOnDialogClosed(e -> {
@@ -352,51 +288,4 @@ public class AccBillPrintingController implements Initializable {
             }
         }
     }
-
-//    public void createHistory(JFXTreeTableView tbl_account, ObservableList<Reason> reasonList) {
-//        AccountOperation bo = new AccountOperation();
-//        JFXTreeTableColumn<Reason, Integer> tclsrno = new JFXTreeTableColumn<>("क्रमांक");
-//        JFXTreeTableColumn<Reason, String> tclreason = new JFXTreeTableColumn<>("कारण");
-//        JFXTreeTableColumn<Reason, Double> tclrakkam = new JFXTreeTableColumn<>("रक्कम");
-//        tclrakkam.setEditable(true);
-//        JFXTreeTableColumn<Reason, HBox> tclaction = new JFXTreeTableColumn<>();
-//
-//        for (Reason r : reasonList) {
-//            HBox hb = new HBox();
-//            hb.setAlignment(Pos.CENTER);
-//            JFXButton ed = new JFXButton("Edit");
-//            JFXButton del = new JFXButton("Delete");
-//            hb.getChildren().addAll(ed, del);
-//            r.setActionBox(hb);
-//            del.setOnMouseClicked(e -> {
-//                bo.deleteReason(r, window);
-//                reasonList.remove(r);
-//                tbl_account.refresh();
-//            });
-//            ed.setOnMouseClicked(e -> {
-//            });
-//        }
-//        tclaction.setCellValueFactory(p -> new SimpleObjectProperty(p.getValue().getValue().getActionBox()));
-//        tclsrno.setCellValueFactory(p -> new SimpleIntegerProperty(reasonList.indexOf(p.getValue().getValue())).asObject());
-//        tclreason.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue().getReason()));
-//        tclrakkam.setCellValueFactory(p -> new SimpleDoubleProperty(p.getValue().getValue().getAmount()).asObject());
-//        tclrakkam.setCellFactory(p -> {
-//            TextFieldTreeTableCell<Reason, Double> txtAmt = new TextFieldTreeTableCell();
-//            strConvert = new StringConverter<Double>() {
-//
-//                @Override
-//                public String toString(Double object) {
-//                    return String.valueOf(object);
-//                }
-//
-//                @Override
-//                public Double fromString(String string) {
-//                    return PhoenixSupport.getDouble(string);
-//                }
-//            };
-//            txtAmt.setConverter(strConvert);
-//            return txtAmt;
-//        });
-//        tbl_account.getColumns().addAll(tclaction, tclsrno, tclreason, tclrakkam);
-//    }
 }

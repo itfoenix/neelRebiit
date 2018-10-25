@@ -34,6 +34,8 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -220,6 +222,24 @@ public class CustomerController implements Initializable {
         }
     }
 
+    @FXML
+    private void btn_add_meter_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            if (PhoenixSupport.isValidate(txt_meter, txt_current_reading)) {
+                Meter m = new Meter();
+                m.setMetor_num(txt_meter.getText());
+                m.setCon_date(txt_date.getValue().toString());
+                m.setOutstanding(PhoenixSupport.getDouble(txt_balance.getText()));
+                m.setCurr_reading(PhoenixSupport.getLong(txt_current_reading.getText()));
+                m.setDeposit(PhoenixSupport.getDouble(txt_deposit.getText()));
+                meterlist.add(m);
+                clearMeter();
+            } else {
+                PhoenixSupport.Error("मीटर क्रमांक आणि चालू रीडीग भरणे अनिवार्य आहे.", window);
+            }
+        }
+    }
+
     private void clearMeter() {
         txt_meter.clear();
         txt_balance.clear();
@@ -244,7 +264,25 @@ public class CustomerController implements Initializable {
     }
 
     @FXML
+    void btn_cancel_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            clearAll();
+        }
+    }
+
+    @FXML
     void btn_save(ActionEvent event) {
+        save();
+    }
+
+    @FXML
+    void btn_save_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            save();
+        }
+    }
+
+    public void save() {
         if (PhoenixSupport.isValidate(txt_name)) {
             if (!meterlist.isEmpty()) {
                 Customer customer = new Customer();
@@ -271,7 +309,5 @@ public class CustomerController implements Initializable {
         } else {
             PhoenixSupport.Error("ग्राहकाचे नाव आणि मीटरची माहीत भरणे अनिवार्य आहे.", window);
         }
-
     }
-
 }

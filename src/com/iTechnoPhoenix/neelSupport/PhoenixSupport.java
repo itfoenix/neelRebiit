@@ -22,6 +22,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -159,8 +160,14 @@ public class PhoenixSupport {
         okay.setOnAction(event -> {
             jfxDialog.close();
         });
+        okay.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                jfxDialog.close();
+            }
+        });
         jfxDialogLayout.setActions(okay);
         jfxDialog.show();
+        jfxDialog.setOnDialogOpened(e -> okay.requestFocus());
     }
 
     public static void Info(String ContentMessage, String HeaderText, StackPane root) {
@@ -180,8 +187,14 @@ public class PhoenixSupport {
         okay.setOnAction(event -> {
             jfxDialog.close();
         });
+        okay.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                jfxDialog.close();
+            }
+        });
         jfxDialogLayout.setActions(okay);
         jfxDialog.show();
+        jfxDialog.setOnDialogOpened(e -> okay.requestFocus());
     }
 
     public static void setFullScreen(StackPane window) {

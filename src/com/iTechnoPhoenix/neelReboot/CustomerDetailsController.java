@@ -41,6 +41,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DateCell;
@@ -127,13 +128,10 @@ public class CustomerDetailsController implements Initializable {
         txt_customer.getColumns().addAll(tc_action, tc_name, tc_address, tc_meter, tc_connnection, tc_currentReading, tc_outstanding, tc_deposit, tc_mobile, tc_email);
 
         getData();
-
+        getSearchSugg();
     }
 
-    public void getData() {
-        CustomerOperation co = new CustomerOperation();
-        meterlist = co.getCustomerByName();
-        allmeter.addAll(meterlist);
+    public void getSearchSugg() {
         if (!meterlist.isEmpty()) {
             meterlist.forEach((e) -> {
                 suggestionlist.add(e.getCustomeObject().getName());
@@ -141,6 +139,12 @@ public class CustomerDetailsController implements Initializable {
             });
         }
         TextFields.bindAutoCompletion(txt_search, suggestionlist);
+    }
+
+    public void getData() {
+        CustomerOperation co = new CustomerOperation();
+        meterlist = co.getCustomerByName();
+        allmeter.addAll(meterlist);
         final TreeItem<Meter> root = new RecursiveTreeItem<>(meterlist, RecursiveTreeObject::getChildren);
         txt_customer.setRoot(root);
         txt_customer.setShowRoot(false);
@@ -160,12 +164,36 @@ public class CustomerDetailsController implements Initializable {
             b.setOnMouseClicked((e) -> {
                 d.close();
                 getData();
+                getSearchSugg();
             });
 
         } catch (IOException ex) {
             Logger.getLogger(CustomerDetailsController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+    @FXML
+    private void btn_new_customer_key(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            try {
+                HBox header = new HBox();
+                header.setAlignment(Pos.CENTER_RIGHT);
+                JFXButton b = new JFXButton("X");
+                header.getChildren().add(b);
+                StackPane root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/neelReboot/Customer.fxml"));
+                JFXDialog d = Support.getDialog(window, header, root);
+                d.show();
+                d.setOnDialogClosed(e -> getData());
+                b.setOnMouseClicked((e) -> {
+                    d.close();
+                    getData();
+                    getSearchSugg();
+                });
+
+            } catch (IOException ex) {
+                Logger.getLogger(CustomerDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML
@@ -176,8 +204,10 @@ public class CustomerDetailsController implements Initializable {
     }
 
     public void search() {
-        if (txt_search.getText() != null) {
+        if (!txt_search.getText().isEmpty()) {
             txt_customer.setPredicate(t -> t.getValue().getCustomeObject().getName().equals(txt_search.getText()) || t.getValue().getMetor_num().equals(txt_search.getText()));
+        } else {
+            getData();
         }
     }
 
@@ -204,57 +234,66 @@ public class CustomerDetailsController implements Initializable {
                 txtName.setPromptText("नाव");
                 txtName.setLabelFloat(true);
                 txtName.setMaxWidth(200);
+                txtName.setPadding(new Insets(20, 0, 0, 0));
                 txtName.setText(meter.getCustomeObject().getName());
                 JFXTextField txtMobile = new JFXTextField();
                 txtMobile.setPromptText("मोबिले नं");
                 txtMobile.setLabelFloat(true);
                 txtMobile.setMaxWidth(200);
+                txtMobile.setPadding(new Insets(20, 0, 0, 0));
                 txtMobile.setText(meter.getCustomeObject().getPhone());
                 JFXTextField txtEmail = new JFXTextField();
                 txtEmail.setPromptText("एमैल");
                 txtEmail.setLabelFloat(true);
                 txtEmail.setMaxWidth(200);
+                txtEmail.setPadding(new Insets(20, 0, 0, 0));
                 txtEmail.setText(meter.getCustomeObject().getEmail());
                 JFXTextArea txtAddress = new JFXTextArea();
                 txtAddress.setPromptText("पत्ता");
                 txtAddress.setLabelFloat(true);
                 txtAddress.setPrefRowCount(2);
                 txtAddress.setMaxWidth(200);
+                txtAddress.setPadding(new Insets(20, 0, 0, 0));
                 txtAddress.setText(meter.getCustomeObject().getAddress());
                 JFXTextField txtMeterNum = new JFXTextField();
                 txtMeterNum.setPromptText("मीटर नं");
                 txtMeterNum.setLabelFloat(true);
                 txtMeterNum.setMaxWidth(200);
+                txtMeterNum.setPadding(new Insets(20, 0, 0, 0));
                 txtMeterNum.setText(meter.getMetor_num());
                 JFXTextField txtCurReading = new JFXTextField();
                 txtCurReading.setPromptText("चालु रिडिंग");
                 txtCurReading.setLabelFloat(true);
                 txtCurReading.setMaxWidth(200);
+                txtCurReading.setPadding(new Insets(20, 0, 0, 0));
                 txtCurReading.setText(String.valueOf(meter.getCurr_reading()));
                 JFXTextField txtOutstanding = new JFXTextField();
                 txtOutstanding.setPromptText("थकबाकी");
                 txtOutstanding.setLabelFloat(true);
                 txtOutstanding.setMaxWidth(200);
+                txtOutstanding.setPadding(new Insets(20, 0, 0, 0));
                 txtOutstanding.setText(String.valueOf(meter.getOutstanding()));
                 JFXTextField txtDeposit = new JFXTextField();
                 txtDeposit.setPromptText("जमा");
                 txtDeposit.setLabelFloat(true);
                 txtDeposit.setMaxWidth(200);
+                txtDeposit.setPadding(new Insets(20, 0, 0, 0));
                 txtDeposit.setText(String.valueOf(meter.getDeposit()));
                 JFXDatePicker dpMeterCon = new JFXDatePicker();
                 dpMeterCon.setPromptText("मीटर लावलेली दि ");
                 dpMeterCon.setMaxWidth(200);
+                dpMeterCon.setPadding(new Insets(20, 0, 0, 0));
                 String s[] = meter.getCon_date().split("-");
                 String y[] = s[2].split(" ");
                 dpMeterCon.setValue(LocalDate.parse(y[0] + "/" + s[1] + "/" + s[0], DateTimeFormatter.ofPattern("d/M/yyyy")));
                 dpMeterCon.setDayCellFactory(
                         (DatePicker param) -> new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        setDisable(empty || item.compareTo(LocalDate.now()) > 0);
-                    }
+                            @Override
+                            public void updateItem(LocalDate item, boolean empty) {
+                                setDisable(empty || item.compareTo(LocalDate.now()) > 0);
+                            }
 
-                }
+                        }
                 );
 
                 JFXButton btnUpdate = new JFXButton("जतन करा");
@@ -272,29 +311,33 @@ public class CustomerDetailsController implements Initializable {
 
                     @Override
                     public void handle(ActionEvent event) {
-                        CustomerOperation customerdb = new CustomerOperation();
-                        Customer c = new Customer();
-                        c.setName(txtName.getText());
-                        c.setAddress(txtAddress.getText());
-                        c.setEmail(txtEmail.getText());
-                        c.setPhone(txtMobile.getText());
-                        Meter m = new Meter();
-                        m.setMetor_num(txtMeterNum.getText());
-                        m.setCurr_reading(PhoenixSupport.getInteger(txtCurReading.getText()));
-                        m.setCon_date(dpMeterCon.getValue().toString());
-                        m.setOutstanding(PhoenixSupport.getDouble(txtOutstanding.getText()));
-                        m.setDeposit(PhoenixSupport.getDouble(txtDeposit.getText()));
-                        c.setCust_num(meter.getCustomeObject().getCust_num());
-                        m.setId(meter.getId());
-                        m.setCustomeObject(c);
-                        customerdb.updateCustomer(c, window);
+                        if (PhoenixSupport.isValidate(txtName, txtMobile, txtMeterNum)) {
+                            CustomerOperation customerdb = new CustomerOperation();
+                            Customer c = new Customer();
+                            c.setName(txtName.getText());
+                            c.setAddress(txtAddress.getText());
+                            c.setEmail(txtEmail.getText());
+                            c.setPhone(txtMobile.getText());
+                            Meter m = new Meter();
+                            m.setMetor_num(txtMeterNum.getText());
+                            m.setCurr_reading(PhoenixSupport.getInteger(txtCurReading.getText()));
+                            m.setCon_date(dpMeterCon.getValue().toString());
+                            m.setOutstanding(PhoenixSupport.getDouble(txtOutstanding.getText()));
+                            m.setDeposit(PhoenixSupport.getDouble(txtDeposit.getText()));
+                            c.setCust_num(meter.getCustomeObject().getCust_num());
+                            m.setId(meter.getId());
+                            m.setCustomeObject(c);
+                            customerdb.updateCustomer(c, window);
 
-                        MeterOperation mo = new MeterOperation();
-                        mo.updateMeter(m, window);
+                            MeterOperation mo = new MeterOperation();
+                            mo.updateMeter(m, window);
 
-                        getData();
+                            getData();
 
-                        dialog.close();
+                            dialog.close();
+                        } else {
+                            PhoenixSupport.Error("कृपया नाव, मोबाईल नंबर, मीटर क्रमांक ह्या माहिती भरा.", window);
+                        }
                     }
                 });
 
