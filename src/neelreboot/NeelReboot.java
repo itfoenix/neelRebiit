@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -24,13 +25,11 @@ public class NeelReboot extends Application {
     public void start(Stage stage) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/MainActivity/LoginPage.fxml"));
-//            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/Receipt/ReceiptTransaction.fxml"));
-//            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/bills/BillTransaction.fxml"));
-//            Parent root = FXMLLoader.load(getClass().getResource("/com/iTechnoPhoenix/bills/CancelCheque.fxml"));
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.centerOnScreen();
+//            stage.initStyle(StageStyle.TRANSPARENT);
 
             stage.show();
         } catch (IOException ex) {
