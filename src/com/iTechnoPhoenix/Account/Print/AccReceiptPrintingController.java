@@ -157,18 +157,15 @@ public class AccReceiptPrintingController implements Initializable {
         tcpaid_amt = new JFXTreeTableColumn<>("भरलेली रक्कम");
         tcpaid_amt.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getPaid_amt()).asObject());
         tcpaymod = new JFXTreeTableColumn<>("देयक पद्धत");
-        tcpaymod.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<AccountReceipt, String>, ObservableValue<String>>() {
-
-            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<AccountReceipt, String> param) {
-                String s = null;
-                if (param.getValue().getValue().getPaymode() == 1) {
-                    s = "Cash";
-                }
-                if (param.getValue().getValue().getPaymode() == 2) {
-                    s = "Cheque";
-                }
-                return new SimpleStringProperty(s);
+        tcpaymod.setCellValueFactory(param -> {
+            String s = null;
+            if (param.getValue().getValue().getPaymode() == 1) {
+                s = "Cash";
             }
+            if (param.getValue().getValue().getPaymode() == 2) {
+                s = "Cheque";
+            }
+            return new SimpleStringProperty(s);
         });
         tcchequeno = new JFXTreeTableColumn<>("चेक क्रमांक");
         tcchequeno.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getCheque_no()));

@@ -296,7 +296,7 @@ public class AccountOperation {
     public boolean isExist(int i) {
         boolean result = false;
         try {
-            stmt = Connector.getConnection().prepareStatement("SELECT * FROM accountreceipt WHERE bill_id = ? and status = 0");
+            stmt = Connector.getConnection().prepareStatement("SELECT * FROM accountreceipt WHERE bill_id = ?");
             stmt.setInt(1, i);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

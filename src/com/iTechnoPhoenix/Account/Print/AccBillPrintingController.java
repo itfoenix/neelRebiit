@@ -166,6 +166,14 @@ public class AccBillPrintingController implements Initializable {
             AccountOperation ao = new AccountOperation();
             for (TreeItem<Account> treeItem : tbl_bill.getRoot().getChildren()) {
                 billListPrint = ao.getAccountFromBillNumber(treeItem.getValue().getAccount_id());
+                double sum = 0;
+                for (Reason r : billListPrint) {
+                    sum = sum + r.getAmount();
+                }
+                Reason rs = new Reason();
+                rs.setAmount(sum);
+                rs.setReason("एकूण रक्कम");
+                billListPrint.add(rs);
                 ArrayList<Reason> billList = new ArrayList<>();
                 for (Reason r : billListPrint) {
                     billList.add(r);
@@ -241,6 +249,14 @@ public class AccBillPrintingController implements Initializable {
                     Account b = tbl_bill.getSelectionModel().getSelectedItem().getValue();
                     AccountOperation ao = new AccountOperation();
                     reasonListPrint = ao.getAccountFromBillNumber(b.getAccount_id());
+                    double sum = 0;
+                    for (Reason r : reasonListPrint) {
+                        sum = sum + r.getAmount();
+                    }
+                    Reason rs = new Reason();
+                    rs.setAmount(sum);
+                    rs.setReason("एकूण रक्कम");
+                    reasonListPrint.add(rs);
                     ArrayList<Reason> billList = new ArrayList<>();
                     for (Reason r : reasonListPrint) {
                         billList.add(r);

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -38,12 +39,14 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.util.Callback;
 import org.controlsfx.control.textfield.TextFields;
 
 /**
@@ -71,7 +74,7 @@ public class ReceiptPrintingController implements Initializable {
     private JFXTreeTableColumn<Bill, String> tclcustomername;
     private JFXTreeTableColumn<Bill, Integer> tclbillno;
     private JFXTreeTableColumn<Bill, Double> tclamount;
-    private JFXTreeTableColumn<Bill, Integer> tclmode;
+    private JFXTreeTableColumn<Bill, String> tclmode;
 
     private ReceiptOperation recieptdb;
     private ObservableList<Bill> billList;
@@ -142,7 +145,16 @@ public class ReceiptPrintingController implements Initializable {
         tclcustomername.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getCust().getName()));
         tclcustomername.setPrefWidth(95);
         tclmode = new JFXTreeTableColumn<>("देयक पद्धत");
-        tclmode.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getPmode()).asObject());
+        tclmode.setCellValueFactory(param -> {
+            String s = null;
+            if (param.getValue().getValue().getPmode() == 1) {
+                s = "Cash";
+            }
+            if (param.getValue().getValue().getPmode() == 2) {
+                s = "Cheque";
+            }
+            return new SimpleStringProperty(s);
+        });
         tclmode.setPrefWidth(95);
         tclreceiptnumber = new JFXTreeTableColumn<>("पावती क्रमांक");
         tclreceiptnumber.setCellValueFactory(param -> new SimpleIntegerProperty(param.getValue().getValue().getRid()).asObject());
