@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="window" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerDetailsController">
+<StackPane fx:id="window" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resource/newStyleFile.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iTechnoPhoenix.neelReboot.CustomerDetailsController">
    <children>
       <VBox>
          <children>
@@ -39,8 +39,7 @@
                <children>
                   <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" text="नाव / मीटर क्रमांक :" HBox.hgrow="ALWAYS" />
                   <JFXTextField fx:id="txt_search" maxWidth="350.0" HBox.hgrow="ALWAYS" />
-                  <JFXButton onAction="#btn_search" onKeyPressed="#btn_search_key" style="-fx-background-color: #4BB89B;" text="शोध करा" textFill="WHITE" HBox.hgrow="ALWAYS" />
-                  <JFXButton onAction="#btn_new_customer" onKeyPressed="#btn_new_customer_key" style="-fx-background-color: #1F9CFF;" text="नवीन ग्राहक" textFill="WHITE">
+                  <JFXButton onAction="#btn_new_customer" style="-fx-background-color: #1F9CFF;" text="नवीन ग्राहक" textFill="WHITE">
                      <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>

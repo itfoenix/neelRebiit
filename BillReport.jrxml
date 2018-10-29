@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4dbbb4eb-3ec0-4445-8339-ab63e64e76ac">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="style1">
@@ -65,9 +65,9 @@
 			<staticText>
 				<reportElement mode="Transparent" x="15" y="18" width="63" height="20" uuid="84968235-068e-4a8d-9911-e89115e28f49"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[जमा रक्कम :]]></text>
+				<text><![CDATA[jamaa r@kma :]]></text>
 			</staticText>
 			<textField>
 				<reportElement mode="Transparent" x="78" y="18" width="100" height="20" uuid="44089667-526c-46b4-ba72-65e4cb2d8c22"/>
@@ -79,9 +79,9 @@
 			<staticText>
 				<reportElement mode="Transparent" x="188" y="18" width="81" height="20" uuid="af7a8be4-9e37-4cdb-b572-44f8d94825ca"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[थकबाकी रक्कम :]]></text>
+				<text><![CDATA[qakbaakI r@kma :]]></text>
 			</staticText>
 			<textField>
 				<reportElement mode="Transparent" x="269" y="18" width="100" height="20" uuid="c167f4ab-3805-475e-b1cb-1342d7fe2304"/>
@@ -93,9 +93,9 @@
 			<staticText>
 				<reportElement mode="Transparent" x="380" y="18" width="67" height="20" uuid="870f61c6-bba0-4c9f-9dc0-f8dd48053d22"/>
 				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[एकूण रक्कम :]]></text>
+				<text><![CDATA[ekuNa r@kma]]></text>
 			</staticText>
 			<textField>
 				<reportElement mode="Transparent" x="447" y="18" width="100" height="20" uuid="c68989a1-10a9-48bd-9f2f-f0967af3e966"/>
@@ -111,37 +111,37 @@
 			<staticText>
 				<reportElement style="style1" x="0" y="0" width="111" height="20" uuid="ad64abba-db08-4960-a673-31a1058a3006"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[बिल नं]]></text>
+				<text><![CDATA[ibala naM. :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="style1" x="222" y="0" width="111" height="20" uuid="3005d234-bdf8-4cb4-947c-a031dccf846b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[बिल रक्कम]]></text>
+				<text><![CDATA[ibala r@kma]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="style1" x="444" y="0" width="111" height="20" uuid="b826c023-a1cb-4ac6-8d02-b65535090649"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[स्थिती]]></text>
+				<text><![CDATA[isqatI]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="style1" x="333" y="0" width="111" height="20" uuid="a2c10617-faf4-4209-9c95-8c7a0b108344"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[देयक दिनक]]></text>
+				<text><![CDATA[doyak idnaaMk]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="style1" x="111" y="0" width="111" height="20" uuid="0ee3877e-6ec2-4cda-94c5-148c4a50198b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Shivaji01" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[मीटर नं]]></text>
+				<text><![CDATA[maITr naM :]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

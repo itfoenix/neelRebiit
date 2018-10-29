@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="421" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b0c8422-38e8-4df0-a298-af6d4cd9055c">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="187"/>
+	<property name="ireport.y" value="31"/>
 	<style name="border_rlb">
 		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 			<pen lineWidth="1.0"/>
@@ -120,30 +120,30 @@
 			<staticText>
 				<reportElement style="border_rlt" x="0" y="0" width="141" height="25" uuid="615d5428-a6fa-44e8-ac99-95984fc1c220"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[खर्च बिल क्र.]]></text>
+				<text><![CDATA[Kca- ibala naM]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="270" y="0" width="141" height="25" uuid="22fe4921-5dff-4ac8-bd9b-de82f49c8d4c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[एकूण रक्कम]]></text>
+				<text><![CDATA[ekuNa r@kma]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="411" y="0" width="143" height="25" uuid="87b8084e-53dd-481d-b369-96a5857c535d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[भरलेली रक्कम]]></text>
+				<text><![CDATA[BarlaolaI r@kma]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="141" y="0" width="129" height="25" uuid="3334b3fd-65ab-407a-a386-c037f509879f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[विलंब रक्कम]]></text>
+				<text><![CDATA[ivalaMba r@kma]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

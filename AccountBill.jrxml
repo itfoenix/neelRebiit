@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="421" pageHeight="595" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c22971cf-2d48-48f6-82d6-5414d973ad08">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="0"/>
 	<style name="border_rlb">
 		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 			<pen lineWidth="1.0"/>
@@ -90,9 +90,9 @@
 			<staticText>
 				<reportElement x="216" y="10" width="100" height="20" uuid="9cf3c0e3-bef4-425a-8293-2d0af073570c"/>
 				<textElement verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[तारिक : ]]></text>
+				<text><![CDATA[idnaaMk :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="92" y="10" width="100" height="20" uuid="b699bea6-2734-4e1e-a2f7-2d1fef2bf385"/>
@@ -104,24 +104,24 @@
 			<staticText>
 				<reportElement x="6" y="10" width="100" height="20" uuid="7fc7debc-6e86-4a16-a144-e7288e5855d4"/>
 				<textElement verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[खर्च बिल क्र : ]]></text>
+				<text><![CDATA[Kca- ibala naM : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="38" width="87" height="20" uuid="9677bb04-8172-455e-b283-dda7cbb4d356"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ga`ahkacao naava :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="93" y="38" width="285" height="20" uuid="77db1e66-89bf-46d9-be79-9cecf0904dd0"/>
+				<reportElement x="93" y="38" width="284" height="20" uuid="b1f81d07-adf5-4b38-a004-24cb9572e06f"/>
 				<textElement verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font size="13"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="6" y="38" width="100" height="20" uuid="9677bb04-8172-455e-b283-dda7cbb4d356"/>
-				<textElement verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
-				</textElement>
-				<text><![CDATA[ग्राहकाचे नाव : ]]></text>
-			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -143,9 +143,9 @@
 			<staticText>
 				<reportElement style="border_rlt" x="1" y="0" width="45" height="25" uuid="72e2a385-5fc4-4d50-9a0e-417d35700881"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[क्र]]></text>
+				<text><![CDATA[naM.]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

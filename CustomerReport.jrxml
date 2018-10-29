@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9c19c747-f5d7-47e5-8fe5-d8b9ca9eda44">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="480"/>
 	<property name="ireport.y" value="0"/>
 	<style name="border_rlb">
 		<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
@@ -71,13 +71,17 @@ ga`amapMcaayat palaIdovad
 		<band height="42" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="100" height="20" uuid="1a9ff274-4e99-464c-8940-e00d532a99ec"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[ग्राहकाचे नाव :]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[ga`ahkacao naava :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="22" width="100" height="20" uuid="627b2441-9c29-48b4-bc85-04680a63e4f6"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[मीटर क्रमांक :]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[maITr naM :]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
 				<reportElement x="98" y="0" width="455" height="20" uuid="b3726524-e830-47f4-8dba-e62b3758e8a3"/>
@@ -97,48 +101,66 @@ ga`amapMcaayat palaIdovad
 				<reportElement style="border_rlt" x="0" y="0" width="55" height="24" uuid="22d92091-851b-464a-adfe-16d6ad3906ee">
 					<property name="net.sf.jasperreports.export.pdf.tag.th" value="full"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[बिल क्रमांक]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ibala naM.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="55" y="0" width="82" height="24" uuid="cb3516e4-8e4e-45bd-8a31-4bf6dee31291"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[महिना]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[kalaavaQaI]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="255" y="0" width="59" height="24" uuid="265d4189-25ec-4673-bf39-04a01297007d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[थकबाकी]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[qakbaakI]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="314" y="0" width="59" height="24" uuid="67240def-6456-4a27-b679-1aebc65a0d36"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[१८ %]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[18‰]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="432" y="0" width="59" height="24" uuid="8b0a009d-9df1-43fa-8ad3-d7afdcb7a62d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[बिल रक्कम]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[ivalaMba r@kma]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="373" y="0" width="59" height="24" uuid="db31a33b-e082-45be-aa32-911957202faf"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[सर्च]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[sarcaaja-]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="491" y="0" width="61" height="24" uuid="f21391ee-91da-4db8-8805-66ef0fbafff4"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[एकूण रक्कम]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[ekuNa r@kma]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="196" y="0" width="59" height="24" uuid="3328ff0f-9742-4db7-aa2c-028c2b685496"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[मागील युनिट]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[caalau yauinaT]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="137" y="0" width="59" height="24" uuid="1858632e-7884-4430-94c0-b199af9e50c2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[चालू युनिट]]></text>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Shivaji01" size="13"/>
+				</textElement>
+				<text><![CDATA[maaigala yauinaT]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
