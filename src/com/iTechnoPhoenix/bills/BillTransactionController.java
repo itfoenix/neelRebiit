@@ -36,6 +36,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -108,6 +109,8 @@ public class BillTransactionController implements Initializable {
     private JFXDialog dialog;
     private StringConverter<Long> strConvert;
     private ObservableSet<String> customermeterlist;
+    @FXML
+    private JFXComboBox<String> cb_year;
 
     @FXML
     private void btn_cancel(ActionEvent event) {
@@ -142,6 +145,7 @@ public class BillTransactionController implements Initializable {
         MeterOperation meterdb = new MeterOperation();
         customermeterlist.addAll(meterdb.getMeterNumber());
         cb_period.setItems(PhoenixConfiguration.getMonth());
+        cb_year.setItems(PhoenixConfiguration.getYear());
         TextFields.bindAutoCompletion(txt_meter_customer, customermeterlist);
         initTable();
         txt_duration.setDayCellFactory(param -> {
@@ -155,7 +159,7 @@ public class BillTransactionController implements Initializable {
         txt_meter_customer.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
             if (!newValue) {
                 if (!txt_meter_customer.getText().isEmpty()) {
-                    if (PhoenixSupport.isValidate(cb_period) && txt_duration.getValue() != null) {
+                    if (PhoenixSupport.isValidate(cb_period, cb_year) && txt_duration.getValue() != null) {
                         CustomerOperation co = new CustomerOperation();
                         meterList = co.getCustomerDetails(txt_meter_customer.getText());
                         System.out.println(meterList);
@@ -459,16 +463,16 @@ public class BillTransactionController implements Initializable {
     }
 
     public void save() {
-        if (PhoenixSupport.isValidate(cb_period) && txt_duration.getValue() != null && PhoenixSupport.isValidate(txt_meter_customer)) {
+        if (PhoenixSupport.isValidate(cb_period, cb_year) && txt_duration.getValue() != null && PhoenixSupport.isValidate(txt_meter_customer)) {
             if (!billList.isEmpty()) {
                 for (Bill bill : billList) {
-                    int i = billdb.checkBill(bill.getMeter().getMetor_num(), cb_period.getSelectionModel().getSelectedItem(), String.valueOf(LocalDate.now().getYear()));
+                    int i = billdb.checkBill(bill.getMeter().getMetor_num(), cb_period.getSelectionModel().getSelectedItem(), cb_year.getSelectionModel().getSelectedItem());
                     bill.setRemark(txt_remark.getText());
                     if (i == 0) {
                         bill.setBdate(LocalDate.now().toString());
                         bill.setPdate(txt_duration.getValue().toString());
                         bill.setPeriod(cb_period.getSelectionModel().getSelectedItem());
-                        bill.setYear(String.valueOf(LocalDate.now().getYear()));
+                        bill.setYear(cb_year.getSelectionModel().getSelectedItem());
                         if (billref != 0) {
                             bill.setBillref(billref);
                         } else {
@@ -531,6 +535,7 @@ public class BillTransactionController implements Initializable {
 
     public void cancel() {
         cb_period.getSelectionModel().clearSelection();
+        cb_year.getSelectionModel().clearSelection();
         txt_duration.setValue(null);
         txt_meter_customer.clear();
         txt_remark.clear();

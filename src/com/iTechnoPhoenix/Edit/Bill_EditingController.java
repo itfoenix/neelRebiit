@@ -20,8 +20,10 @@ import com.iTechnoPhoenix.model.Bill;
 import com.iTechnoPhoenix.model.MeterBill;
 import com.iTechnoPhoenix.model.Unit;
 import com.iTechnoPhoenix.neelSupport.BillSupport;
+import com.iTechnoPhoenix.neelSupport.PhoenixConfiguration;
 import com.iTechnoPhoenix.neelSupport.PhoenixSupport;
 import com.iTechnoPhoenix.neelSupport.Support;
+import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -103,10 +105,14 @@ public class Bill_EditingController implements Initializable {
     private long oldReading = 0;
     private long use_unit;
     private double total, outstanding, scharge, outrate, ftotal, oldTotal, grandtotal;
+    @FXML
+    private JFXComboBox<String> cb_period;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        cb_period.setItems(PhoenixConfiguration.getMonth());
+        cb_period.getStyleClass().add("label-marathi");
         billList = FXCollections.observableArrayList();
         tcMeterNumber = new JFXTreeTableColumn<>("मीटर नं");
         tcBalance = new JFXTreeTableColumn<>("थकबाकी");
@@ -175,15 +181,14 @@ public class Bill_EditingController implements Initializable {
     public void search() {
         JFXSnackbar snack = new JFXSnackbar(window);
         snack.enqueue(new JFXSnackbar.SnackbarEvent("Loading Loads of Data"));
-
+grandtotal =0;
         BillOperation bo = new BillOperation();
         billList = bo.getAllBill(PhoenixSupport.getInteger(txt_BillNumber.getText()));
 
         if (!billList.isEmpty()) {
             if (billList.get(0).getStatus().equals("1")) {
                 lbl_BillNo.setText(txt_BillNumber.getText());
-                lbl_BillDuration.setText(billList.get(0).getPeriod());
-                lbl_BillDuration.getStyleClass().add("label-marathi");
+                cb_period.getSelectionModel().select(billList.get(0).getPeriod());
                 lbl_BillLastDate.setText(billList.get(0).getPdate().split(" ")[0]);
                 lbl_BillDate.setText(billList.get(0).getBdate().split(" ")[0]);
                 lbl_CustomerName.setText(billList.get(0).getCustomername());
@@ -328,6 +333,7 @@ public class Bill_EditingController implements Initializable {
     public void save() {
         if (!billList.isEmpty()) {
             for (Bill b : billList) {
+                b.setPeriod(cb_period.getSelectionModel().getSelectedItem());
                 BillOperation bo = new BillOperation();
                 bo.updateBill(b);
             }
@@ -416,16 +422,23 @@ public class Bill_EditingController implements Initializable {
         open.setOnAction(e -> {
             double adjust = PhoenixSupport.getDouble(txtAdjust.getText());
             for (Bill b : billList) {
-                if (b.getPaidamt() >= adjust) {
+                if (b.getBalance()>= adjust) {
                     b.setAdjustment(adjust);
-                    b.setPaidamt(b.getPaidamt() - adjust);
-                    b.setTotal(b.getPaidamt());
+                    b.setBalance(b.getBalance() - adjust);
+                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
+                    b.setPaidamt(b.getTotal());
                     adjust = 0;
-                } else if (b.getPaidamt() < adjust) {
-                    adjust = adjust - b.getPaidamt();
-                    b.setAdjustment(b.getPaidamt());
-                    b.setPaidamt(0);
-                    b.setTotal(0);
+                } else if (b.getBalance() < adjust) {
+                    if(b.getBalance() != 0) {
+                    adjust = adjust - b.getBalance();
+                    b.setAdjustment(b.getBalance());
+                    b.setBalance(0);
+                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
+                    b.setPaidamt(b.getTotal());
+                    }
+                    else {
+                        PhoenixSupport.Error("थकबाकी हि adjustment रक्कम पेक्षा कमी आहे.", window);
+                    }
                 }
             }
             TreeItem<Bill> treeItm = new RecursiveTreeItem<>(billList, RecursiveTreeObject::getChildren);
@@ -439,17 +452,19 @@ public class Bill_EditingController implements Initializable {
             if (e.getCode() == KeyCode.ENTER) {
                 double adjust = PhoenixSupport.getDouble(txtAdjust.getText());
                 for (Bill b : billList) {
-                    if (b.getPaidamt() >= adjust) {
-                        b.setAdjustment(adjust);
-                        b.setPaidamt(b.getPaidamt() - adjust);
-                        b.setTotal(b.getPaidamt());
-                        adjust = 0;
-                    } else if (b.getPaidamt() < adjust) {
-                        adjust = adjust - b.getPaidamt();
-                        b.setAdjustment(b.getPaidamt());
-                        b.setPaidamt(0);
-                        b.setTotal(0);
-                    }
+                    if (b.getBalance()>= adjust) {
+                    b.setAdjustment(adjust);
+                    b.setBalance(b.getBalance() - adjust);
+                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
+                    b.setPaidamt(b.getTotal());
+                    adjust = 0;
+                } else if (b.getBalance() < adjust) {
+                    adjust = adjust - b.getPaidamt();
+                    b.setAdjustment(b.getPaidamt());
+                    b.setBalance(0);
+                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
+                    b.setPaidamt(b.getTotal());
+                }
                 }
                 initializeTable();
                 dialog.close();
