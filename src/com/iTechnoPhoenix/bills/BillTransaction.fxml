@@ -39,7 +39,7 @@
             <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-border-color: #CECFD0; -fx-border-width: 1;" VBox.vgrow="ALWAYS">
                <children>
                   <JFXComboBox fx:id="cb_period" maxWidth="300.0" promptText="ibalaacaa kalaavaQaI" styleClass="label-marathi" HBox.hgrow="ALWAYS" />
-                  <JFXComboBox fx:id="cb_year" maxWidth="300.0" promptText="ibalaacaa vaXaa-" styleClass="label-marathi" HBox.hgrow="ALWAYS" />
+                  <JFXComboBox fx:id="cb_year" maxWidth="300.0" promptText="ibalaacaa vaXaa-" styleClass="label-marathi" />
                   <JFXDatePicker fx:id="txt_duration" editable="false" maxHeight="35.0" maxWidth="300.0" overLay="true" promptText="बिल भरण्याचा कालावधी" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>

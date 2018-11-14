@@ -467,6 +467,7 @@ public class PhoenixSupport {
         try {
             ArrayList<Bill> singleReceipt = new ArrayList<>();
             for (Bill bs : blist) {
+                bs.setPdate(bs.getPdate().split(" ")[0]);
                 singleReceipt.add(bs);
             }
             JasperReport report = JasperCompileManager.compileReport(billformate);

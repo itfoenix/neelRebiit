@@ -175,12 +175,13 @@ public class ReceiptOperation {
         return receiptList;
     }
 
-    public ObservableList<Bill> getAllReceipt(String period) {
+    public ObservableList<Bill> getAllReceipt(String period, String year) {
 
         ObservableList<Bill> billlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select c.name, c.cust_num, c.address, r.bill_no, r.receipt_no, r.pdate, r.amount, r.paymode, r.cheq_no, k.name from customer c join meter m on m.cust_id=c.cust_num join billing b on b.meterno=m.id join receipt r on r.bill_no=b.bill_no left join bank k on k.bid = r.bank_id where b.period=?");
+            stm = Connector.getConnection().prepareStatement("select c.name, c.cust_num, c.address, r.bill_no, r.receipt_no, r.pdate, r.amount, r.paymode, r.cheq_no, k.name from customer c join meter m on m.cust_id=c.cust_num join billing b on b.meterno=m.id join receipt r on r.bill_no=b.bill_no left join bank k on k.bid = r.bank_id where b.period=? and b.year=?");
             stm.setString(1, period);
+            stm.setString(2, year);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Bill b = new Bill();
@@ -212,15 +213,16 @@ public class ReceiptOperation {
         return billlist;
     }
 
-    public ObservableList<Bill> getAllReceipts(String period, String name) {
+    public ObservableList<Bill> getAllReceipts(String period, String name, String year) {
 
         ObservableList<Bill> billlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select distinct r.receipt_no, c.name, c.cust_num, c.address, r.bill_no, r.pdate, r.amount, r.paymode, r.cheq_no, k.name from customer c join meter m on c.cust_num = m.cust_id join billing b on m.id = b.meterno join receipt r on b.billref = r.bill_no left join bank k on r.bank_id = k.bid where b.period = ? and (c.name=? or m.meter_num=? or r.receipt_no =?)");
+            stm = Connector.getConnection().prepareStatement("select distinct r.receipt_no, c.name, c.cust_num, c.address, r.bill_no, r.pdate, r.amount, r.paymode, r.cheq_no, k.name from customer c join meter m on c.cust_num = m.cust_id join billing b on m.id = b.meterno join receipt r on b.billref = r.bill_no left join bank k on r.bank_id = k.bid where b.period = ? and b.year = ? and (c.name=? or m.meter_num=? or r.receipt_no =?)");
             stm.setString(1, period);
-            stm.setString(2, name);
+            stm.setString(2, year);
             stm.setString(3, name);
             stm.setString(4, name);
+            stm.setString(5, name);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Bill b = new Bill();

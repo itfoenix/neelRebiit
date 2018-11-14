@@ -122,7 +122,7 @@ public class BillReportController implements Initializable {
         tc_Total = new JFXTreeTableColumn<>("बिल रक्कम");
         tc_Total.setCellValueFactory(param -> new SimpleDoubleProperty(param.getValue().getValue().getTotal()).asObject());
         tc_PaidDate = new JFXTreeTableColumn<>("देयक दिनक");
-        tc_PaidDate.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPdate()));
+        tc_PaidDate.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getPdate().split(" ")[0]));
         tc_Status = new JFXTreeTableColumn<>("स्थिती");
         tc_Status.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue().getStatus()));
         tbl_bill.getColumns().addAll(tc_BillNumber, tc_MeterNumber, tc_Total, tc_PaidDate, tc_Status);

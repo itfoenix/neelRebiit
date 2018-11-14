@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
@@ -39,14 +38,12 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.util.Callback;
 import org.controlsfx.control.textfield.TextFields;
 
 /**
@@ -64,6 +61,9 @@ public class ReceiptPrintingController implements Initializable {
 
     @FXML
     private JFXComboBox<String> cb_duration;
+
+    @FXML
+    private JFXComboBox<String> cb_year;
 
     @FXML
     private JFXTreeTableView<Bill> tbl_receipt;
@@ -84,6 +84,8 @@ public class ReceiptPrintingController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cb_duration.setItems(PhoenixConfiguration.getMonth());
         cb_duration.getStyleClass().add("label-marathi");
+        cb_year.setItems(PhoenixConfiguration.getYear());
+        cb_year.getStyleClass().add("label-marathi");
         meterReceiptCustList = FXCollections.observableSet();
         CustomerOperation co = new CustomerOperation();
         for (Customer customer : co.getCustomerName()) {
@@ -181,9 +183,9 @@ public class ReceiptPrintingController implements Initializable {
             recieptdb = new ReceiptOperation();
             if (PhoenixSupport.isValidate(cb_duration)) {
                 if (txt_meter_customer.getText().isEmpty()) {
-                    billList = recieptdb.getAllReceipt(cb_duration.getSelectionModel().getSelectedItem());
+                    billList = recieptdb.getAllReceipt(cb_duration.getSelectionModel().getSelectedItem(), cb_year.getSelectionModel().getSelectedItem());
                 } else {
-                    billList = recieptdb.getAllReceipts(cb_duration.getSelectionModel().getSelectedItem(), txt_meter_customer.getText());
+                    billList = recieptdb.getAllReceipts(cb_duration.getSelectionModel().getSelectedItem(), txt_meter_customer.getText(), cb_year.getSelectionModel().getSelectedItem());
                 }
             }
         } else if (i == 1) {
@@ -202,6 +204,7 @@ public class ReceiptPrintingController implements Initializable {
         refreshTable();
         txt_meter_customer.clear();
         cb_duration.getSelectionModel().clearSelection();
+        cb_year.getSelectionModel().clearSelection();
     }
 
     private void printAllReceipt() {

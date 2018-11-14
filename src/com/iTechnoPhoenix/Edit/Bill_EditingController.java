@@ -75,7 +75,7 @@ public class Bill_EditingController implements Initializable {
     private Label lbl_CustomerAddress;
 
     @FXML
-    private Label lbl_BillDuration;
+    private JFXComboBox<String> cb_year;
 
     @FXML
     private Label lbl_BillLastDate;
@@ -113,6 +113,8 @@ public class Bill_EditingController implements Initializable {
         // TODO
         cb_period.setItems(PhoenixConfiguration.getMonth());
         cb_period.getStyleClass().add("label-marathi");
+        cb_year.setItems(PhoenixConfiguration.getYear());
+        cb_year.getStyleClass().add("label-marathi");
         billList = FXCollections.observableArrayList();
         tcMeterNumber = new JFXTreeTableColumn<>("मीटर नं");
         tcBalance = new JFXTreeTableColumn<>("थकबाकी");
@@ -181,7 +183,7 @@ public class Bill_EditingController implements Initializable {
     public void search() {
         JFXSnackbar snack = new JFXSnackbar(window);
         snack.enqueue(new JFXSnackbar.SnackbarEvent("Loading Loads of Data"));
-grandtotal =0;
+        grandtotal = 0;
         BillOperation bo = new BillOperation();
         billList = bo.getAllBill(PhoenixSupport.getInteger(txt_BillNumber.getText()));
 
@@ -189,6 +191,7 @@ grandtotal =0;
             if (billList.get(0).getStatus().equals("1")) {
                 lbl_BillNo.setText(txt_BillNumber.getText());
                 cb_period.getSelectionModel().select(billList.get(0).getPeriod());
+                cb_year.getSelectionModel().select(billList.get(0).getYear());
                 lbl_BillLastDate.setText(billList.get(0).getPdate().split(" ")[0]);
                 lbl_BillDate.setText(billList.get(0).getBdate().split(" ")[0]);
                 lbl_CustomerName.setText(billList.get(0).getCustomername());
@@ -307,7 +310,8 @@ grandtotal =0;
 
     public void cancel() {
         lbl_BillDate.setText("");
-        lbl_BillDuration.setText("");
+        cb_period.getSelectionModel().clearSelection();
+
         lbl_BillLastDate.setText("");
         lbl_BillNo.setText("");
         lbl_CustomerAddress.setText("");
@@ -330,54 +334,70 @@ grandtotal =0;
         tblMeters.setRoot(null);
     }
 
+    int index;
+
     public void save() {
         if (!billList.isEmpty()) {
-            for (Bill b : billList) {
-                b.setPeriod(cb_period.getSelectionModel().getSelectedItem());
-                BillOperation bo = new BillOperation();
-                bo.updateBill(b);
+            BillOperation bo = new BillOperation();
+            String month = bo.checkMonth(billList.get(0).getMeter().getMetor_num());
+            for (String s : cb_period.getItems()) {
+                if (s.equals(month.split(",")[0])) {
+                    index = cb_period.getItems().indexOf(s);
+                }
             }
-            JFXDialog dialog;
-            JFXButton btnPrint = new JFXButton("प्रिंट करा");
-            btnPrint.getStyleClass().add("btn-search");
+            if (month.split(",")[0].equals("naaovhoMbar - iDsaoMbar")) {
+                index = -1;
+            }
+            if (cb_period.getSelectionModel().getSelectedIndex() == index + 1) {
+                for (Bill b : billList) {
+                    b.setPeriod(cb_period.getSelectionModel().getSelectedItem());
+                    b.setYear(cb_year.getSelectionModel().getSelectedItem());
+                    bo.updateBill(b);
+                }
+                JFXDialog dialog;
+                JFXButton btnPrint = new JFXButton("प्रिंट करा");
+                btnPrint.getStyleClass().add("btn-search");
 
-            JFXButton btnCancel = new JFXButton("रद्द करा");
-            btnCancel.getStyleClass().add("btn-cancel");
+                JFXButton btnCancel = new JFXButton("रद्द करा");
+                btnCancel.getStyleClass().add("btn-cancel");
 
-            dialog = Support.getDialog(window, new Label("बिल व्यवहार"), new Label("बिल जतन झालं आहे."), btnPrint, btnCancel);
+                dialog = Support.getDialog(window, new Label("बिल व्यवहार"), new Label("बिल जतन झालं आहे."), btnPrint, btnCancel);
 
-            BillSupport billsupport = new BillSupport();
-            btnPrint.setOnAction((e) -> {
-                ArrayList<MeterBill> meterBillList = billsupport.assignBillValue(billList);
-                PhoenixSupport.printMeterBill(meterBillList);
-                dialog.close();
-                cancel();
-                vbBill.setVisible(false);
-            });
-            btnPrint.setOnKeyPressed((e) -> {
-                if (e.getCode() == KeyCode.ENTER) {
+                BillSupport billsupport = new BillSupport();
+                btnPrint.setOnAction((e) -> {
                     ArrayList<MeterBill> meterBillList = billsupport.assignBillValue(billList);
                     PhoenixSupport.printMeterBill(meterBillList);
                     dialog.close();
                     cancel();
                     vbBill.setVisible(false);
-                }
-            });
-            btnCancel.setOnAction(e -> {
-                dialog.close();
-                cancel();
-                vbBill.setVisible(false);
-            });
-            btnCancel.setOnKeyPressed(e -> {
-                if (e.getCode() == KeyCode.ENTER) {
+                });
+                btnPrint.setOnKeyPressed((e) -> {
+                    if (e.getCode() == KeyCode.ENTER) {
+                        ArrayList<MeterBill> meterBillList = billsupport.assignBillValue(billList);
+                        PhoenixSupport.printMeterBill(meterBillList);
+                        dialog.close();
+                        cancel();
+                        vbBill.setVisible(false);
+                    }
+                });
+                btnCancel.setOnAction(e -> {
                     dialog.close();
                     cancel();
                     vbBill.setVisible(false);
-                }
-            });
+                });
+                btnCancel.setOnKeyPressed(e -> {
+                    if (e.getCode() == KeyCode.ENTER) {
+                        dialog.close();
+                        cancel();
+                        vbBill.setVisible(false);
+                    }
+                });
 
-            dialog.show();
-            dialog.setOnDialogOpened(e -> btnCancel.requestFocus());
+                dialog.show();
+                dialog.setOnDialogOpened(e -> btnCancel.requestFocus());
+            } else {
+                PhoenixSupport.Error("कृपया महिना नीट तपासून पहा.", window);
+            }
         } else {
             PhoenixSupport.Error("कृपया बिल क्रमांक शोधा.", window);
         }
@@ -422,21 +442,20 @@ grandtotal =0;
         open.setOnAction(e -> {
             double adjust = PhoenixSupport.getDouble(txtAdjust.getText());
             for (Bill b : billList) {
-                if (b.getBalance()>= adjust) {
+                if (b.getBalance() >= adjust) {
                     b.setAdjustment(adjust);
                     b.setBalance(b.getBalance() - adjust);
-                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
+                    b.setTotal(b.getBalance() + b.getScharges() + b.getCuramount() + b.getInterested());
                     b.setPaidamt(b.getTotal());
                     adjust = 0;
                 } else if (b.getBalance() < adjust) {
-                    if(b.getBalance() != 0) {
-                    adjust = adjust - b.getBalance();
-                    b.setAdjustment(b.getBalance());
-                    b.setBalance(0);
-                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
-                    b.setPaidamt(b.getTotal());
-                    }
-                    else {
+                    if (b.getBalance() != 0) {
+                        adjust = adjust - b.getBalance();
+                        b.setAdjustment(b.getBalance());
+                        b.setBalance(0);
+                        b.setTotal(b.getBalance() + b.getScharges() + b.getCuramount() + b.getInterested());
+                        b.setPaidamt(b.getTotal());
+                    } else {
                         PhoenixSupport.Error("थकबाकी हि adjustment रक्कम पेक्षा कमी आहे.", window);
                     }
                 }
@@ -452,19 +471,19 @@ grandtotal =0;
             if (e.getCode() == KeyCode.ENTER) {
                 double adjust = PhoenixSupport.getDouble(txtAdjust.getText());
                 for (Bill b : billList) {
-                    if (b.getBalance()>= adjust) {
-                    b.setAdjustment(adjust);
-                    b.setBalance(b.getBalance() - adjust);
-                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
-                    b.setPaidamt(b.getTotal());
-                    adjust = 0;
-                } else if (b.getBalance() < adjust) {
-                    adjust = adjust - b.getPaidamt();
-                    b.setAdjustment(b.getPaidamt());
-                    b.setBalance(0);
-                    b.setTotal(b.getBalance()+ b.getScharges() +b.getCuramount()+ b.getInterested());
-                    b.setPaidamt(b.getTotal());
-                }
+                    if (b.getBalance() >= adjust) {
+                        b.setAdjustment(adjust);
+                        b.setBalance(b.getBalance() - adjust);
+                        b.setTotal(b.getBalance() + b.getScharges() + b.getCuramount() + b.getInterested());
+                        b.setPaidamt(b.getTotal());
+                        adjust = 0;
+                    } else if (b.getBalance() < adjust) {
+                        adjust = adjust - b.getPaidamt();
+                        b.setAdjustment(b.getPaidamt());
+                        b.setBalance(0);
+                        b.setTotal(b.getBalance() + b.getScharges() + b.getCuramount() + b.getInterested());
+                        b.setPaidamt(b.getTotal());
+                    }
                 }
                 initializeTable();
                 dialog.close();

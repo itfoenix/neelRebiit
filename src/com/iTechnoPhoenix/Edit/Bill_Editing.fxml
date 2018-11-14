@@ -90,7 +90,7 @@
                      <children>
                         <Label text="बिलाची कालावधी : " HBox.hgrow="ALWAYS" />
                         <JFXComboBox fx:id="cb_period" HBox.hgrow="ALWAYS" />
-                        <Label fx:id="lbl_BillDuration" text="Label" HBox.hgrow="ALWAYS" />
+                        <JFXComboBox fx:id="cb_year" HBox.hgrow="ALWAYS" />
                         <Region HBox.hgrow="ALWAYS" />
                         <Label text="भरण्याची अंतिम तारिक : " HBox.hgrow="ALWAYS" />
                         <Label fx:id="lbl_BillLastDate" text="Label" HBox.hgrow="ALWAYS" />

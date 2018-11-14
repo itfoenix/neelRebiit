@@ -23,11 +23,27 @@ public class BillOperation {
 
     private PreparedStatement stm;
 
-    public ObservableList<Bill> getAllBills(String period) {
+    public String checkMonth(String meter) {
+        String res = null;
+        try {
+            stm = Connector.getConnection().prepareStatement("SELECT b.period, b.year FROM billing b JOIN meter m on m.id = b.meterno WHERE m.meter_num = ? ORDER BY b.billref DESC LIMIT 1,1");
+            stm.setString(1, meter);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                res = rs.getString(1) + "," + rs.getString(2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BillOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+
+    public ObservableList<Bill> getAllBills(String period, String year) {
         ObservableList<Bill> billlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=?");
+            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=? and b.year=?");
             stm.setString(1, period);
+            stm.setString(2, year);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Bill b = new Bill();
@@ -71,14 +87,15 @@ public class BillOperation {
         return billlist;
     }
 
-    public ObservableList<Bill> getAllBillsadd(String period, String name) {
+    public ObservableList<Bill> getAllBillsadd(String period, String name, String year) {
         ObservableList<Bill> billlist = FXCollections.observableArrayList();
         try {
-            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=? and (c.name=? or m.meter_num = ? or b.billref = ?)");
+            stm = Connector.getConnection().prepareStatement("select * from customer c join meter m on  m.cust_id=c.cust_num join billing b on b.meterno=m.id where b.period=? and b.year=? and (c.name=? or m.meter_num = ? or b.billref = ?)");
             stm.setString(1, period);
-            stm.setString(2, name);
+            stm.setString(2, year);
             stm.setString(3, name);
             stm.setString(4, name);
+            stm.setString(5, name);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 Bill b = new Bill();
@@ -725,6 +742,5 @@ public class BillOperation {
         }
         return billnoSet;
     }
-    
 
 }

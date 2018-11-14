@@ -129,16 +129,16 @@
 			<staticText>
 				<reportElement style="border_rlt" x="46" y="0" width="251" height="25" uuid="a39c79df-7c5e-4b66-b5f7-6ce8aa9ac57d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[तपशील]]></text>
+				<text><![CDATA[tpXaIla]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="297" y="0" width="84" height="25" uuid="e0b0ba76-50b6-40cc-afad-562c421f9d65"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="13" isBold="true"/>
+					<font fontName="Shivaji01" size="13" isBold="true"/>
 				</textElement>
-				<text><![CDATA[रक्कम]]></text>
+				<text><![CDATA[r@kma]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="border_rlt" x="1" y="0" width="45" height="25" uuid="72e2a385-5fc4-4d50-9a0e-417d35700881"/>

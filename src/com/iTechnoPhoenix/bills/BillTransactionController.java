@@ -146,6 +146,7 @@ public class BillTransactionController implements Initializable {
         customermeterlist.addAll(meterdb.getMeterNumber());
         cb_period.setItems(PhoenixConfiguration.getMonth());
         cb_year.setItems(PhoenixConfiguration.getYear());
+        cb_year.getSelectionModel().select(String.valueOf(LocalDate.now().getYear()));
         TextFields.bindAutoCompletion(txt_meter_customer, customermeterlist);
         initTable();
         txt_duration.setDayCellFactory(param -> {
