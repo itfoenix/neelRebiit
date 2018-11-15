@@ -129,7 +129,7 @@ public class CustomerController implements Initializable {
             delete.setOnMouseClicked((e) -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
                 Meter m = table.getSelectionModel().getSelectedItem().getValue();
-                meterlist.remove(m);
+                deleteDialog(m);
             });
 
         }
@@ -144,6 +144,21 @@ public class CustomerController implements Initializable {
                 setGraphic(null);
             }
         }
+    }
+
+    public void deleteDialog(Meter m) {
+        JFXDialog dialog;
+        JFXButton deleteClose = new JFXButton("नाही");
+        deleteClose.getStyleClass().add("btn-cancel");
+        JFXButton deleteSave = new JFXButton("होय");
+        deleteSave.getStyleClass().add("btn-search");
+        dialog = Support.getDialog(window, new Label("माहिती काढण"), new Label("तुम्हाला हि माहिती रद्ध करायची आहे."), deleteSave, deleteClose);
+        deleteClose.setOnAction(e -> dialog.close());
+        deleteSave.setOnAction(e -> {
+            meterlist.remove(m);
+            dialog.close();
+        });
+        dialog.show();
     }
 
     public void EditDialog() {

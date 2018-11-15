@@ -290,10 +290,7 @@ public class CustomerDetailsController implements Initializable {
             delete.setOnMouseClicked(event -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
                 Meter meter = table.getSelectionModel().getSelectedItem().getValue();
-                MeterOperation mo = new MeterOperation();
-                mo.deleteMeter(meter.getId(), window);
-                meterlist.remove(meter);
-                table.refresh();
+                deleteDialog(meter);
             });
         }
 
@@ -308,6 +305,24 @@ public class CustomerDetailsController implements Initializable {
                 setGraphic(null);
             }
         }
+    }
+
+    public void deleteDialog(Meter m) {
+        JFXDialog dialog;
+        JFXButton deleteClose = new JFXButton("नाही");
+        deleteClose.getStyleClass().add("btn-cancel");
+        JFXButton deleteSave = new JFXButton("होय");
+        deleteSave.getStyleClass().add("btn-search");
+        dialog = Support.getDialog(window, new Label("माहिती काढण"), new Label("तुम्हाला हि माहिती रद्ध करायची आहे."), deleteSave, deleteClose);
+        deleteClose.setOnAction(e -> dialog.close());
+        deleteSave.setOnAction(e -> {
+            MeterOperation mo = new MeterOperation();
+            mo.deleteMeter(m.getId(), window);
+            meterlist.remove(m);
+            dialog.close();
+        });
+        dialog.setOnDialogClosed(e -> txt_customer.refresh());
+        dialog.show();
     }
 
 }

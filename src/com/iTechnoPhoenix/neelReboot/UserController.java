@@ -237,8 +237,7 @@ public class UserController implements Initializable {
             delete.setOnMouseClicked(event -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
                 User user = table.getSelectionModel().getSelectedItem().getValue();
-                userdb.deleteUser(user.getId(), window);
-                refresh();
+                deleteDialog(user);
             });
         }
 
@@ -253,5 +252,21 @@ public class UserController implements Initializable {
                 setGraphic(null);
             }
         }
+    }
+
+    public void deleteDialog(User user) {
+        JFXDialog dialog;
+        JFXButton deleteClose = new JFXButton("नाही");
+        deleteClose.getStyleClass().add("btn-cancel");
+        JFXButton deleteSave = new JFXButton("होय");
+        deleteSave.getStyleClass().add("btn-search");
+        dialog = Support.getDialog(window, new Label("माहिती काढण"), new Label("तुम्हाला हि माहिती रद्ध करायची आहे."), deleteSave, deleteClose);
+        deleteClose.setOnAction(e -> dialog.close());
+        deleteSave.setOnAction(e -> {
+            userdb.deleteUser(user.getId(), window);
+            refresh();
+            dialog.close();
+        });
+        dialog.show();
     }
 }

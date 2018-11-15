@@ -221,8 +221,7 @@ public class UnitsController implements Initializable {
             delete.setOnMouseClicked((MouseEvent event) -> {
                 table.getSelectionModel().select(getTreeTableRow().getIndex());
                 Unit unit = table.getSelectionModel().getSelectedItem().getValue();
-                unitsdb.deleteUnits(unit.getId(), window);
-                refreshTable();
+                deleteDialog(unit);
             });
         }
 
@@ -237,5 +236,21 @@ public class UnitsController implements Initializable {
                 setGraphic(null);
             }
         }
+    }
+
+    public void deleteDialog(Unit unit) {
+        JFXDialog dialog;
+        JFXButton deleteClose = new JFXButton("नाही");
+        deleteClose.getStyleClass().add("btn-cancel");
+        JFXButton deleteSave = new JFXButton("होय");
+        deleteSave.getStyleClass().add("btn-search");
+        dialog = Support.getDialog(window, new Label("माहिती काढण"), new Label("तुम्हाला हि माहिती रद्ध करायची आहे."), deleteSave, deleteClose);
+        deleteClose.setOnAction(e -> dialog.close());
+        deleteSave.setOnAction(e -> {
+            unitsdb.deleteUnits(unit.getId(), window);
+            refreshTable();
+            dialog.close();
+        });
+        dialog.show();
     }
 }
