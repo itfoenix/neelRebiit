@@ -74,20 +74,20 @@ public class LoginPageController implements Initializable {
 
     @FXML
     private void btn_login(ActionEvent event) {
-        if (LocalDate.parse(PhoenixConfiguration.getTrialDate()).isAfter(LocalDate.now())) {
-            if (PhoenixSupport.isValidate(txt_username, txt_password)) {
-                UserOperation up = new UserOperation();
-                if (up.login(txt_username.getText(), txt_password.getText()) != null) {
-                    showWindow(event);
-                } else {
-                    PhoenixSupport.Error("Invalid User", window);
-                }
+//        if (LocalDate.parse(PhoenixConfiguration.getTrialDate()).isAfter(LocalDate.now())) {
+        if (PhoenixSupport.isValidate(txt_username, txt_password)) {
+            UserOperation up = new UserOperation();
+            if (up.login(txt_username.getText(), txt_password.getText()) != null) {
+                showWindow(event);
             } else {
-                PhoenixSupport.Error("Enter Username and Password ", window);
+                PhoenixSupport.Error("Invalid User", window);
             }
         } else {
-            PhoenixSupport.Error("तुमचा १ महिन्याचा ट्रायल वापर संपला आहे, कृपया iTechnoPhoenix ला संपर्क करा.", window);
+            PhoenixSupport.Error("Enter Username and Password ", window);
         }
+//        } else {
+//            PhoenixSupport.Error("तुमचा १ महिन्याचा ट्रायल वापर संपला आहे, कृपया iTechnoPhoenix ला संपर्क करा.", window);
+//        }
     }
 
     @FXML
